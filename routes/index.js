@@ -40,7 +40,7 @@ router.get('/logout', function(req, res) {
 
 // volonteer
 router.get('/volunteer', function(req, res, next) {
-  res.render('volunteer', { title: 'Volunteer' });
+  res.render('volunteer', { title: 'Volunteer', user: req.user });
 });
 
 module.exports = router;
