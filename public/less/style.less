@@ -34,49 +34,6 @@ em {
   font-weight: 400;
 }
 
-.user-md {
-  img {
-    width: 80px;
-    .rounded(50%);
-    border: 1px solid @brand-secondary;
-  }
-}
-
-.user-bg {
-  img {
-    width: 100px;
-    .rounded(50%);
-  }
-}
-.user{
-  img {
-    width: 70px;
-    .rounded(50%);
-    height: auto;
-    margin-right: 15px;
-  }
-  p {
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: 0px;
-  }
-}
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  color: @T-orange !important;
-  background-color:inherit !important;
-}
-
-#footer {
-  border-top: 0.07em solid @brand-primary;
-  padding-top: 15px;
-  margin-top: 0px;
-}
-
-.btn.sharp {
-  border-radius:0;
-}
-
 .row {
   margin-top: 20px;
   margin-bottom: 30px;
@@ -84,27 +41,6 @@ em {
 
 .row:last-child {
   margin-bottom: 0;
-}
-
-.content {
-  background-color: white;
-  border: 1px solid #666666;
-  padding: 27px 0px;
-  h1, h2 {
-    margin-top: 0px;
-  }
-}
-.charity_name, .manager_name{
-  font-weight: 400;
-  font-size: @font-size-base*1.2
-}
-.ico {
-  width: @icon-medium;
-  margin-left: 10px;
-}
-
-.date {
-  font-weight: 400;
 }
 
 .hiw {
@@ -121,7 +57,7 @@ em {
   background-color: #7a7a7a;
   margin-top: 0px;
   margin-bottom:0px;
-  height: 300px;
+  height: 400px;
   h1{
     position: relative;
     top: 50%;
@@ -180,81 +116,75 @@ h1.logo {
     }
 }
 
-.uvp {
-  padding: 45px 0 0px;
-  text-align: center;
-  
-  h1, h2 {
-    background-color: fade(white, 50%);
-    padding: 5px;
+.user-md {
+  img {
+    width: 80px;
+    .rounded(50%);
+    border: 1px solid @brand-secondary;
   }
-  h1 {
+}
+
+.user-bg {
+  img {
+    width: 100px;
+    .rounded(50%);
+  }
+}
+
+.user{
+  img {
+    width: 70px;
+    .rounded(50%);
+    height: auto;
+    margin-right: 15px;
+  }
+  p {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0px;
+  }
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  color: @T-orange !important;
+  background-color:inherit !important;
+}
+
+#footer {
+  margin-top: 27px;
+  background-color: #aaa;
+  padding-top: 20px;
+  padding-bottom: 30px; 
+  a, a:active, a:visited, a:focus {
     color: @brand-primary;
-    font-size: 51px;
-    font-weight: 300;
-  }
-
-  h2 {
-    line-height: 130%;
-  
-    span {
-      color: @brand-secondary;
-    }
   }
 }
 
-.titles {
-  margin-bottom: 40px;
-  margin-top:15px;
-  color: @brand-primary;
-  span {
-    text-transform: uppercase;
-    .text-decoration(@brand-secondary);
-    border-bottom: 0.05em solid @brand-secondary;
-  }
+.btn.sharp {
+  border-radius:0;
 }
 
-.what {
-  h3 {
+.content {
+  background-color: white;
+  border: 1px solid #666666;
+  padding: 27px 0px;
+  h1, h2 {
     margin-top: 0px;
   }
 }
-
-.services, .how, .what {
-  .img-responsive {
-    margin: 0 auto;
-    width: 135px;
-  }
-  h3 {
-    color: @brand-primary;
-    font-weight: 500;
-    text-transform: uppercase;
-    // font-size: 30px;
-  }
+.charity_name, .manager_name{
+  font-weight: 400;
+  font-size: @font-size-base*1.2
+}
+.ico {
+  width: @icon-medium;
+  margin-left: 10px;
 }
 
-.what p {
-  margin-top: 25px;
+.date {
+  font-weight: 400;
 }
 
-.measure-ico {
-  width: 100px !important;
-}
-
-.price {
-  p {
-    font-size: 120px;
-    line-height: 0.9;
-    margin-bottom: 0;
-    &:after {
-      content:"€";
-      font-size: 30px;
-      position: absolute;
-      top:0;
-      right: 0px;
-    }
-  }
-}
 .XP {
   padding-bottom: 0px !important;
   .separator {
@@ -266,7 +196,7 @@ h1.logo {
     margin-top: 15px;
     background-color: @brand-secondary;
     color:#f1f1f1;
-    padding: 8px;
+    padding: 10px;
   }  
 }
 
