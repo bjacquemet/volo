@@ -1,7 +1,41 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title #{title} | SocialLift
+    link(href='/bootstrap/css/bootstrap.css', rel='stylesheet')
+    link(href='/less/style.less', rel='stylesheet/less', type="text/css")
+    //- link(href='/stylesheets/style.css', rel='stylesheet')
+    script(src="//code.jquery.com/jquery-1.11.2.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.0/less.min.js")
+    meta(name="msapplication-TileColor", content="#ffffff")
+    meta(name="msapplication-TileImage", content="/images/favico.ico/ms-icon-144x144.png")
+    meta(name="theme-color", content="#ffffff")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    meta(name="description", content="SocialLift encourages volunteering in UK")
+
+
   body
+    nav.navbar.navbar-default
+      div.container
+        div.col-md-3
+          a(href="/")
+            h1.logo= title
+        div.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="#") Login
+            li
+              a(href="#") Register
+        div.navbar-collapse.collapse#navbar
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href="volunteer") Volunteer
+            li
+              a(href="nonprofit") Nonprofit
+            li
+              a(href="corporate") Corporate
+            li
+              a(href="support") Support us
+
+
     block content
