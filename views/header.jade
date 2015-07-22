@@ -3,7 +3,7 @@ body
     div.container-fluid
       div.row
         div.col-md-10.col-md-offset-1
-          div.col-md-3
+          div.col-md-3.navbar-header
             a(href="/")
               h1.logo SocialLift
             button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar", aria-expanded="false")
@@ -18,7 +18,7 @@ body
                 li
                   a(href="/register", class="navbar-link") Register
           if (user)
-            div.navbar
+            div.navbar-collapse
               ul.nav.navbar-nav.navbar-right
                 li.user.col-md-12
                   img(src="/images/placeholder.png") 

@@ -4,18 +4,19 @@ block content
   div.container-fluid
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content
-        h1 Registration Page
-        p.lead Create your account with SocialLift.
-        br
-        h4= info
-        form(role='form', action="/register",method="post", class="col-md-5")
-          .form-group
-              input.form-control(type='text', name="username", placeholder='Enter Username')
-          .form-group
-              input.form-control(type='text', name="email", placeholder='email@domain.com')
-          .form-group
-            input.form-control(type='password', name="password", placeholder='Password')
-          button.btn.btn-default(type='submit') Submit
-          &nbsp; 
-          a(href='/')
-            button.btn.btn-primary(type="button") Cancel
+        .col-md-12
+          h1 Registration Page
+          p.lead Create your account with SocialLift.
+          br
+          h4= info
+          form(role='form', action="/register",method="post", class="col-md-5")
+            .form-group
+                input.form-control(type='text', name="username", placeholder='Enter Username')
+            .form-group
+                input.form-control(type='text', name="email", placeholder='email@domain.com')
+            .form-group
+              input.form-control(type='password', name="password", placeholder='Password')
+            button.btn.btn-default(type='submit') Submit
+            &nbsp; 
+            a(href='/')
+              button.btn.btn-primary(type="button") Cancel

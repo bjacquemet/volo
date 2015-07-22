@@ -1,4 +1,5 @@
 // Loading config with variables (changing them leads to changing a color scheme)
+// @import "bootstrap";
 @import "variables";
 
 // Utility mixins for greater good
@@ -73,9 +74,6 @@ nav {
     margin-bottom: 0px;
     // border-bottom: 0.07em solid #ccc;
     // box-shadow: #aaa 4px 0px 2px;
-  }
-  .navbar-header {
-      width: inherit;
   }
   .navbar-toggle {
   width: 100%;
@@ -177,7 +175,7 @@ h1.logo {
   margin-top: 13px;
 }
 
-.charity_name, .manager_name{
+.charity_name, .manager_name, .volunteer_name{
   font-weight: 400;
   font-size: @font-size-base*1.2
 }
@@ -215,4 +213,25 @@ h1.logo {
 .big-btn {
   padding: 15px 45px;
   font-size: 30px;
+}
+
+.bar {
+  margin-bottom: 7px;
+  padding-top:7px;
+  padding-bottom:7px;
+  &:last-of-type {
+    margin-bottom: inherit;
+  }
+}
+
+.v_story {
+  border: 1px solid #aaa;
+  padding-bottom: 15px;
+  padding-right:0;padding-left:0;
+  img {
+    max-width: 100%;
+  }
+  .volunteer_name {
+    padding-top: 7px;
+  }
 }
