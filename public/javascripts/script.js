@@ -10,23 +10,40 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
 Chart.defaults.global.responsive = false;
-var data = [
+var data_w = [
 {
-  value: 35,
+  value: 2,
   color:"#666",
   highlight: "#444",
-  label: "% Completed"
+  label: "hours this week"
 },
 {
-  value: 65,
+  value: 4,
   color: "rgba(240, 240, 240, 0.8)",
   highlight: "rgba(240, 240, 240, 0.6)",
-  label: "% remaining"
+  label: "hours remaining"
+}
+]
+var data_m = [
+{
+  value: 4,
+  color:"#666",
+  highlight: "#444",
+  label: "hours this month"
+},
+{
+  value: 12,
+  color: "rgba(240, 240, 240, 0.8)",
+  highlight: "rgba(240, 240, 240, 0.6)",
+  label: "hours remaining"
 }
 ]
 window.onload = function()
   {
-    var happiness = $('#goals').get(0).getContext("2d");
-    var newChart = new Chart(happiness).Doughnut(data, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%><%if(label){%><%=label%><%}%>"});
+    var week = $('#w_goal').get(0).getContext("2d");
+    var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>"});
+    var month = $('#m_goal').get(0).getContext("2d");
+    var newChart = new Chart(month).Doughnut(data_m, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>"});
+
   }
 });
