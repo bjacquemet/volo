@@ -18,7 +18,6 @@ router.post('/register', function(req, res) {
         if (err) {
           return res.render("register", {info: "Sorry. That username already exists. Try again."});
         }
-
         passport.authenticate('local')(req, res, function () {
             res.redirect('/');
         });
@@ -46,6 +45,11 @@ router.get('/profile', function(req, res, next) {
 // volonteer public profile
 router.get('/volunteer', function(req, res, next) {
   res.render('volunteer', { title: 'Volunteer public profile', user: req.user });
+});
+
+// volonteer public profile
+router.get('/nonprofit', function(req, res, next) {
+  res.render('nonprofit', { title: 'Nonprofit public profile', user: req.user });
 });
 
 module.exports = router;

@@ -9,7 +9,7 @@ $(document).ready(function(){
       }).parent().addClass('active');
 });
 $(document).ready(function(){
-Chart.defaults.global.responsive = false;
+Chart.defaults.global.responsive = true;
 var data_w = [
 {
   value: 2,
@@ -41,9 +41,9 @@ var data_m = [
 window.onload = function()
   {
     var week = $('#w_goal').get(0).getContext("2d");
-    var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>"});
+    var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true});
     var month = $('#m_goal').get(0).getContext("2d");
-    var newChart = new Chart(month).Doughnut(data_m, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>"});
+    var newChart = new Chart(month).Doughnut(data_m, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true});
 
   }
 });

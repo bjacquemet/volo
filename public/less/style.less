@@ -14,7 +14,7 @@ body {
   background-color: #e2e2e2;
 }
 p {margin-bottom: 0 !important;}
-img { max-width: 100%;}
+img, canvas { max-width: 100%;}
 h1, h2 {
   font-weight: 300;
 }
@@ -34,6 +34,21 @@ em {
   font-style: normal;
   font-weight: 400;
 }
+a {
+  color: @brand-primary;
+  &:active, &:visited {
+    color: @brand-primary;
+  }
+  &:hover {
+    color: fade(@brand-primary, 80%);
+  }
+}
+
+.break {
+  height: 27px;
+  display: block;
+}
+
 
 .row, .row-fluid {
   margin-top: 20px;
