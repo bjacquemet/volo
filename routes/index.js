@@ -38,9 +38,14 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-// volonteer
+// volonteer private profile
+router.get('/profile', function(req, res, next) {
+  res.render('profile', { title: 'Volunteer private profile', user: req.user });
+});
+
+// volonteer public profile
 router.get('/volunteer', function(req, res, next) {
-  res.render('volunteer', { title: 'Volunteer', user: req.user });
+  res.render('volunteer', { title: 'Volunteer public profile', user: req.user });
 });
 
 module.exports = router;

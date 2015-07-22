@@ -8,15 +8,20 @@ block content
         .col-md-12
           .col-md-2.user-bg
             img(src="/images/placeholder.png")
-          .col-md-3
+          .col-md-4
             h3 John Doe
               img(src="/images/male.svg", class="ico")
             p.date 14/05/1990
-
-          .col-md-5.col-md-offset-2.info
+            p Email: <em>john.doe@gmail.com</em>
+            p Phone: <em>555-555-555</em>
             p Current position: <em>Student at Oxford University</em>
-            p Location: <em>London</em>
             p Accumulated hours: <em>620</em>
+
+          .col-md-4.col-md-offset-2.info
+            p Home: <br/>
+            |<em>25 Lexington St <br/>
+            |London W1F 9AG, UK</em>
+
     
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content.skills
@@ -68,8 +73,8 @@ block content
           .col-md-2.col-md-offset-1
             img(src="/images/img_placeholder.png")
           
-        //- .col-md-12.add
-        //-   p.text-center Add experience
+        .col-md-12.add
+          p.text-center Add experience
 
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content

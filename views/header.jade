@@ -20,19 +20,25 @@ body
           if (user)
             div.navbar-collapse
               ul.nav.navbar-nav.navbar-right
-                li.user.col-md-12
-                  img(src="/images/placeholder.png") 
-                  p.text-right 
-                    |Welcome #{user.username}
-                    br
-                    a(href="/logout") Logout
+                li.user.dropdown
+                  img(src="/images/placeholder.png")
+                  a(class="text-right dropdown-toggle", data-toggle="dropdown", href="#") Welcome #{user.username}
+                    span.caret
+                  ul.dropdown-menu
+                    li
+                      a(href="/profile") Profile
+                    li
+                      a(href="#") Opportunities
+                    li
+                      a(href="/logout") Logout
+
           div.navbar-collapse.collapse#navbar
             ul.nav.navbar-nav.navbar-right
               li
                 a(href="volunteer") Volunteer
               li
-                a(href="nonprofit") Nonprofit
+                a(href="#") Nonprofit
               li
-                a(href="corporate") Corporate
+                a(href="#") Corporate
               li
-                a(href="support") Support us
+                a(href="#") Support us
