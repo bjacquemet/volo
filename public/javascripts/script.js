@@ -18,7 +18,7 @@ var data_w = [
   label: "hours this week"
 },
 {
-  value: 4,
+  value: 0,
   color: "rgba(240, 240, 240, 0.8)",
   highlight: "rgba(240, 240, 240, 0.6)",
   label: "hours remaining"

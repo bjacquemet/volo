@@ -15,16 +15,16 @@ block content
               h3 John Doe
                 img(src="/images/male.svg", class="ico")
               p.date 14/05/1990
-            .col-md-5.col-md-offset-1.info
-              p Home: <br/>
-              |<em>25 Lexington St <br/>
-              |London W1F 9AG, UK</em>
             .col-md-12
             .col-md-6.info
               p Email: <em>john.doe@gmail.com</em>
               p Phone: <em>555-555-555</em>
               p Current position: <em>Student at Oxford University</em>
               p Accumulated hours: <em>620</em>
+            .col-md-5.col-md-offset-1.info
+              p Home: <br/>
+              |<em>25 Lexington St <br/>
+              |London W1F 9AG, UK</em>
 
       
       div.row.row-centered
@@ -100,8 +100,8 @@ block content
             h2 Goals
             h5 Hours volunteered <em>this week</em>
             canvas(id="w_goal", height="230px")
-            br
-            br
+            p You've reached your weekly goal!! <em>
+              a(href="#") Redeem your reward </em>
             h5 Hours volunteered <em>this month</em>
             canvas(id="m_goal", height="230px")
 
