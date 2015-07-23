@@ -14,7 +14,13 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+    Account.register(new Account(
+      { 
+        username : req.body.username, 
+        email: req.body.email, 
+        usertype : req.body.usertype 
+      }), 
+      req.body.password, function(err, account) {
         if (err) {
           return res.render("register", {info: "Sorry. That username already exists. Try again."});
         }
@@ -50,6 +56,11 @@ router.get('/volunteer', function(req, res, next) {
 // volonteer public profile
 router.get('/nonprofit', function(req, res, next) {
   res.render('nonprofit', { title: 'Nonprofit public profile', user: req.user });
+});
+
+// volonteer public profile
+router.get('/corporate', function(req, res, next) {
+  res.render('corporate', { title: 'Company public profile', user: req.user });
 });
 
 module.exports = router;

@@ -1,3 +1,4 @@
+- function capitalize(string) {return string.charAt(0).toUpperCase() + string.slice(1);}
 body
   nav.navbar.navbar-default
     div.container-fluid
@@ -26,7 +27,12 @@ body
                     span.caret
                   ul.dropdown-menu
                     li
-                      a(href="/profile") Profile
+                      if (user.usertype == "volunteer")
+                        a(href="/profile") Volunteer Profile
+                      if (user.usertype == "nonprofit")
+                        a(href="/profile") Nonprofit Profile
+                      if (user.usertype == "corporate")
+                        a(href="/profile") Company Profile
                     li
                       a(href="#") Opportunities
                     li
@@ -39,6 +45,6 @@ body
               li
                 a(href="/nonprofit") Nonprofit
               li
-                a(href="#") Corporate
+                a(href="/corporate") Corporate
               li
                 a(href="#") Support us
