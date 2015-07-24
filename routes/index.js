@@ -32,35 +32,57 @@ router.post('/register', function(req, res) {
 
 // LOG IN
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+    res.render('login', { user : req.user, info: req.flash('error') });
 });
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
-});
+router.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true }));
 
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
 
-// volonteer private profile
+// volunteer private profile
 router.get('/profile', function(req, res, next) {
   res.render('profile', { title: 'Volunteer private profile', user: req.user });
 });
 
-// volonteer public profile
-router.get('/volunteer', function(req, res, next) {
-  res.render('volunteer', { title: 'Volunteer public profile', user: req.user });
+// volunteer public profile
+router.get('/v_profile', function(req, res, next) {
+  res.render('volunteer_profile', { title: 'Volunteers', user: req.user });
 });
 
-// volonteer public profile
-router.get('/nonprofit', function(req, res, next) {
-  res.render('nonprofit', { title: 'Nonprofit public profile', user: req.user });
+// nonprofit public profile
+router.get('/n_profile', function(req, res, next) {
+  res.render('nonprofit_profile', { title: 'Nonprofit public profile', user: req.user });
 });
 
-// volonteer public profile
-router.get('/corporate', function(req, res, next) {
-  res.render('corporate', { title: 'Company public profile', user: req.user });
+// corporate public profile
+router.get('/c_profile', function(req, res, next) {
+  res.render('corporate_profile', { title: 'Company public profile', user: req.user });
+});
+
+// volunteers page
+router.get('/volunteers', function(req, res, next) {
+  res.render('volunteers', { title: 'Volunteer public profile', user: req.user });
+});
+
+// nonprofits page
+router.get('/nonprofits', function(req, res, next) {
+  res.render('nonprofits', { title: 'Nonprofits', user: req.user });
+});
+
+// corporates page
+router.get('/corporates', function(req, res, next) {
+  res.render('corporates', { title: 'Company public profile', user: req.user });
+});
+
+router.get('/profiles', function(req, res, next) {
+  var profiles = Account.find({}, function(err, results)
+    {
+      res.render('profiles', { title: 'Company public profile', profiles: results});
+    });
 });
 
 module.exports = router;

@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+  div.container-fluid
+    .col-md-7.col-md-offset-1
+      div.row.row-centered
+        .col-md-12
+          .col-md-12.content
+            .col-md-2.user-bg
+              img(src="/images/placeholder.png")
+            .col-md-4
+
+              each user in profiles
+                h3 #{user.username}
+                p #{user.usertype}
