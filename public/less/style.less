@@ -223,9 +223,12 @@ h1.logo {
     margin-top: 15px;
     margin-bottom: -27px;
     background-color: @brand-secondary;
-    color:#f1f1f1;
     padding: 10px;
     cursor: pointer;
+    a {
+      color:#f1f1f1;
+      text-decoration: none;
+    }
     .transition(all .25s);
     &:hover{
       background-color: fade(@brand-secondary, 80%);
