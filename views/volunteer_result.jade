@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-offset-1.content.skills
+        .col-md-12
+          .col-md-12
+            h2 Volunteer results
+
+            .col-md-6.col-md-offset-3
+              form(action="/volunteer_result")
+                .input-group.col-md-12
+                  input(type="text", class="form-control input-lg", placeholder="Type a volunteer name" )
+                  span.input-group-btn
+                    button(class="btn btn-lg", type="button")
+                      i.glyphicon.glyphicon-search
+
+            .col-md-12.break
+
+            .col-md-10.col-md-offset-1.colored
+              a(href="#")
+                .col-md-1.user-md
+                  img(src="/images/placeholder.png")
+                .col-md-10
+                  p.volunteer_name John Doe
+                  p <em>Student at Oxford University</em>
+                  p <i>Web development, marketing, communication
+
+
+            .col-md-10.col-md-offset-1.not_colored
+              a(href="#")              
+                .col-md-1.user-md
+                  img(src="/images/placeholder.png")
+                .col-md-10
+                  p.volunteer_name Jack Joe
+                  p <em>Student at Oxford University</em>
+                  p <i>Web development, marketing, communication
+
+            .col-md-10.col-md-offset-1.colored
+              a(href="#")              
+                .col-md-1.user-md
+                  img(src="/images/placeholder.png")
+                .col-md-10
+                  p.volunteer_name Paul Smith
+                  p <em>Student at Oxford University</em>
+                  p <i>Web development, marketing, communication

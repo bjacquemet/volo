@@ -68,6 +68,11 @@ router.get('/volunteers', function(req, res, next) {
   res.render('volunteers', { title: 'Volunteer public profile', user: req.user });
 });
 
+// volunteers page
+router.get('/volunteer_result', function(req, res, next) {
+  res.render('volunteer_result', { title: 'Volunteer result list', user: req.user });
+});
+
 // nonprofits page
 router.get('/nonprofits', function(req, res, next) {
   res.render('nonprofits', { title: 'Nonprofits', user: req.user });
