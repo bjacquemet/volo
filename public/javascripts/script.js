@@ -9,7 +9,6 @@ $(document).ready(function(){
       }).parent().addClass('active');
 });
 $(document).ready(function(){
-Chart.defaults.global.responsive = true;
 var data_w = [
 {
   value: 2,
@@ -38,12 +37,33 @@ var data_m = [
   label: "hours remaining"
 }
 ]
+var global=
+{
+  labels: [""],
+  datasets:
+  [
+  {
+  fillColor: "#666",
+  strokeColor: "rgba(255,255,255,0.8)",
+  highlightFill: "#333",
+  highlightStroke: "rgba(255,255,255,1)",
+  data:[20]}
+  ]
+};
 window.onload = function()
   {
     var week = $('#w_goal').get(0).getContext("2d");
-    var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true});
-    var month = $('#m_goal').get(0).getContext("2d");
-    var newChart = new Chart(month).Doughnut(data_m, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true});
-
+    var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true, responsive: true});
+    var hours = 20;
+    var height = hours*2;
+    var y = 200 - height;
+    $('#current_hours').animate({y: y, height: height});
+    var ctx = $("#g_goal").get(0).getContext("2d");
+    var myBarChart = new Chart(ctx).Bar(global, {scaleShowHorizontalLines: true,scaleShowVerticalLines: false, scaleOverride: true,
+    scaleSteps: 4,
+    scaleStepWidth: 25,
+    scaleStartValue: 0, 
+    tooltipTemplate: "<%= value %> hours"
+});
   }
 });
