@@ -43,6 +43,12 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+// Forgot password
+router.get('/forgot', function(req, res) {
+  res.render('forgot', {user: req.user})
+});
+
+
 // volunteer private profile
 router.get('/profile', function(req, res, next) {
   res.render('profile', { title: 'Volunteer private profile', user: req.user });
@@ -63,6 +69,11 @@ router.get('/c_profile', function(req, res, next) {
   res.render('corporate_profile', { title: 'Company public profile', user: req.user });
 });
 
+// corporate public profile
+router.get('/u_profile', function(req, res, next) {
+  res.render('university_profile', { title: 'University public profile', user: req.user });
+});
+
 // volunteers page
 router.get('/volunteers', function(req, res, next) {
   res.render('volunteers', { title: 'Volunteer public profile', user: req.user });
@@ -81,6 +92,11 @@ router.get('/nonprofits', function(req, res, next) {
 // corporates page
 router.get('/corporates', function(req, res, next) {
   res.render('corporates', { title: 'Company public profile', user: req.user });
+});
+
+// universities page
+router.get('/universities', function(req, res, next) {
+  res.render('universities', { title: 'Company public profile', user: req.user });
 });
 
 router.get('/profiles', function(req, res, next) {

@@ -21,6 +21,8 @@
     "should": "~2.1.0",
     "serve-favicon": "^2.2.0",
     "debug": "^2.1.1",
-    "connect-flash": "0.1.1"
+    "express-flash": "0.0.2",
+    "async": "1.4.1",
+    "bcrypt-nodejs":"0.0.3"
   }
 }

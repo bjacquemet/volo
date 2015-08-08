@@ -7,7 +7,11 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
+var flash = require('express-flash');
+var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
+var crypto = require('crypto');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
-    secret: 'keyboard cat',
+    secret: 'session secret key',
     resave: false,
     saveUninitialized: false
 }));
