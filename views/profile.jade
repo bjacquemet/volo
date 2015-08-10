@@ -71,10 +71,21 @@ block content
                 h4 Activity
                 .form-group.col-md-12
                   label.col-md-3.text-right(for="role") Role
-                  input.col-md-8(id="role", name="role", type="text", required)
+                  select(class="role-single select2 col-md-8", required)
+                    option(value="web_developer") Web Developer
+                    option(value="designer") Designer
+                    option(value="builder") Builder
+                    option(value="event_organizer") Event Orgnizer
+                  //- input.col-md-8(id="role", name="role", type="text", required)
+                  //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
                 .form-group.col-md-12
                   label.col-md-3.text-right(for="skills") Skills developed
-                  input.col-md-8(id="skills", name="skills", type="text", required)
+                  //- input.col-md-8(id="skills", name="skills", type="text", required)
+                  select(class="skill-multiple select2-multiple col-md-8", multiple, required)
+                    option(value="web") Web
+                    option(value="design") design
+                    option(value="app") App
+                    option(value="UX") UX
 
                 .form-group.col-md-12
                   label.col-md-3.text-right(for="hours") Number of hours
@@ -82,10 +93,10 @@ block content
                 .form-group.col-md-12
                   label.col-md-3.text-right(for="s_date") Dates
                   .col-md-8.nopadding
-                    span.col-md-3.nopadding From *: 
+                    span.col-md-3.nopadding.date_label From *: 
                     input.col-md-9.nopadding(name="s_date", type="date", required)
                     br
-                    span.col-md-3.nopadding To: 
+                    span.col-md-3.nopadding.date_label To: 
                     input.col-md-9.nopadding(name="e_date", type="date")
 
                 h4 Referee
@@ -147,10 +158,10 @@ block content
                     .form-group.col-md-12
                       label.col-md-4.text-right(for="s_date") Dates
                       .col-md-6.nopadding
-                        span.col-md-3.nopadding From *: 
+                        span.col-md-3.nopadding.date_label From *: 
                         input.col-md-9.nopadding(name="s_date", type="date", required)
                         br
-                        span.col-md-3.nopadding To: 
+                        span.col-md-3.nopadding.date_label To: 
                         input.col-md-9.nopadding(name="e_date", type="date")
 
                     h4 Referee
@@ -232,27 +243,44 @@ block content
   script.
     //- $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
-        $('#f_name').editable();
-        $('#l_name').editable();
-        $('#birthdate').editable({
-          format: 'YYYY-MM-DD',    
-          viewformat: 'DD/MM/YYYY',    
-          template: 'D / MMMM / YYYY',    
-          combodate: {
-                maxYear: 1999, 
-                minYear: 1920
-           }
-        });
-        $('#addXP').on('click', function(){
-          $(".XP_form").fadeIn();
+      $(".skill-multiple").select2();
+      $(".role-single").select2();
+
+      $('#f_name').editable();
+      $('#l_name').editable();
+      $('#birthdate').editable({
+        format: 'YYYY-MM-DD',    
+        viewformat: 'DD/MM/YYYY',    
+        template: 'D / MMMM / YYYY',    
+        combodate: {
+              maxYear: 1999, 
+              minYear: 1920
+         }
+      });
+
+      $('#addXP').on('click', function(){
+        $(".XP_form").fadeIn();
+        $('html, body').animate({
+            scrollTop: $(".XP").offset().top
+          }, "slow");
+        if ($(".role_form").is(":visible")) {
+          $(".role_form").hide().removeClass('height-auto').parent().addClass('text-center').removeClass('no-hover').parent().switchClass("col-md-12", "col-md-6", 500, function(){
+          $(".add_new").removeClass('hide_it').show();
+          });
+        }
+      });
+
+      $(".add_role").on('click', function(){
+        if ($('.XP_form').is(':visible')) {
+          $('.XP_form').fadeOut();
           $('html, body').animate({
-                  scrollTop: $(".XP").offset().top
-              }, "slow");
-        });
-        $(".add_role").on('click', function(){
-          $(".add_new").hide().addClass('hide_it');
-          $(".role_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500 );
-        });
+            scrollTop: $(".role_form").offset().top
+          }, "slow");
+        }
+        $(".add_new").hide().addClass('hide_it');
+        $(".role_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500 );
+      });
+
     });
 
 

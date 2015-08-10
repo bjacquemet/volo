@@ -254,7 +254,7 @@ h1.logo {
         position: absolute;
         top: 50%;
         left:50%;
-        transform: translate(-50%,-50%);
+        .translate(-50%;-50%);
         &:before{
           content:"\2b";
           font-size: 40px;
@@ -279,7 +279,7 @@ h1.logo {
 .XP_form {
   background-color: fade(@brand-primary, 5%);
   margin-bottom: @profile-margin;
-  display: none;
+  // display: none;
   p {
     font-size: @font-size-base *0.9;
     margin-bottom: 5px !important;
@@ -346,4 +346,16 @@ h1.logo {
 .visible{ display: block;}
 .height-auto {
   height:auto;
+}
+
+.date_label {
+  font-size: @font-size-base * 0.8;
+  line-height: 40px;
+}
+
+// custom select2
+.select2-selection--multiple, .select2-selection--single{
+  border-radius: 0 !important;
+  border: 1px solid #ccc !important;
+  font-size: @font-size-base *0.9;
 }
