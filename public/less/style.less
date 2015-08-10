@@ -7,6 +7,7 @@
 
 @import "modules/buttons.less";
 @import "modules/type.less";
+@import "modules/forms.less";
 
 body {
   font: 300 @font-size-base/@line-height-base @font-family-base;
@@ -20,7 +21,7 @@ h1, h2 {
 }
 
 h3, h4 {
-  font-weight: 400;
+  font-weight: 300;
   margin: 13px 0px;
 
 }
@@ -44,6 +45,11 @@ a {
   }
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
 .break {
   height: 27px;
   display: block;
@@ -52,7 +58,7 @@ a {
 
 .row, .row-fluid {
   margin-top: 20px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 }
 
 .row:last-child, .row-fluid:last-child {
@@ -216,11 +222,11 @@ h1.logo {
 .XP {
   .separator {
     border-top: 0.1em solid @brand-secondary;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: @profile-margin;
+    margin-bottom: @profile-margin;
   }
   .add {
-    margin-top: 15px;
+    margin-top: @profile-margin;
     margin-bottom: -27px;
     background-color: @brand-secondary;
     padding: 10px;
@@ -241,23 +247,50 @@ h1.logo {
     padding-bottom: 10px;
     min-height: 140px;
     margin-bottom: 10px;
+    .transition(all .25s);
     &.add_role{
-      span {
+      cursor: pointer;
+      span.add_new {
         position: absolute;
         top: 50%;
         left:50%;
         transform: translate(-50%,-50%);
+        &:before{
+          content:"\2b";
+          font-size: 40px;
+          line-height: 1;
+          display: block;
+        }
+        &.hide_it:before{
+          display: none;
+        }
       }
-      &:before{
-        content:"\2b";
-        font-size: 40px;
+      &:hover {
+        background-color: fade(@brand-primary, 30%);
+      }
+      &.no-hover:hover {
+        background-color: fade(@brand-primary, 15%);
+        cursor: auto;
       }
     }
   }  
 }
 
 .XP_form {
+  background-color: fade(@brand-primary, 5%);
+  margin-bottom: @profile-margin;
   display: none;
+  p {
+    font-size: @font-size-base *0.9;
+    margin-bottom: 5px !important;
+  }
+}
+.role_form {
+  display: none;
+  height: 0px;
+  p {
+    font-size: @font-size-base *0.9;
+  }
 }
 
 
@@ -308,4 +341,9 @@ h1.logo {
       padding-right: 5px;
     }
   }
+}
+
+.visible{ display: block;}
+.height-auto {
+  height:auto;
 }

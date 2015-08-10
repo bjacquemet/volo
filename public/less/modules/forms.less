@@ -35,9 +35,9 @@ input[type="search"] {
 
 // Label
 label {
-  font-weight: normal;
+  font-weight: 400;
   font-size: @component-font-size-base;
-  line-height: 2.4; // ~36px
+  line-height: @line-height-base * 1.2; // ~36px
 }
 
 // Placeholder
@@ -161,7 +161,7 @@ label {
 
 .form-group {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 // Horizontal forms
@@ -189,5 +189,12 @@ label {
 
   .form-control-static {
     padding-top: 6px;
+  }
+}
+
+.form-group {
+  span {
+  font-size: @font-size-base * 0.8;
+  line-height: 40px;
   }
 }
