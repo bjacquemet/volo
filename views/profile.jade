@@ -58,7 +58,7 @@ block content
               h2 Experiences
 
             .col-md-12.XP_form 
-              h3 Add an experience to your volunteer profile.
+              h3 Add an experience to your volunteer profile
               form(action="#")
                 h4 Nonprofit
                 .form-group.col-md-12
@@ -108,7 +108,7 @@ block content
                   textarea.col-md-8(name="feedback", rows="2")                
 
                 .form-group.col-md-12.text-center
-                  input(type="submit", name="Add experience", value="Add experience", class="btn primary sharp")
+                  input(type="submit", value="Add experience", class="btn primary sharp")
 
             .col-md-12
               p.charity_name British Red Cross
@@ -158,6 +158,7 @@ block content
                       |Please enter the name and contact details of someone involved in your project who can confirm what you do there. 
                       |This person should be aged 18 or over, and you must ask their permission before giving us their details.
                     .form-group.col-md-12
+                      input(name="nonprofit_id", value="", type="hidden")
                       label.col-md-4.text-right(for="referee_name") Refereee name *
                       input.col-md-6(name="referee_name", type="text", required)
                     .form-group.col-md-12
@@ -173,7 +174,7 @@ block content
                       textarea.col-md-6(name="feedback", rows="4")                
 
                     .form-group.col-md-12.text-center
-                      input(type="submit", name="Add experience", value="Add experience", class="btn primary sharp")
+                      input(type="submit", value="Add experience", class="btn primary sharp")
 
 
                   
