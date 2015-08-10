@@ -12,8 +12,10 @@ block content
           .col-md-12.content
             .col-md-2.user-bg
               img(src="/images/placeholder.png")
-            .col-md-4
-              h3 John Doe
+            .col-md-7
+              h3
+                a(href="#", id="f_name", data-type="text", data-pk="f_name", data-url="#", data-title="Enter first name") John 
+                a(href="#", id="l_name", data-type="text", data-pk="l_name", data-url="#", data-title="Enter last name") Doe
                 img(src="/images/male.svg", class="ico")
               p.date 14/05/1990
             .col-md-12
@@ -97,7 +99,11 @@ block content
         .col-md-12
           .col-md-12.content
             form(action="#")
-              input()
+              .form-group
+                label(for="charity")
+                input(name="charity", input="text")
+              .form-group
+                label(for="")
       
 
       .row.row-centered
@@ -126,5 +132,13 @@ block content
             canvas(id="w_goal", height="230px")
             p You've reached your weekly goal!! <em>
               a(href="#") Share it </em>
+
+  script.
+    //- $.fn.editable.defaults.mode = 'inline';
+    $(document).ready(function() {
+        $('#f_name').editable();
+        $('#l_name').editable();
+    });
+
 
 
