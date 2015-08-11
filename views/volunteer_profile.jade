@@ -48,7 +48,7 @@ block content
             p <em>April 2014 - September 2014. 120 hours volunteered</em>
             p During these 5 months of volunteering, I lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
             p Skills: <em>autonomy, rigour, communication</em>
-            p <u>1 recommendation</u>
+            p <u><a href="#" id="reco">1 recommendation</a></u>
 
           .col-md-2.col-md-offset-1
             img(src="/images/img_placeholder.png")
@@ -66,7 +66,7 @@ block content
           
 
     div.row.row-centered
-      div.col-md-10.col-md-offset-1.content
+      div.col-md-10.col-md-offset-1.content.recommendation
         .col-md-12
           .col-md-12
             h2 Recommendations
@@ -78,5 +78,14 @@ block content
             img(src="/images/stars.svg", width="100px")
             p During these 5 months of volunteering, John has been I lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
 
+
+  script.
+    $(document).ready(function() {
+      $('#reco').on("click", function(){
+        $('html, body').animate({
+          scrollTop: $(".recommendation").offset().top
+        }, "slow");
+      })
+    });
 
 

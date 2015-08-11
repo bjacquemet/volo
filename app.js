@@ -11,12 +11,33 @@ var flash = require('express-flash');
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
-
+var multer = require('multer');
+var done = false;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+app.use(multer({ dest: './public/uploads/',
+ rename: function (fieldname, filename) {
+    return filename+Date.now();
+  },
+onFileUploadStart: function (file) {
+  console.log(file.originalname + ' is starting ...')
+},
+onFileUploadComplete: function (file) {
+  console.log(file.fieldname + ' uploaded to  ' + file.path)
+  done=true;
+}
+}));
+
+app.post('/api/photo',function(req,res){
+  if(done==true){
+    console.log(req.files);
+    res.end("File uploaded.");
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

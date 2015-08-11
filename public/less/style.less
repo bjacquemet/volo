@@ -15,20 +15,20 @@ body {
   background-color: #e2e2e2;
 }
 p {margin-bottom: 0 !important;}
+li {list-style-type: none;}
 img, canvas { max-width: 100%;}
 h1, h2 {
   font-weight: 300;
 }
-
 h3, h4 {
   font-weight: 300;
   margin: 13px 0px;
-
 }
 
 h5 {
-  font-weight: 200;
-  line-height: 150%;
+  font-weight: 300;
+  line-height: @line-height-base * 0.9;
+  margin-bottom: @profile-margin * 0.5;
 }
 
 em {
@@ -45,9 +45,17 @@ a {
   }
 }
 
-.nopadding {
-   padding: 0 !important;
-   margin: 0 !important;
+[class*=col-md].nopadding {
+   padding-left: 0 !important;padding-right: 0 !important;
+   margin-left: 0 !important;margin-right: 0 !important;
+}
+.nopadding_r {
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+.nopadding_l {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .break {
@@ -218,7 +226,10 @@ h1.logo {
 .date {
   font-weight: 400;
 }
-
+#changeImg {
+  font-size: @font-size-base*0.85;
+  display: block;
+}
 .XP {
   .separator {
     border-top: 0.1em solid @brand-secondary;
@@ -246,8 +257,15 @@ h1.logo {
     padding-top: 10px;
     padding-bottom: 10px;
     min-height: 140px;
-    margin-bottom: 10px;
+    position: relative;
     .transition(all .25s);
+    p.validation{
+      position: absolute;
+      color: @brand-secondary;
+      bottom: @profile-margin /5;
+      right: @profile-margin /3;
+      font-size: @font-size-base*0.8;
+    }
     &.add_role{
       cursor: pointer;
       span.add_new {
@@ -279,7 +297,7 @@ h1.logo {
 .XP_form {
   background-color: fade(@brand-primary, 5%);
   margin-bottom: @profile-margin;
-  // display: none;
+  display: none;
   p {
     font-size: @font-size-base *0.9;
     margin-bottom: 5px !important;
@@ -296,7 +314,7 @@ h1.logo {
 
 .big-btn {
   padding: 8px 20px;
-  font-size: 30px;
+  font-size: @font-size-base *1.3;
   margin-top: 13px;
 }
 
@@ -326,19 +344,27 @@ h1.logo {
     padding-left: 0;
     padding-right: 0;
     margin-top: -27px;
+    background-image: url('/images/background_placeholder.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 400px;
   }
   .profile_photo {
-    bottom: 45px;
+    margin-top: -55px;
     img {
       border: 5px solid white;
       .rounded(5px);
     }
   }
-  .csr {
-    margin-top: 20px;
-    p {
-      padding-left: 5px;
-      padding-right: 5px;
+  .support_vol{
+    li{
+      margin-bottom: @profile-margin *0.5;
+    }
+  }
+  .csr_effort {
+    a {
+      color: @brand-secondary;
+      font-weight: 400;
     }
   }
 }
@@ -350,12 +376,52 @@ h1.logo {
 
 .date_label {
   font-size: @font-size-base * 0.8;
-  line-height: 40px;
+  // line-height: 40px;
 }
 
-// custom select2
+// Select2 custom
 .select2-selection--multiple, .select2-selection--single{
   border-radius: 0 !important;
   border: 1px solid #ccc !important;
   font-size: @font-size-base *0.9;
+  line-height: @line-height-base *0.8;
 }
+
+// Autocomplete custom
+.autocomplete-suggestions strong { font-weight: 400; color: @brand-secondary; }
+.autocomplete-suggestions { border: 1px solid @brand-primary; background: #FFF; overflow: auto; }
+
+// @width: "300px";
+// @height: "300px";
+// Popup
+.popup {
+  background: fade(black, 50%);
+  z-index: 2;
+  position: fixed;
+  // width: @width;
+  // height: @height;
+  max-width: 800px;
+  max-height: 600px;
+  top:50%;left:50%;
+  // margin-left: -150px;
+  // margin-top: -150px;
+  overflow: visible;
+}
+.back {
+  color:#cecece;
+  position: absolute;
+  top: -25px;
+  right: -35px;
+  z-index:2;
+  font-size: 25px;
+}
+
+.layover{ 
+  z-index: 1;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: fade(black, 80%);
+}
+.fadeout{opacity: 0}
+
+.popup, .layover{transition: opacity .5s ease-in-out;}

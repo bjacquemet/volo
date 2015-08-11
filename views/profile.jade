@@ -1,11 +1,15 @@
 extends layout
 
 block content
-
+  script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js")
   script(src="/javascripts/bootstrap-formhelpers-phone.js")
   script(src="/javascripts/bootstrap-formhelpers-countries.js")
+  script(src="/javascripts/jquery.autocomplete.min.js")  
   script(src="/javascripts/Chart.js")
   script(src="/javascripts/goal.js")  
+  script(src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
 
   div.container-fluid
     .col-md-7.col-md-offset-1
@@ -13,7 +17,8 @@ block content
         .col-md-12
           .col-md-12.content
             .col-md-2.user-bg
-              img(src="/images/placeholder.png")
+              img(src="/images/placeholder.png", class="text-center")
+              a(href="#", id="changeImg", class="text-center") Change photo
             .col-md-7
               h3
                 a(href="#", id="f_name", data-type="text", data-pk="f_name", data-url="#", data-title="Enter first name") John 
@@ -62,61 +67,61 @@ block content
               form(action="#")
                 h4 Nonprofit
                 .form-group.col-md-12
-                  label.col-md-3.text-right(for="nonprofit") Nonprofit name *
-                  input.col-md-8(name="nonprofit", input="text", required)
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="description") Description of your experience
-                  textarea.col-md-8(name="description", rows="2")
+                  label.col-md-12(for="nonprofit") Nonprofit name *
+                  input.col-md-12(name="nonprofit", input="text", required)
+                  label.col-md-12(for="description") Description of your experience
+                  textarea.col-md-12(name="description", rows="2")
 
                 h4 Activity
                 .form-group.col-md-12
-                  label.col-md-3.text-right(for="role") Role
-                  select(class="role-single select2 col-md-8", required)
-                    option(value="web_developer") Web Developer
-                    option(value="designer") Designer
-                    option(value="builder") Builder
-                    option(value="event_organizer") Event Orgnizer
-                  //- input.col-md-8(id="role", name="role", type="text", required)
+                  label.col-md-12(for="role") Role
+                  //- select(class="role-single select2 col-md-8", required)
+                  //-   option()
+                  //-   option(value="web_developer") Web Developer
+                  //-   option(value="designer") Designer
+                  //-   option(value="builder") Builder
+                  //-   option(value="event_organizer") Event Organizer
+                  input.col-md-12(id="role", name="role", type="text", required)
                   //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="skills") Skills developed
+                  label.col-md-12.text-left(for="skills") Skills developed
                   //- input.col-md-8(id="skills", name="skills", type="text", required)
-                  select(class="skill-multiple select2-multiple col-md-8", multiple, required)
+                  select(class="skill-multiple select2-multiple col-md-12", multiple, required)
                     option(value="web") Web
                     option(value="design") design
                     option(value="app") App
                     option(value="UX") UX
 
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="hours") Number of hours
-                  input.col-md-8(name="hours", type="number", required)
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="s_date") Dates
-                  .col-md-8.nopadding
-                    span.col-md-3.nopadding.date_label From *: 
-                    input.col-md-9.nopadding(name="s_date", type="date", required)
-                    br
-                    span.col-md-3.nopadding.date_label To: 
-                    input.col-md-9.nopadding(name="e_date", type="date")
+                  label.col-md-12.text-left(for="hours") Number of hours
+                  input.col-md-12(name="hours", type="number", required)
+
+                  label.col-md-12.text-left(for="s_date") Dates
+                  .col-md-12
+                    .col-md-6
+                      span.col-md-12.date_label.nopadding From *: 
+                      input.col-md-12(name="s_date", type="date", required)
+                    .col-md-6
+                      span.col-md-12.date_label.nopadding To: 
+                      input.col-md-12(name="e_date", type="date")
 
                 h4 Referee
                 p 
                   |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
                   |This person should be aged 18 or over, and you must ask their permission before giving us their details.
                 .form-group.col-md-12
-                  label.col-md-3.text-right(for="referee_name") Refereee name *
-                  input.col-md-8(name="referee_name", type="text", required)
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="referee_email") Refereee email *
-                  input.col-md-8(name="referee_email", type="email", required)
-                .form-group.col-md-12
-                  label.col-md-3.text-right(for="referee_phone") Refereee phone number *
-                  input.col-md-8.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
+                  .col-md-6.nopadding
+                    label.col-md-12(for="referee_name") Refereee name *
+                    input.col-md-12(name="referee_name", type="text", required)
+                  .col-md-6.nopadding_r
+                    label.col-md-12(for="referee_phone") Refereee phone number *
+                    input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
-                h4 Feedback
+                  label.col-md-12(for="referee_email") Refereee email *
+                  input.col-md-12(name="referee_email", type="email", required)
+
+                h4 Personal Notes
                 .form-group.col-md-12
-                  label.col-md-3.text-right(for="feedback") Do you wish to give a feedback to the nonprofit?
-                  textarea.col-md-8(name="feedback", rows="2")                
+                  label.col-md-12(for="note") You can write personal notes - they won't be public.
+                  textarea.col-md-12(name="note", rows="2")                
 
                 .form-group.col-md-12.text-center
                   input(type="submit", value="Add experience", class="btn primary sharp")
@@ -128,64 +133,79 @@ block content
               p <u>1 recommendation</u>
               
               h5 Roles
-              .col-md-6.role
-                .col-md-12.grey_background
-                  p Role: <em>Web Developper</em>
-                  p Skills: <em>autonomy, rigour, web development</em>
-                  p <em>50 hours</em>
-              .col-md-6.role
-                .col-md-12.grey_background
-                  p Role: <em>Events volunteer</em>
-                  p Skills: <em>organization, logistics</em>
-                  p <em>70 hours</em>
+              .row
+                .col-md-6.role
+                  .col-md-12.grey_background
+                    p Role: <em>Web Developper</em>
+                    p Skills: <em>autonomy, rigour, web development</em>
+                    p <em>50 hours</em>
+                    p.validation Validation pending
+                .col-md-6.role
+                  .col-md-12.grey_background
+                    p Role: <em>Events volunteer</em>
+                    p Skills: <em>organization, logistics</em>
+                    p <em>70 hours</em>
+                    p.validation Validated
+              
+              .row
+                .col-md-6.role
+                  .col-md-12.grey_background.add_role.text-center
+                    span.add_new Add new role
+                    form(action="#", class="role_form col-md-12 height-0")
+                      h3 Add new role
+                      h4 Activity
+                                      .form-group.col-md-12
+                                        label.col-md-12(for="role") Role
+                                        //- select(class="role-single select2 col-md-8", required)
+                                        //-   option()
+                                        //-   option(value="web_developer") Web Developer
+                                        //-   option(value="designer") Designer
+                                        //-   option(value="builder") Builder
+                                        //-   option(value="event_organizer") Event Organizer
+                                        input.col-md-12(id="role", name="role", type="text", required)
+                                        //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
+                                        label.col-md-12.text-left(for="skills") Skills developed
+                                        //- input.col-md-8(id="skills", name="skills", type="text", required)
+                                        select(class="skill-multiple select2-multiple col-md-12", multiple, required)
+                                          option(value="web") Web
+                                          option(value="design") design
+                                          option(value="app") App
+                                          option(value="UX") UX
 
-              .col-md-6.role
-                .col-md-12.grey_background.add_role.text-center
-                  span.add_new Add new role
-                  form(action="#", class="role_form col-md-12 height-0")
-                    h3 Add new role
-                    h4 Activity
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="role") Role
-                      input.col-md-6(id="role", name="role", type="text", required)
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="skills") Skills developed
-                      input.col-md-6(id="skills", name="skills", type="text", required)
+                                        label.col-md-12.text-left(for="hours") Number of hours
+                                        input.col-md-12(name="hours", type="number", required)
 
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="hours") Number of hours
-                      input.col-md-6(name="hours", type="number", required)
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="s_date") Dates
-                      .col-md-6.nopadding
-                        span.col-md-3.nopadding.date_label From *: 
-                        input.col-md-9.nopadding(name="s_date", type="date", required)
-                        br
-                        span.col-md-3.nopadding.date_label To: 
-                        input.col-md-9.nopadding(name="e_date", type="date")
+                                        label.col-md-12.text-left(for="s_date") Dates
+                                        .col-md-12
+                                          .col-md-6
+                                            span.col-md-12.date_label.nopadding From *: 
+                                            input.col-md-12(name="s_date", type="date", required)
+                                          .col-md-6
+                                            span.col-md-12.date_label.nopadding To: 
+                                            input.col-md-12(name="e_date", type="date")
 
-                    h4 Referee
-                    p 
-                      |Please enter the name and contact details of someone involved in your project who can confirm what you do there. 
-                      |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                    .form-group.col-md-12
-                      input(name="nonprofit_id", value="", type="hidden")
-                      label.col-md-4.text-right(for="referee_name") Refereee name *
-                      input.col-md-6(name="referee_name", type="text", required)
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="referee_email") Refereee email *
-                      input.col-md-6(name="referee_email", type="email", required)
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="referee_phone") Refereee phone number *
-                      input.col-md-6.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
+                                      h4 Referee
+                                      p 
+                                        |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
+                                        |This person should be aged 18 or over, and you must ask their permission before giving us their details.
+                                      .form-group.col-md-12
+                                        .col-md-6.nopadding
+                                          label.col-md-12(for="referee_name") Refereee name *
+                                          input.col-md-12(name="referee_name", type="text", required)
+                                        .col-md-6.nopadding_r
+                                          label.col-md-12(for="referee_phone") Refereee phone number *
+                                          input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
-                    h4 Feedback
-                    .form-group.col-md-12
-                      label.col-md-4.text-right(for="feedback") Do you wish to give a feedback to the nonprofit?
-                      textarea.col-md-6(name="feedback", rows="4")                
+                                        label.col-md-12(for="referee_email") Refereee email *
+                                        input.col-md-12(name="referee_email", type="email", required)
 
-                    .form-group.col-md-12.text-center
-                      input(type="submit", value="Add experience", class="btn primary sharp")
+                                      h4 Personal Notes
+                                      .form-group.col-md-12
+                                        label.col-md-12(for="note") You can write personal notes - they won't be public.
+                                        textarea.col-md-12(name="note", rows="2")                
+
+                                      .form-group.col-md-12.text-center
+                                        input(type="submit", value="Add experience", class="btn primary sharp")
 
 
                   
@@ -201,16 +221,6 @@ block content
             .col-md-12.add
               a(href="#", id="addXP")
                 p.text-center Add experience
-      
-      //- .row.row-centered.XP_form
-      //-   .col-md-12
-      //-     .col-md-12.content
-      //-       form(action="#")
-      //-         .form-group
-      //-           label(for="charity")
-      //-           input(name="charity", input="text")
-      //-         .form-group
-      //-           label(for="")
       
 
       .row.row-centered
@@ -240,12 +250,14 @@ block content
             p You've reached your weekly goal!! <em>
               a(href="#") Share it </em>
 
+    .popup.fadeout
+      form(id="uploadForm", enctype="multipart/form-data", action="/api/photo", method="post")
+        input(type="file", name="userPhoto", value="Upload new photo")
+        input(type="submit", value="Change photo", name="submit", class="btn btn-primary")
+
   script.
     //- $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
-      $(".skill-multiple").select2();
-      $(".role-single").select2();
-
       $('#f_name').editable();
       $('#l_name').editable();
       $('#birthdate').editable({
@@ -260,6 +272,7 @@ block content
 
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
+        $(".skill-multiple").select2();
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
@@ -272,14 +285,47 @@ block content
 
       $(".add_role").on('click', function(){
         if ($('.XP_form').is(':visible')) {
-          $('.XP_form').fadeOut();
+          $('.XP_form').hide();
           $('html, body').animate({
-            scrollTop: $(".role_form").offset().top
-          }, "slow");
+              scrollTop: $(".role_form").offset().top
+            }, "slow");
         }
         $(".add_new").hide().addClass('hide_it');
-        $(".role_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500 );
+        $(".role_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
+            $('html, body').animate({
+              scrollTop: $(".role_form").offset().top
+            }, "slow");
+            $(".skill-multiple").select2();
+          } );
       });
+      
+      var roles = [
+         { value: 'Web Developer', data: 'web_developer' },
+         { value: 'Designer', data: 'designer' }
+      ];
+      var NoResultsLabel = "No Results";
+
+      $('#role').autocomplete({
+          lookup: roles,
+          onSelect: function (suggestion) {
+          }
+      });
+
+      $('#uploadForm').submit(function() {
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+            console.log(xhr);
+          },
+          success: function(response) {
+            console.log(response);
+          }
+        });
+        return false;
+      });    
+
+      $('#changeImg').on('click', function (){
+        $('.popup').show();
+      })
 
     });
 
