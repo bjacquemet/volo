@@ -3,7 +3,7 @@ extends layout
 block content
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js")
-  script(src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js")
   script(src="/javascripts/bootstrap-formhelpers-phone.js")
   script(src="/javascripts/bootstrap-formhelpers-countries.js")
   script(src="/javascripts/jquery.autocomplete.min.js")  
@@ -81,11 +81,11 @@ block content
                   //-   option(value="designer") Designer
                   //-   option(value="builder") Builder
                   //-   option(value="event_organizer") Event Organizer
-                  input.col-md-12(id="role", name="role", type="text", required)
+                  input.col-md-12(class="role", name="role", type="text", required)
                   //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
                   label.col-md-12.text-left(for="skills") Skills developed
                   //- input.col-md-8(id="skills", name="skills", type="text", required)
-                  select(class="skill-multiple select2-multiple col-md-12", multiple, required)
+                  select(class="skills select2-multiple col-md-12", multiple, required)
                     option(value="web") Web
                     option(value="design") design
                     option(value="app") App
@@ -154,58 +154,58 @@ block content
                     form(action="#", class="role_form col-md-12 height-0")
                       h3 Add new role
                       h4 Activity
-                                      .form-group.col-md-12
-                                        label.col-md-12(for="role") Role
-                                        //- select(class="role-single select2 col-md-8", required)
-                                        //-   option()
-                                        //-   option(value="web_developer") Web Developer
-                                        //-   option(value="designer") Designer
-                                        //-   option(value="builder") Builder
-                                        //-   option(value="event_organizer") Event Organizer
-                                        input.col-md-12(id="role", name="role", type="text", required)
-                                        //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
-                                        label.col-md-12.text-left(for="skills") Skills developed
-                                        //- input.col-md-8(id="skills", name="skills", type="text", required)
-                                        select(class="skill-multiple select2-multiple col-md-12", multiple, required)
-                                          option(value="web") Web
-                                          option(value="design") design
-                                          option(value="app") App
-                                          option(value="UX") UX
+                      .form-group.col-md-12
+                        label.col-md-12(for="role") Role
+                        //- select(class="role-single select2 col-md-8", required)
+                        //-   option()
+                        //-   option(value="web_developer") Web Developer
+                        //-   option(value="designer") Designer
+                        //-   option(value="builder") Builder
+                        //-   option(value="event_organizer") Event Organizer
+                        input.col-md-12(class="role", name="role-role", type="text", required)
+                        //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
+                        label.col-md-12.text-left(for="skills_role") Skills developed
+                        //- input.col-md-8(id="skills", name="skills", type="text", required)
+                        select(id="skills_role", class="skills select2-multiple col-md-12", multiple, required)
+                          option(value="web") Web
+                          option(value="design") design
+                          option(value="app") App
+                          option(value="UX") UX
 
-                                        label.col-md-12.text-left(for="hours") Number of hours
-                                        input.col-md-12(name="hours", type="number", required)
+                        label.col-md-12.text-left(for="hours") Number of hours
+                        input.col-md-12(name="hours", type="number", required)
 
-                                        label.col-md-12.text-left(for="s_date") Dates
-                                        .col-md-12
-                                          .col-md-6
-                                            span.col-md-12.date_label.nopadding From *: 
-                                            input.col-md-12(name="s_date", type="date", required)
-                                          .col-md-6
-                                            span.col-md-12.date_label.nopadding To: 
-                                            input.col-md-12(name="e_date", type="date")
+                        label.col-md-12.text-left(for="s_date") Dates
+                        .col-md-12
+                          .col-md-6
+                            span.col-md-12.date_label.nopadding From *: 
+                            input.col-md-12(name="s_date", type="date", required)
+                          .col-md-6
+                            span.col-md-12.date_label.nopadding To: 
+                            input.col-md-12(name="e_date", type="date")
 
-                                      h4 Referee
-                                      p 
-                                        |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
-                                        |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                                      .form-group.col-md-12
-                                        .col-md-6.nopadding
-                                          label.col-md-12(for="referee_name") Refereee name *
-                                          input.col-md-12(name="referee_name", type="text", required)
-                                        .col-md-6.nopadding_r
-                                          label.col-md-12(for="referee_phone") Refereee phone number *
-                                          input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
+                      h4 Referee
+                      p 
+                        |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
+                        |This person should be aged 18 or over, and you must ask their permission before giving us their details.
+                      .form-group.col-md-12
+                        .col-md-6.nopadding
+                          label.col-md-12(for="referee_name") Refereee name *
+                          input.col-md-12(name="referee_name", type="text", required)
+                        .col-md-6.nopadding_r
+                          label.col-md-12(for="referee_phone") Refereee phone number *
+                          input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
-                                        label.col-md-12(for="referee_email") Refereee email *
-                                        input.col-md-12(name="referee_email", type="email", required)
+                        label.col-md-12(for="referee_email") Refereee email *
+                        input.col-md-12(name="referee_email", type="email", required)
 
-                                      h4 Personal Notes
-                                      .form-group.col-md-12
-                                        label.col-md-12(for="note") You can write personal notes - they won't be public.
-                                        textarea.col-md-12(name="note", rows="2")                
+                      h4 Personal Notes
+                      .form-group.col-md-12
+                        label.col-md-12(for="note") You can write personal notes - they won't be public.
+                        textarea.col-md-12(name="note", rows="2")                
 
-                                      .form-group.col-md-12.text-center
-                                        input(type="submit", value="Add experience", class="btn primary sharp")
+                      .form-group.col-md-12.text-center
+                        input(type="submit", value="Add experience", class="btn primary sharp")
 
 
                   
@@ -272,7 +272,7 @@ block content
 
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
-        $(".skill-multiple").select2();
+        $(".skills").select2();
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
@@ -284,6 +284,7 @@ block content
       });
 
       $(".add_role").on('click', function(){
+        $(this).unbind('click');
         if ($('.XP_form').is(':visible')) {
           $('.XP_form').hide();
           $('html, body').animate({
@@ -295,8 +296,8 @@ block content
             $('html, body').animate({
               scrollTop: $(".role_form").offset().top
             }, "slow");
-            $(".skill-multiple").select2();
-          } );
+            $("#skills_role").select2();
+          });
       });
       
       var roles = [
@@ -305,7 +306,7 @@ block content
       ];
       var NoResultsLabel = "No Results";
 
-      $('#role').autocomplete({
+      $('.role').autocomplete({
           lookup: roles,
           onSelect: function (suggestion) {
           }
