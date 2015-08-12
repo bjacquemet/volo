@@ -99,9 +99,9 @@ block content
                   //-   option(value="event_organizer") Event Organizer
                   input.col-md-12(class="role", name="role", type="text", required)
                   //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
-                  label.col-md-12.text-left(for="skills") Skills developed
+                  label.col-md-12.text-left(for="skills_set") Skills developed
                   //- input.col-md-8(id="skills", name="skills", type="text", required)
-                  select(class="skills select2-multiple col-md-12", multiple, required)
+                  select(class="skills_set select2-multiple col-md-12", multiple, required)
                     option(value="web") Web
                     option(value="design") design
                     option(value="app") App
@@ -182,7 +182,7 @@ block content
                         //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
                         label.col-md-12.text-left(for="skills_role") Skills developed
                         //- input.col-md-8(id="skills", name="skills", type="text", required)
-                        select(id="skills_role", class="skills select2-multiple col-md-12", multiple, required)
+                        select(id="skills_role", class="skills_set select2-multiple col-md-12", multiple, required)
                           option(value="web") Web
                           option(value="design") design
                           option(value="app") App
@@ -294,7 +294,7 @@ block content
 
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
-        $(".skills").select2();
+        $(".skills_set").select2();
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
@@ -318,7 +318,7 @@ block content
             $('html, body').animate({
               scrollTop: $(".role_form").offset().top
             }, "slow");
-            $("#skills_role").select2();
+            $(".skills_set").select2();
           });
       });
       
