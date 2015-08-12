@@ -103,13 +103,13 @@ block content
         $back = $();
       $(document).ready(function() {
 
-        $('.support_vol li img').on('click', function() {
+        $('.support_vol li .overlay').on('click', function() {
           $body.css('overflow', 'hidden');
           $popup.remove();
           $layover.remove();
           $back.remove();
           $popup = $('<div class="popup fadeout">').append(
-              '<img src="'+$(this).attr('src')+'"/></div>')
+              '<img src="'+$(this).prev().attr('src')+'"/></div>')
             .appendTo(document.body);
 
           $layover = $('<div class="layover fadeout">').appendTo(document.body);
