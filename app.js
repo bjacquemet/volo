@@ -20,6 +20,7 @@ var users = require('./routes/users');
 var app = express();
 
 app.use(multer({ dest: './public/uploads/',
+  limits: {files: 1},
  rename: function (fieldname, filename) {
     return filename+Date.now();
   },
@@ -35,7 +36,7 @@ onFileUploadComplete: function (file) {
 app.post('/api/photo',function(req,res){
   if(done==true){
     console.log(req.files);
-    res.end("File uploaded.");
+    res.end(req.files.userPhoto.path);
   }
 });
 

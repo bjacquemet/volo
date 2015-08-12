@@ -358,7 +358,26 @@ h1.logo {
   }
   .support_vol{
     li{
-      margin-bottom: @profile-margin *0.5;
+      margin-bottom: @profile-margin;
+      img {
+        cursor: pointer;
+        box-shadow: 1px 1px 4px 0 #444;
+        &:hover {
+          opacity: 0.4;
+        + p {
+          opacity: 1;
+          font-size: @font-size-base *1.11;
+          height: 57px;
+          margin-top: -30px !important;
+          .transition(opacity 0.5s);
+          .transition(height 0.5s);
+        }
+        }
+      }
+      p {
+        opacity: 0;
+        background-color: white;
+      }
     }
   }
   .csr_effort {
@@ -391,8 +410,11 @@ h1.logo {
 .autocomplete-suggestions strong { font-weight: 400; color: @brand-secondary; }
 .autocomplete-suggestions { border: 1px solid @brand-primary; background: #FFF; overflow: auto; }
 
-// @width: "300px";
-// @height: "300px";
+#userPhoto-error {
+  display: block;
+  color: @brand-danger;
+}
+
 // Popup
 .popup {
   background: fade(black, 50%);
