@@ -1,6 +1,9 @@
 extends layout
 
 block content
+
+  //- inline editing
+  script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
   
   div.container-fluid
     div.row.row-centered
@@ -10,8 +13,9 @@ block content
           .col-md-2.profile_photo.clearfix
             img(src="/images/square_placeholder.png")
           .col-md-10
-            h3 Starbuck
-            h5.text-left We’ve always believed that businesses can – and should – have a positive impact on the communities they serve.
+            h3
+              a(href="#", id="company_name", data-type="text", data-pk="company_name", data-url="#", data-title="Enter Company Name", required) Starbuck
+            a(href="#", id="company_tagline", data-inputclass="input-xxlarge", data-type="textarea", data-pk="company_tagline", data-url="#", data-title="Enter Company Slogan", required) We’ve always believed that businesses can – and should – have a positive impact on the communities they serve.
           
           .col-md-12.contacts
             h3 Contacts 
@@ -34,34 +38,24 @@ block content
 
             ul.col-md-12.support_vol.text-center
               li.col-md-4.col-sm-6.col-xs-12
-                .col-md-12.no-gutter
-                  img(src="/images/c_photo1.png")
-                  .overlay
-                    p.caption Lorem ipsum 09/08/15
+                img(src="/images/c_photo1.png")
+                p.caption Lorem ipsum 09/08/15
 
               li.col-md-4.col-sm-6.col-xs-12
-                .col-md-12.no-gutter
-                  img(src="/images/c_photo2.png")
-                  .overlay
-                    p.caption Lorem ipsum 10/08/15
+                img(src="/images/c_photo2.png")
+                p.caption Lorem ipsum 10/08/15
 
               li.col-md-4.col-sm-6.col-xs-12
-                .col-md-12.no-gutter
-                  img(src="/images/c_photo3.png")
-                  .overlay
-                    p.caption Lorem ipsum 11/08/15
+                img(src="/images/c_photo3.png")
+                p.caption Lorem ipsum 11/08/15
 
               li.col-md-4.col-sm-6.col-xs-12
-                .col-md-12.no-gutter
-                  img(src="/images/c_photo4.png")
-                  .overlay
-                    p.caption Lorem ipsum 12/08/15
+                img(src="/images/c_photo4.png")
+                p.caption Lorem ipsum 12/08/15
               
               li.col-md-4.col-sm-6.col-xs-12
-                .col-md-12.no-gutter
-                  img(src="/images/c_photo5.png")
-                  .overlay
-                    p.caption Lorem ipsum 12/08/15
+                img(src="/images/c_photo5.png")
+                p.caption Lorem ipsum 12/08/15
 
           .col-md-12.csr_effort
             h3 Learn more about us
@@ -102,6 +96,9 @@ block content
         $layover = $(),
         $back = $();
       $(document).ready(function() {
+        $.fn.editable.defaults.mode = 'inline';
+        $("#company_name").editable();
+        $("#company_tagline").editable();
 
         $('.support_vol li img').on('click', function() {
           $body.css('overflow', 'hidden');

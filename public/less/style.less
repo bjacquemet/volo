@@ -45,15 +45,20 @@ a {
   }
 }
 
-[class*=col-md].nopadding {
+.liner {
+  font-size: @font-size-base * 1.1;
+  line-height: @line-height-base * 1.1;
+}
+
+[class*=col-md].no-gutter {
    padding-left: 0 !important;padding-right: 0 !important;
    margin-left: 0 !important;margin-right: 0 !important;
 }
-.nopadding_r {
+.no-gutter_r {
   padding-right: 0 !important;
   margin-right: 0 !important;
 }
-.nopadding_l {
+.no-gutter_l {
   padding-left: 0 !important;
   margin-left: 0 !important;
 }
@@ -88,9 +93,9 @@ a {
   margin-top: 0px;
   margin-bottom:0px;
   height: 400px;
-  h1{
+  h1, h2{
     position: relative;
-    top: 50%;
+    top: 45%;
     transform: translateY(-50%);
     margin:0;
   }
@@ -340,7 +345,7 @@ h1.logo {
 }
 
 .corpo {
-  .top {
+  .company_top {
     padding-left: 0;
     padding-right: 0;
     margin-top: -27px;
@@ -359,24 +364,41 @@ h1.logo {
   .support_vol{
     li{
       margin-bottom: @profile-margin;
+      position: relative;
       img {
         cursor: pointer;
         box-shadow: 1px 1px 4px 0 #444;
-        &:hover {
-          opacity: 0.4;
-        + p {
-          opacity: 1;
-          font-size: @font-size-base *1.11;
-          height: 57px;
-          margin-top: -30px !important;
-          .transition(opacity 0.5s);
-          .transition(height 0.5s);
-        }
-        }
       }
-      p {
+      .caption{
+        font-size: @font-size-base*1.1;
+        position: absolute;
+        background-color: fade(white, 90%);
+        height: 40px;
+        width: 100%;
+        top: auto;
+        bottom: 0;
         opacity: 0;
-        background-color: white;
+        .translate(0;100%);
+        .transition(tranform 0.4s);
+        .transition(opacity 0.3s);
+      }
+      .overlay{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+        .transition(all 0.4s);
+        &:hover {
+          background-color: fade(@brand-primary, 50%);
+          .caption {
+            opacity: 1;
+            .translate(0;0%);
+          }
+        }
       }
     }
   }

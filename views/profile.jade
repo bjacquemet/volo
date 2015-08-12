@@ -82,14 +82,14 @@ block content
               h3 Add an experience to your volunteer profile
               form(action="#")
                 h4 Nonprofit
-                .form-group.col-md-12
+                .form-group.col-md-12.no-gutter
                   label.col-md-12(for="nonprofit") Nonprofit name *
                   input.col-md-12(name="nonprofit", input="text", required)
                   label.col-md-12(for="description") Description of your experience
                   textarea.col-md-12(name="description", rows="2")
 
                 h4 Activity
-                .form-group.col-md-12
+                .form-group.col-md-12.no-gutter
                   label.col-md-12(for="role") Role
                   //- select(class="role-single select2 col-md-8", required)
                   //-   option()
@@ -113,10 +113,10 @@ block content
                   label.col-md-12.text-left(for="s_date") Dates
                   .col-md-12
                     .col-md-6
-                      span.col-md-12.date_label.nopadding From *: 
+                      span.col-md-12.date_label.no-gutter From *: 
                       input.col-md-12(name="s_date", type="date", required)
                     .col-md-6
-                      span.col-md-12.date_label.nopadding To: 
+                      span.col-md-12.date_label.no-gutter To: 
                       input.col-md-12(name="e_date", type="date")
 
                 h4 Referee
@@ -124,10 +124,10 @@ block content
                   |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
                   |This person should be aged 18 or over, and you must ask their permission before giving us their details.
                 .form-group.col-md-12
-                  .col-md-6.nopadding
+                  .col-md-6.no-gutter
                     label.col-md-12(for="referee_name") Refereee name *
                     input.col-md-12(name="referee_name", type="text", required)
-                  .col-md-6.nopadding_r
+                  .col-md-6.no-gutter_r
                     label.col-md-12(for="referee_phone") Refereee phone number *
                     input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
@@ -170,7 +170,7 @@ block content
                     form(action="#", class="role_form col-md-12 height-0")
                       h3 Add new role
                       h4 Activity
-                      .form-group.col-md-12
+                      .form-group.col-md-12.no-gutter
                         label.col-md-12(for="role") Role
                         //- select(class="role-single select2 col-md-8", required)
                         //-   option()
@@ -192,23 +192,23 @@ block content
                         input.col-md-12(name="hours", type="number", required)
 
                         label.col-md-12.text-left(for="s_date") Dates
-                        .col-md-12
+                        .col-md-12.no-gutter
                           .col-md-6
-                            span.col-md-12.date_label.nopadding From *: 
+                            span.col-md-12.date_label.no-gutter From *: 
                             input.col-md-12(name="s_date", type="date", required)
                           .col-md-6
-                            span.col-md-12.date_label.nopadding To: 
+                            span.col-md-12.date_label.no-gutter To: 
                             input.col-md-12(name="e_date", type="date")
 
                       h4 Referee
                       p 
                         |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
                         |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                      .form-group.col-md-12
-                        .col-md-6.nopadding
+                      .form-group.col-md-12.no-gutter
+                        .col-md-6.no-gutter
                           label.col-md-12(for="referee_name") Refereee name *
                           input.col-md-12(name="referee_name", type="text", required)
-                        .col-md-6.nopadding_r
+                        .col-md-6.no-gutter_r
                           label.col-md-12(for="referee_phone") Refereee phone number *
                           input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
@@ -216,7 +216,7 @@ block content
                         input.col-md-12(name="referee_email", type="email", required)
 
                       h4 Personal Notes
-                      .form-group.col-md-12
+                      .form-group.col-md-12.no-gutter
                         label.col-md-12(for="note") You can write personal notes - they won't be public.
                         textarea.col-md-12(name="note", rows="2")                
 

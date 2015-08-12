@@ -70,7 +70,12 @@ router.get('/c_profile', function(req, res, next) {
   res.render('corporate_profile', { title: 'Company public profile', user: req.user });
 });
 
-// corporate public profile
+// corporate private profile
+router.get('/c_profile_private', function(req, res, next) {
+  res.render('corporate_private_profile', { title: 'Company private profile', user: req.user });
+});
+
+// university public profile
 router.get('/u_profile', function(req, res, next) {
   res.render('university_profile', { title: 'University public profile', user: req.user });
 });
@@ -99,6 +104,7 @@ router.get('/corporates', function(req, res, next) {
 router.get('/universities', function(req, res, next) {
   res.render('universities', { title: 'Company public profile', user: req.user });
 });
+
 
 router.get('/profiles', function(req, res, next) {
   var profiles = Account.find({}, function(err, results)
