@@ -12,7 +12,7 @@
 body {
   font: 300 @font-size-base/@line-height-base @font-family-base;
   color: @brand-primary;
-  background-color: #e2e2e2;
+  background-color: #eee;
 }
 p {margin-bottom: 0 !important;}
 li {list-style-type: none;}
@@ -68,14 +68,36 @@ a {
   display: block;
 }
 
-
 .row, .row-fluid {
-  margin-top: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   // margin-bottom: 20px;
 }
-
 .row:last-child, .row-fluid:last-child {
   margin-bottom: 0;
+}
+
+.content {
+  background-color: fade(white, 80%);
+  box-shadow: 0px 1px 2px 0px #aaa;
+  padding: 27px 0px;
+  h1, h2 {
+    margin-top: 0px;
+  }
+}
+
+.profile_container {
+  .row, .row-fluid {
+    margin-top: @profile-margin;
+    margin-bottom: @profile-margin;
+    // margin-bottom: 20px;
+  } 
+  .row:last-child, .row-fluid:last-child {
+    margin-bottom: @profile-margin + 7;
+  }
+  .content {
+      border: 1px solid #666666;
+  }
 }
 
 .hiw {
@@ -90,8 +112,7 @@ a {
 
 .bckground-header {
   background-color: #7a7a7a;
-  margin-top: 0px;
-  margin-bottom:0px;
+  margin: 0px;
   height: 400px;
   h1, h2{
     position: relative;
@@ -193,7 +214,7 @@ h1.logo {
 }
 
 #footer {
-  margin-top: 27px;
+  // margin-top: 27px;
   background-color: #aaa;
   padding-top: 20px;
   padding-bottom: 30px; 
@@ -204,15 +225,6 @@ h1.logo {
 
 .btn.sharp {
   border-radius:0;
-}
-
-.content {
-  background-color: white;
-  border: 1px solid #666666;
-  padding: 27px 0px;
-  h1, h2 {
-    margin-top: 0px;
-  }
 }
 
 .info {
@@ -333,11 +345,11 @@ h1.logo {
 }
 
 .v_story {
-  border: 1px solid #aaa;
+  // border: 1px solid #aaa;
   padding-bottom: 15px;
-  padding-right:0;padding-left:0;
   img {
     max-width: 100%;
+    border: 0.12em solid @volo-green;
   }
   .volunteer_name {
     padding-top: 7px;

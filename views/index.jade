@@ -3,51 +3,50 @@ extends layout
 block content
 
   div.row.row-centered.bckground-header
-    h1.text-center Volunteer work verified, with incentives
+    h1.text-center Everyone has a role in creating a better future
 
   div.container-fluid
     div.row.row-centered
-      div.col-md-10.col-md-offset-1.content
-        div.col-md-12
-          h2 How it works
-
-          div.col-md-4.hiw.text-center
-            .col-md-12
-              p 1
-              p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius aut vero explicabo, sed molestias saepe tempore. Quae debitis alias deserunt, doloribus nostrum sapiente aperiam vel, porro excepturi quasi ad. Quia.
-
-          div.col-md-4.hiw.text-center
-            .col-md-12
-              p 2
-              p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex quae facere natus repellat odit excepturi voluptatem eaque. Eos recusandae molestias, quasi quis, enim officiis impedit qui dolore, nesciunt, laborum architecto.
-
-          div.col-md-4.hiw.text-center
-            .col-md-12
-              p 3
-              p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, minus, quae! Voluptas amet eaque, iste omnis tenetur. Harum officiis fugit, vel possimus, error laboriosam eius voluptatem earum unde dolorum ab!
+      div.col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content
+        
+        .col-md-12.col-sm-12.col-xs-12
+          .col-md-10.col-md-push-1.col-sm-12.col-xs-12.no-gutter
+            p.liner.text-center 
+              |VOLO is an online platform that brings together the community in order to create social change. <br/>
+              |We believe that social responsibility is everyone’s responsibility and that a small commitment from many vs. a large sacrifice from few, will provide a more sustainable solution for creating long-term social impact. <br/>
+              |We also believe that social progress should benefit everyone. And now with VOLO it does! 
+              br
+              a(href="/volunteers") Learn more about how being a VOLO volunteer helps you to get ahead.   
         
         .col-md-12.break
 
-        .col-md-12
-          h2 They are making a difference
-          .col-md-4
-            .col-md-12.text-center.v_story
-              img(src="/images/v_placeholder.png")
-              .col-md-12
-                p.volunteer_name John 
-                p.text-justify Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius aut vero explicabo, sed molestias saepe tempore. Quae debitis alias deserunt, doloribus nostrum sapiente aperiam vel, porro excepturi quasi ad. Quia... 
-                  a(href="#") Read more
-          .col-md-4
-            .col-md-12.text-center.v_story
-              img(src="/images/v_placeholder.png")
-              .col-md-12
-                p.volunteer_name Jack
-                p.text-justify Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, aperiam magnam maiores sit quidem quos fugit assumenda ipsa itaque vero cum, temporibus officia. Blanditiis a delectus, architecto laudantium... 
-                  a(href="#") Read more
-          .col-md-4
-            .col-md-12.text-center.v_story
-              img(src="/images/v_placeholder.png")
-              .col-md-12
-                p.volunteer_name Paul
-                p.text-justify Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, similique corrupti suscipit. Cumque, mollitia dolore impedit animi adipisci voluptatibus quia et suscipit nemo. Illum minus doloremque perspiciatis, architecto... 
-                  a(href="#") Read more
+        .col-md-12.col-sm-12.col-xs-12
+          h2.text-center VOLO is easy, fun and benefits everyone!
+
+        .col-md-12.break
+        .col-md-12.col-sm-12.col-xs-12
+          h4 Check out the VOLO Volunteers that are making a difference:
+
+          .col-md-3.col-sm-4.col-xs-6
+            .col-md-12.text-center.v_story.no-gutter
+              a(href="v_profile")
+                img(src="/images/melissa.png")
+                p.volunteer_name Melissa 
+
+          .col-md-3.col-sm-4.col-xs-6
+            .col-md-12.text-center.v_story.no-gutter
+              a(href="v_profile")
+                img(src="/images/baptiste.png")
+                p.volunteer_name Baptiste 
+
+          .col-md-3.col-sm-4.col-xs-6
+            .col-md-12.text-center.v_story.no-gutter
+              a(href="v_profile")
+                img(src="/images/leonie.png")
+                p.volunteer_name Léonie
+
+          .col-md-3.col-sm-4.col-xs-6
+            .col-md-12.text-center.v_story.no-gutter
+              a(href="v_profile")
+                img(src="/images/adrien.png")
+                p.volunteer_name Adrien

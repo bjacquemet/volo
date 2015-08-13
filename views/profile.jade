@@ -27,7 +27,7 @@ block content
     //- necesary to validate extension file
   script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/additional-methods.min.js")
 
-  div.container-fluid
+  .container-fluid.profile_container
     .col-md-7.col-md-offset-1
       div.row.row-centered
         .col-md-12
@@ -294,7 +294,13 @@ block content
 
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
-        $(".skills_set").select2();
+        $(".skills_set").select2({maximumSelectionLength: 3,
+          language: {
+                maximumSelected: function () {
+                      return 'Sorry, you can only enter up to 3 skills';
+                    }
+              }
+          });
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
@@ -318,7 +324,13 @@ block content
             $('html, body').animate({
               scrollTop: $(".role_form").offset().top
             }, "slow");
-            $(".skills_set").select2();
+            $(".skills_set").select2({maximumSelectionLength: 3,
+              language: {
+                maximumSelected: function () {
+                      return 'Sorry, you can only enter up to 3 skills';
+                    }
+              }
+              });
           });
       });
       
@@ -326,7 +338,6 @@ block content
          { value: 'Web Developer', data: 'web_developer' },
          { value: 'Designer', data: 'designer' }
       ];
-      var NoResultsLabel = "No Results";
 
       $('.role').autocomplete({
           lookup: roles,
