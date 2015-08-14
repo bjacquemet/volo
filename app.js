@@ -15,7 +15,7 @@ var multer = require('multer');
 var done = false;
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var volunteers = require('./routes/volunteer');
 
 var app = express();
 
@@ -61,7 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/volunteer', volunteers);
 
 // Passport config
 var Account = require('./models/account');
@@ -118,6 +118,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

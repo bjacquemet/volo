@@ -18,12 +18,20 @@ block content
               label.radio-inline Corporate
                 input(type="radio", value="corporate", name="usertype")
             .form-group
-                input.form-control(type='text', name="username", placeholder='Enter Username')
+              input.form-control(type='text', name="username", placeholder='Enter Username')
             .form-group
-                input.form-control(type='text', name="email", placeholder='email@domain.com')
+              input.form-control(type='text', name="email", placeholder='email@domain.com')
             .form-group
-              input.form-control(type='password', name="password", placeholder='Password')
-            button.btn.btn-default(type='submit') Submit
-            &nbsp; 
-            a(href='/')
-              button.btn.btn-primary(type="button") Cancel
+              input.form-control(type='password', name="password", id="password", placeholder='Password')
+            .form-group
+              button.btn.btn-default(type='submit', id="submit") Submit
+              &nbsp; 
+              a(href='/')
+                button.btn.btn-primary(type="button") Cancel
+
+  script.
+    $(document).ready(function() {
+      $('#submit').on('click', function(){
+        console.log($('#password').val());
+        })
+    });

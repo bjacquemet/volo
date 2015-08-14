@@ -1,8 +1,14 @@
 var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
+var Volunteer = require('../models/volunteer');
 var router = express.Router();
 var moment = require('moment');
+
+function ensureAuthenticated(req, res, next) {
+  if (req.user) { return next(); }
+  res.redirect('/login')
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,7 +29,7 @@ router.post('/register', function(req, res) {
       }), 
       req.body.password, function(err, account) {
         if (err) {
-          return res.render("register", {info: "Sorry. That username already exists. Try again."});
+          return res.render("register", {info: err});
         }
         passport.authenticate('local')(req, res, function () {
             res.redirect('/');
@@ -107,9 +113,9 @@ router.get('/universities', function(req, res, next) {
 
 
 router.get('/profiles', function(req, res, next) {
-  var profiles = Account.find({}, function(err, results)
+  var volunteers = Volunteer.find({}, function(err, results)
     {
-      res.render('profiles', { title: 'Company public profile', profiles: results});
+      res.render('profiles', { title: 'Profile', volunteers: results, user: req.user});
     });
 });
 

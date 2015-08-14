@@ -20,7 +20,7 @@ body
                   a(href="/register", class="navbar-link") Register
           if (user)
             div.navbar-collapse
-              ul.nav.navbar-nav.navbar-right
+              ul.nav.navbar-nav.navbar-right.welcome
                 li.user.dropdown
                   img(src="/images/placeholder.png")
                   a(class="text-right dropdown-toggle", data-toggle="dropdown", href="#") Welcome #{user.username} 

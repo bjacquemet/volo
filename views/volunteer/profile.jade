@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   //- inline editing
@@ -37,8 +37,9 @@ block content
               a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal") Change photo
             .col-md-7
               h3
-                a(href="#", id="first_name", data-type="text", data-pk="first_name", data-url="/volunteer/update", data-title="Enter first name") John 
-                a(href="#", id="last_name", data-type="text", data-pk="last_name", data-url="/volunteer/update", data-title="Enter last name") Doe
+                a(href="#", id="first_name", data-type="text", data-pk="first_name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
+                | 
+                a(href="#", id="last_name", data-type="text", data-pk="last_name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.last_name}
                 img(src="/images/male.svg", class="ico")
               p.date 
                 a(href="#", id="birthdate", data-value="1990-05-14", data-type="combodate", data-pk="birthdate", data-url="#", data-title="Enter your birth date")
