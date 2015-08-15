@@ -32,8 +32,9 @@ router.post('/new', function(req, res){
 });
 
 router.post('/update', function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender'];
+  var fields = ['first_name', 'last_name', 'gender', 'birthdate'];
   var field = req.body.pk;
+  console.log(field);
   var value = req.body.value;
   if (fields.indexOf(field) > -1)
   {
@@ -42,25 +43,33 @@ router.post('/update', function (req, res) {
     {
       case 'first_name':
         volunteer.first_name = value;
-        console.log('updating');
         break;
       case 'last_name':
-        volunteer.larst_name = value;
+        volunteer.last_name = value;
         break;
       case 'gender':
         volunteer.gender = value;
         break;
+      case 'birthdate':
+        volunteer.birthdate = value;
+        break;
     }
-
-    volunteer.save(function(err) {
-      if (err) throw err;
-      console.log(field + ' successfully updated with ' + value);
-      res.sendStatus(200);
+    volunteer.save(function(err, volunteer) {
+      if (err) {
+         throw err;
+         return console.log(err);
+       }
+      else {
+        console.log('Successfully updated: ' + volunteer);
+        res.sendStatus(200);
+      }
     })
   });
   } 
   else {
-    res.end("Field doesn't exist");
+    console.log("Field doesn't exist");
+    res.sendStatus(303);
+    // res.end("Field doesn't exist");
   }
 })
 
