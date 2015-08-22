@@ -58,7 +58,7 @@ router.post('/update', function (req, res) {
       if (err) {
          throw err;
          return console.log(err);
-       }
+      }
       else {
         console.log('Successfully updated: ' + volunteer);
         res.sendStatus(200);
