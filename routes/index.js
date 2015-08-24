@@ -125,6 +125,11 @@ router.get('/universities', function(req, res, next) {
   res.render('universities', { title: 'Company public profile', user: req.user });
 });
 
+// university volunteering tracking
+router.get('/u_tracking', function(req, res, next) {
+  res.render('university_tracking', { title: 'Student volunteering hours', user: req.user });
+});
+
 
 router.get('/profiles', function(req, res, next) {
   var volunteers = Volunteer.find({}, function(err, results)
