@@ -32,7 +32,21 @@ router.post('/register', function(req, res) {
           return res.render("register", {info: err});
         }
         passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
+          // If volunteer, create volunteer account
+          if (req.body.usertype == "volunteer") {
+            var newVolunteer = Volunteer({
+              account_id: req.user._id,
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              email: req.body.email
+            });
+            newVolunteer.save(function(err) {
+              if(err) throw err;
+              console.log('Volunteer created');
+              res.redirect('/volunteer/');
+            });
+          }
+          else res.redirect('/');
         });
     });
 });

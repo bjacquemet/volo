@@ -9,9 +9,12 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', ensureAuthenticated, function(req, res, next) {
-  Volunteer.findOne({account_id: req.user._id}, function (err, results) {
-    if (err) throw err;
-    res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: results });
+  Volunteer.findOne({account_id: req.user._id}, function (err, result) {
+    if (err) {
+      throw err;
+      // res.redirect('/');
+    }
+    res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: result });
   });
 });
 

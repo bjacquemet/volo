@@ -37,7 +37,7 @@ var global=
   strokeColor: "rgba(255,255,255,0.8)",
   highlightFill: "#333",
   highlightStroke: "rgba(255,255,255,1)",
-  data:[20]}
+  data:[620]}
   ]
 };
 window.onload = function()
@@ -51,7 +51,7 @@ window.onload = function()
     var ctx = $("#g_goal").get(0).getContext("2d");
     var myBarChart = new Chart(ctx).Bar(global, {scaleShowHorizontalLines: true,scaleShowVerticalLines: false, scaleOverride: true,
     scaleSteps: 4,
-    scaleStepWidth: 25,
+    scaleStepWidth: 250,
     scaleStartValue: 0, 
     tooltipTemplate: "<%= value %> hours"
 });
