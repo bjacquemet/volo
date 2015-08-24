@@ -3,48 +3,50 @@ body
   nav.navbar.navbar-default
     div.container-fluid
       div.row
-        div.col-md-10.col-md-offset-1
-          div.col-md-3.navbar-header
+        div.col-md-10.col-md-offset-1.header-container
+          div.col-md-4.col-sm-5.navbar-header
             a(href="/")
               h1.logo VOLO
             button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar", aria-expanded="false")
               span.sr-only Toggle navigation
               span.glyphicon.glyphicon-align-justify
               span.navmenu &nbsp; Menu
-          if (!user)
-            div.navbar-collapse
+
+          .col-md-8.col-sm-7.no-gutter          
+            if (!user)
+              div.navbar-collapse
+                ul.nav.navbar-nav.navbar-right
+                  li
+                    a(href="/login", class="navbar-link") Login
+                  li
+                    a(href="/register", class="navbar-link") Register
+            if (user)
+              div.navbar-collapse
+                ul.nav.navbar-nav.navbar-right.welcome
+                  li.user.dropdown
+                    img(src="/images/placeholder.png")
+                    a(class="text-right dropdown-toggle", data-toggle="dropdown", href="#") Welcome #{user.username} 
+                      span.caret
+                    ul.dropdown-menu
+                      li
+                        if (user.usertype == "volunteer")
+                          a(href="/profile") Volunteer Profile
+                        if (user.usertype == "nonprofit")
+                          a(href="/profile") Nonprofit Profile
+                        if (user.usertype == "corporate")
+                          a(href="/profile") Company Profile
+                      li
+                        a(href="#") Opportunities
+                      li
+                        a(href="/logout") Logout
+
+            div.navbar-collapse.collapse#navbar
               ul.nav.navbar-nav.navbar-right
                 li
-                  a(href="/login", class="navbar-link") Login
+                  a(href="volunteers") Volunteer
                 li
-                  a(href="/register", class="navbar-link") Register
-          if (user)
-            div.navbar-collapse
-              ul.nav.navbar-nav.navbar-right.welcome
-                li.user.dropdown
-                  img(src="/images/placeholder.png")
-                  a(class="text-right dropdown-toggle", data-toggle="dropdown", href="#") Welcome #{user.username} 
-                    span.caret
-                  ul.dropdown-menu
-                    li
-                      if (user.usertype == "volunteer")
-                        a(href="/profile") Volunteer Profile
-                      if (user.usertype == "nonprofit")
-                        a(href="/profile") Nonprofit Profile
-                      if (user.usertype == "corporate")
-                        a(href="/profile") Company Profile
-                    li
-                      a(href="#") Opportunities
-                    li
-                      a(href="/logout") Logout
-
-          div.navbar-collapse.collapse#navbar
-            ul.nav.navbar-nav.navbar-right
-              li
-                a(href="volunteers") Volunteer
-              li
-                a(href="/nonprofits") Nonprofit
-              li
-                a(href="/corporates") Corporate
-              li
-                a(href="/universities") University
+                  a(href="/nonprofits") Nonprofit
+                li
+                  a(href="/corporates") Corporate
+                li
+                  a(href="/universities") University

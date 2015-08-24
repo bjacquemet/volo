@@ -123,9 +123,12 @@ a {
 }
 
 nav {
-  background-color: white;
+  background-color: black;
+  &.navbar {
+    border:none;
+  }
   &.navbar-default {
-    background-color: white;
+    background-color: black;
     margin-bottom: 0px;
     // border-bottom: 0.07em solid #ccc;
     // box-shadow: #aaa 4px 0px 2px;
@@ -141,10 +144,16 @@ nav {
 }
 
 .navbar-default .navbar-nav > li > a {
-  // color: @brand-primary;
+  color: white;
   &:hover{
-    color: black;
+    color: @volo-green;
   }
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  font-weight: 400 !important;
+  background-color:inherit !important;
+  color: @volo-green;
 }
 
 .colored {
@@ -159,17 +168,23 @@ nav {
   padding-bottom: 30px;
 }
 
+.header-container {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
 h1.logo {
-  font: 400 48px/60px @font-family-logo;
+  // font: 400 48px/60px @font-family-logo;
+  line-height: 100px;
   font-variant: small-caps;
   color: @brand-primary;
   text-indent: -999em;
-  background-image: url('/images/logo.png');
+  background-image: url('/images/volo_logo.png');
   background-position: top left;
   background-repeat: no-repeat;
   background-size: contain;
-  margin-top: 14px;
-  margin-bottom: 12px;
+  margin-top: 0px;
+  margin-bottom: 0px;
     @media screen {
       @media (max-width:767px) {
         background-position: top center;
@@ -209,11 +224,6 @@ h1.logo {
     // left:0 !important;
     top:80%;
   }
-}
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  font-weight: 400 !important;
-  background-color:inherit !important;
 }
 
 #footer {
