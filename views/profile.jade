@@ -277,7 +277,7 @@ block content
             p You've reached your weekly goal!! <em>
               a(href="#") Share it </em>
 
-    .modal.fade#uploadModal
+    .modal.fade#uploadModal(tabindex='-1')
       .modal-dialog
         .modal-content
           .modal-header
@@ -286,7 +286,7 @@ block content
           .modal-body
             form(id="uploadForm", enctype="multipart/form-data", action="/api/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
-              input(type="submit", value="Change photo", name="submit", class="btn btn-primary")
+              input(type="submit", value="Change photo", name="submit", class="btn btn-primary sharp modal-submit")
 
   script.
     //- $.fn.editable.defaults.mode = 'inline';

@@ -130,6 +130,11 @@ router.get('/u_tracking', function(req, res, next) {
   res.render('university_tracking', { title: 'Student volunteering hours', user: req.user });
 });
 
+// nonprofit volunteering validation
+router.get('/n_validation', function(req, res, next) {
+  res.render('nonprofit_validation', { title: 'Volunteering Experience Validation', user: req.user });
+});
+
 
 router.get('/profiles', function(req, res, next) {
   var volunteers = Volunteer.find({}, function(err, results)

@@ -1,0 +1,69 @@
+extends layout
+
+block content
+
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-offset-1.col-xs-12.content
+        .col-md-12.col-sm-12.col-xs-12
+          h3 Volunteering experience validation
+          p
+            |Here is the list of experiences volunteers have had with your nonprofit.
+            br
+            |Please, we'd appreciate if you could take the time to accept these experiences if they are correct 
+            |or decline them if they did not happen.
+          .col-md-12.break
+
+          .col-md-12.col-sm-12.col-xs-12.colored
+            .col-md-1.col-sm-1.col-xs-3.user-md
+              img(src="/images/placeholder.png")
+            .col-md-8.col-sm-8.col-xs-9
+              p.volunteer_name John Doe
+              p <em>Student at Oxford University</em>
+              p He volunteered on <em>Thursday September, 1st</em> during <em>3 hours</em>
+              p Skills acquired: <em>Web development, marketing, communication</em>
+            .col-md-3.col-sm-3.col-xs-12.text-center
+              br
+              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              &nbsp;
+              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+          
+          .col-md-12.col-sm-12.col-xs-12.not_colored
+            .col-md-1.col-sm-1.col-xs-3.user-md
+              img(src="/images/placeholder.png")
+            .col-md-8.col-sm-8.col-xs-9
+              p.volunteer_name Jack Joe
+              p <em>Student at Oxford University</em>
+              p He volunteered on <em>Thursday September, 1st</em> during <em>3 hours</em>
+              p Skills acquired: <em>Web development, marketing, communication</em>
+            .col-md-3.col-sm-3.col-xs-12.text-center
+              br
+              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              &nbsp;
+              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+          
+          .col-md-12.col-sm-12.col-xs-12.colored
+            .col-md-1.col-sm-1.col-xs-3.user-md
+              img(src="/images/placeholder.png")
+            .col-md-8.col-sm-8.col-xs-9
+              p.volunteer_name Paul Smith
+              p <em>Student at Oxford University</em>
+              p He volunteered on <em>Thursday September, 1st</em> during <em>3 hours</em>
+              p Skills acquired: <em>Web development, marketing, communication</em>
+            .col-md-3.col-sm-3.col-xs-12.text-center
+              br
+              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              &nbsp;
+              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+
+          .modal.fade#declineModal(tabindex='-1')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal") &times;
+                  p Decline volunteer experience
+                .modal-body
+                  p Please, explain us why you decline this experience. This won't be public.
+                  form(id="declineForm", action="#", method="post", class="text-center")
+                    textarea.col-md-12(name="declineReason", rows="2")
+                    input(type="submit", value="Decline experience", name="submit", class="btn btn-primary sharp modal-submit")
