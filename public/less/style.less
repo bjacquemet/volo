@@ -80,9 +80,6 @@ a {
 }
 
 nav {
-  a{
-    padding-bottom: 0px !important;
-  }
   background-color: black;
   .rounded(0%) !important;
   &.navbar {
@@ -102,9 +99,14 @@ nav {
     // border-bottom: 0.07em solid #ccc;
     // box-shadow: #aaa 4px 0px 2px;
   }
+  .navbar-right{
+    li:first-child a{
+      background-color: @volo-green;
+      color: black;
+    }
+  }
   .navbar-link {
     font-size: @font-size-base *0.9;
-    padding-bottom: 0px !important;
   }
   .navbar-center{
     float: none;
