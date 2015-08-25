@@ -24,7 +24,7 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
               &nbsp;
               a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
           
@@ -38,7 +38,7 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
               &nbsp;
               a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
           
@@ -52,7 +52,7 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
               &nbsp;
               a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
 
@@ -67,3 +67,17 @@ block content
                   form(id="declineForm", action="#", method="post", class="text-center")
                     textarea.col-md-12(name="declineReason", rows="2")
                     input(type="submit", value="Decline experience", name="submit", class="btn btn-primary sharp modal-submit")
+
+          .modal.fade#acceptModal(tabindex='-1')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  button(type="button" class="close" data-dismiss="modal") &times;
+                  p Reccomend volunteer
+                .modal-body
+                  p Thanks for accepting this experience. Do you also want to add a recommendation to this volunteer? This will be public on his profile.
+                  form(id="declineForm", action="#", method="post", class="text-center")
+                    textarea.col-md-12(name="recommendation", rows="2")
+                    input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary sharp modal-submit")
+                    span &nbsp;
+                    input(type="submit", value="No thanks", data-dismiss="modal", class="btn btn-info sharp modal-submit")

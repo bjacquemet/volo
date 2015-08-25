@@ -21,11 +21,15 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
+    if (req.body.usertype != 'volunteer')
+    {
+      var usertype = ['volunteer', req.body.usertype];
+    }
     Account.register(new Account(
       { 
         username : req.body.username, 
         email: req.body.email, 
-        usertype : req.body.usertype 
+        usertype : usertype
       }), 
       req.body.password, function(err, account) {
         if (err) {
@@ -33,20 +37,22 @@ router.post('/register', function(req, res) {
         }
         passport.authenticate('local')(req, res, function () {
           // If volunteer, create volunteer account
-          if (req.body.usertype == "volunteer") {
             var newVolunteer = Volunteer({
               account_id: req.user._id,
               first_name: req.body.first_name,
               last_name: req.body.last_name,
+              photo: '/images/placeholder.png',
               email: req.body.email
             });
             newVolunteer.save(function(err) {
               if(err) throw err;
               console.log('Volunteer created');
-              res.redirect('/volunteer/');
+              if (req.body.usertype == "volunteer") res.redirect('/volunteer/');
+              else if (req.body.usertype == "corporate") res.redirect('/corporates');
+              else if (req.body.usertype == "nonprofit") res.redirect('/nonprofits');
+              else if (req.body.usertype == "university") res.redirect('/universities');
+              else res.redirect('/');
             });
-          }
-          else res.redirect('/');
         });
     });
 });

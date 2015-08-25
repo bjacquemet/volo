@@ -25,6 +25,7 @@
     "async": "1.4.1",
     "bcrypt-nodejs":"0.0.3",
     "moment":"2.10.6", 
-    "multer":"~0.1.6"
+    "multer":"~0.1.6", 
+    "mongoose-unique-validator":"~0.4.1"
   }
 }

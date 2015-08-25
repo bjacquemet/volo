@@ -34,13 +34,6 @@ onFileUploadComplete: function (file) {
 }
 }));
 
-app.post('/api/photo',function(req,res){
-  if(done==true){
-    console.log(req.files);
-    res.end(req.files.userPhoto.path);
-  }
-});
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
