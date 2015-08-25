@@ -95,7 +95,6 @@ router.post('/update', function (req, res) {
         json = {home_address: value};
         break;
       case 'about':
-        value = value.replace(/\r?\n/g, "<br/>");
         json = {about: value};
         break;
       default:

@@ -97,8 +97,6 @@ block content
       var gender;
       if ("#{volunteer.gender}" != '') gender = "#{volunteer.gender}";
       else gender = "blank";
-      if ("#{volunteer.s}" != '') var about = "#{volunteer.as}";
-      if ("#{volunteer.about}" != '') var about = "#{volunteer.about}";
 
 
       $('#first_name').editable({emptytext: 'First Name'});
@@ -125,7 +123,7 @@ block content
       }
       });
 
-      $('#about').editable({emptytext: 'About Me', value: about});
+      $('#about').editable({emptytext: 'About Me', value: "#{volunteer.about}"});
       $('#address').editable({emptytext: 'Home Address'});
       $('#position').editable({emptytext: 'Position'});
       $('#birthdate').editable({
