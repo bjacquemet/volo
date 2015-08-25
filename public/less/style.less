@@ -20,6 +20,9 @@ img, canvas { max-width: 100%;}
 h1, h2 {
   font-weight: 300;
 }
+h3{
+  // border-bottom: 0.06em solid @brand-primary;
+}
 h3, h4 {
   font-weight: 300;
   margin: 13px 0px;
@@ -39,9 +42,11 @@ a {
   color: @brand-primary;
   &:active, &:visited, &:focus{
     color: @brand-primary;
+    text-decoration: none;
   }
   &:hover {
     color: fade(@brand-primary, 80%);
+    text-decoration: none;
   }
 }
 
