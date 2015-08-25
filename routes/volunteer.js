@@ -8,6 +8,34 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('../login')
 }
 
+router.post('/photo', function(req,res) {
+  console.log('photo: ');
+  console.log(req);
+  if(typeof(req.files.userPhoto.path) != 'undefined') {
+    console.log(req.files);
+    Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
+      var photo_url = req.files.userPhoto.path.substring(6);
+      var json = {photo: photo_url};
+      volunteer.update(json, { upsert : true }, function(err) {
+        if (err) {
+           throw err;
+           return console.log(err);
+        }
+        else {
+          console.log('Successfully updated: ' + volunteer);
+          res.end(req.files.userPhoto.path);
+        }
+      })
+    });
+    // res.end(req.files.userPhoto.path);
+  }
+  else
+    {
+      console.log("error");
+      console.log(req.files);
+    }
+});
+
 router.get('/', ensureAuthenticated, function(req, res, next) {
   Volunteer.findOne({account_id: req.user._id}, function (err, result) {
     if (err) {
@@ -35,29 +63,34 @@ router.post('/new', function(req, res){
 });
 
 router.post('/update', function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender', 'birthdate'];
+  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email"];
   var field = req.body.pk;
   console.log(field);
   var value = req.body.value;
+  var json;
   if (fields.indexOf(field) > -1)
   {
     Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
     switch (field)
     {
       case 'first_name':
-        volunteer.first_name = value;
+        json = {first_name: value};
         break;
       case 'last_name':
-        volunteer.last_name = value;
+        json = {last_name: value};
         break;
       case 'gender':
-        volunteer.gender = value;
+        json = {gender: value};
         break;
       case 'birthdate':
-        volunteer.birthdate = value;
+        json = {birthdate: value};
+        break;
+      case 'email':
+        json = {email: value};
+        volunteer.email = value;
         break;
     }
-    volunteer.save(function(err, volunteer) {
+    volunteer.update(json, { upsert : true }, function(err) {
       if (err) {
          throw err;
          return console.log(err);

@@ -33,17 +33,16 @@ block content
         .col-md-12
           .col-md-12.content
             .col-md-2.user-bg
-              img(src="/images/placeholder.png", class="text-center")
+              img(src="#{volunteer.photo}", class="text-center")
               a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal") Change photo
             .col-md-7
               h3
-                a(href="#", id="first_name", data-type="text", data-pk="first_name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
+                a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
                 | 
-                a(href="#", id="last_name", data-type="text", data-pk="last_name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.last_name}
+                a(href="#", id="last_name", data-type="text", data-pk="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
                 img(src="/images/male.svg", class="ico")
               p 
-                |Birthdate: 
-                a(href="#", class="date", id="birthdate", data-value="1990-05-14", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
+                a(href="#", class="date", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
             .col-md-12
             .col-md-6.info
               p Email: <em>john.doe@gmail.com</em>
@@ -75,15 +74,15 @@ block content
             button(type="button" class="close" data-dismiss="modal") &times;
             p Change your profile photo
           .modal-body
-            form(id="uploadForm", enctype="multipart/form-data", action="/api/photo", method="post")
+            form(id="uploadForm", enctype="multipart/form-data", action="/volunteer/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary sharp modal-submit")
 
   script.
     //- $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
-      $('#first_name').editable();
-      $('#last_name').editable();
+      $('#first_name').editable({emptytext: 'First Name'});
+      $('#last_name').editable({emptytext: 'Last Name'});
       $('#birthdate').editable({
         format: 'YYYY-MM-DD',    
         viewformat: 'DD/MM/YYYY',    
@@ -91,7 +90,8 @@ block content
         combodate: {
               maxYear: 1999, 
               minYear: 1920
-         }
+         },
+         emptytext: 'Birthdate'
       });
 
       $('#uploadForm').validate({
@@ -116,6 +116,7 @@ block content
           },
           success: function(response) {
             console.log(response);
+            //remove public from path
             var $newFile = response.substring(6);
             $('.modal').modal('toggle');
             $(".user-bg img").attr('src',$newFile);

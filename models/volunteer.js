@@ -6,16 +6,21 @@ var Volunteer = new Schema({
     first_name: String,
     last_name: String,
     email: {type: String, unique: true},
+    birthdate: Date,
+    photo: String,
     uni_email: String,
     gender: String,
     phone: String,
-    home_address: String, 
+    home_address: String,
+    about: String,
+    twitter: String, 
+    facebook: String, 
     position: String, 
     university: String,
-    company: String,
     discipline: String,
     graduate: String,
-    graduation_year: { type: Number, min: 2000, max: 2050 } 
+    graduation_year: { type: Number, min: 2000, max: 2050 },
+    company: String
 });
 
 

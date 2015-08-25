@@ -3,7 +3,7 @@ body
   nav.navbar.navbar-default
     div.container-fluid
       div.row
-        div.col-md-12.header-container
+        div.col-md-10.col-md-offset-1.header-container
           div.col-md-3.col-sm-4.navbar-header
             a(href="/")
               h1.logo VOLO
@@ -23,16 +23,16 @@ body
                   a(href="/corporates") Corporate
                 li
                   a(href="/universities") University       
-          .col-md-3.col-sm-12
+          .col-md-3.col-sm-12.no-gutter
             if (!user)
-              div.navbar-collapse
+              div.navbar-collapse.no-gutter
                 ul.nav.navbar-nav.navbar-right
                   li
                     a(href="/login", class="navbar-link") Login
                   li
                     a(href="/register", class="navbar-link") Register
             if (user)
-              div.navbar-collapse
+              div.navbar-collapse.no-gutter
                 ul.nav.navbar-nav.navbar-right.welcome
                   li.user.dropdown
                     //- img(src="/images/placeholder.png")
