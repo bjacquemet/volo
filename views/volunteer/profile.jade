@@ -3,6 +3,8 @@ extends ../layout
 block content
   //- inline editing
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
+  //- input mask for phone number
+  script(src="/javascripts/jquery.inputmask.bundle.min.js")
   //- combodate
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js")
 
@@ -40,18 +42,25 @@ block content
                 a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
                 | 
                 a(href="#", id="last_name", data-type="text", data-pk="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
-                img(src="/images/male.svg", class="ico")
+              a(href="#", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
               p 
                 a(href="#", class="date", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
             .col-md-12
             .col-md-6.info
-              p Email: <em>john.doe@gmail.com</em>
-              p Phone: <em>555-555-555</em>
-              p Current position: <em>Student at Oxford University</em>
-              p Accumulated hours: <em>620</em>
+              p 
+                a(href="#", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")  
+              p 
+                a(href="#", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+              p 
+                a(href="#", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position")  
+                |&nbsp;at 
+                | <em>Student at Oxford University</em>
             .col-md-5.col-md-offset-1.info
-              p Home: <br/>
-              |<em>London W1F 9AG, UK</em>
+              p 
+                a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address")  
+            .col-md-12.col-xs-12.col-sm-12.info
+              p
+                a(href="#", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
     
     .col-md-3
       div.row.row-centered
@@ -79,10 +88,46 @@ block content
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary sharp modal-submit")
 
   script.
-    //- $.fn.editable.defaults.mode = 'inline';
+    $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
+      
+      // checking current data
+      if ("#{volunteer.email}" != '') var email = "#{volunteer.email}";
+      if ("#{volunteer.phone}" != '') var phone = "#{volunteer.phone}";
+      var gender;
+      if ("#{volunteer.gender}" != '') gender = "#{volunteer.gender}";
+      else gender = "blank";
+      if ("#{volunteer.s}" != '') var about = "#{volunteer.as}";
+      if ("#{volunteer.about}" != '') var about = "#{volunteer.about}";
+
+
       $('#first_name').editable({emptytext: 'First Name'});
       $('#last_name').editable({emptytext: 'Last Name'});
+      $('#email').editable({
+        value: email,
+        emptytext: 'Email',
+        validate: function(value) {
+            if($.trim(value) == '') {
+                return "This field can't be empty required";
+            }
+        }
+        });
+      $('#phone').editable({
+        emptytext: 'Phone Number', 
+        value: phone,
+        success: function(response, newValue) {
+          if (response.status == 'error') return response.msg;
+        }
+      });
+      $('#phone').on('shown', function(e, editable) {
+      if (editable) {
+         $(this).data('editable').input.$input.inputmask('+44 999-999-9999');
+      }
+      });
+
+      $('#about').editable({emptytext: 'About Me', value: about});
+      $('#address').editable({emptytext: 'Home Address'});
+      $('#position').editable({emptytext: 'Position'});
       $('#birthdate').editable({
         format: 'YYYY-MM-DD',    
         viewformat: 'DD/MM/YYYY',    
@@ -93,6 +138,16 @@ block content
          },
          emptytext: 'Birthdate'
       });
+      $('#gender').editable({
+        value: gender,
+        source: [
+              {value:"blank", text:"Choose a gender"},
+              {value:"male", text:"Male"},
+              {value:"female", text:"Female"}
+            ]
+      });
+
+
 
       $('#uploadForm').validate({
           rules: {

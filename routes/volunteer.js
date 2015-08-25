@@ -9,8 +9,6 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.post('/photo', function(req,res) {
-  console.log('photo: ');
-  console.log(req);
   if(typeof(req.files.userPhoto.path) != 'undefined') {
     console.log(req.files);
     Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
@@ -27,7 +25,6 @@ router.post('/photo', function(req,res) {
         }
       })
     });
-    // res.end(req.files.userPhoto.path);
   }
   else
     {
@@ -63,7 +60,7 @@ router.post('/new', function(req, res){
 });
 
 router.post('/update', function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email"];
+  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "home_address", "about"];
   var field = req.body.pk;
   console.log(field);
   var value = req.body.value;
@@ -87,7 +84,21 @@ router.post('/update', function (req, res) {
         break;
       case 'email':
         json = {email: value};
-        volunteer.email = value;
+        break;
+      case 'phone':
+        json = {phone: value};
+        break;
+      case 'position':
+        json = {position: value};
+        break;
+      case 'home_address':
+        json = {home_address: value};
+        break;
+      case 'about':
+        value = value.replace(/\r?\n/g, "<br/>");
+        json = {about: value};
+        break;
+      default:
         break;
     }
     volunteer.update(json, { upsert : true }, function(err) {
@@ -104,7 +115,7 @@ router.post('/update', function (req, res) {
   } 
   else {
     console.log("Field doesn't exist");
-    res.sendStatus(303);
+    res.send({status: "error", msg: "Field doesn't exist"});
     // res.end("Field doesn't exist");
   }
 })
