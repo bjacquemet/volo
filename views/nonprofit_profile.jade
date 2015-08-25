@@ -2,25 +2,30 @@ extends layout
 
 block content
   
-  div.container-fluid.profile_container
+  div.container-fluid
     div.row.row-centered
-      div.col-md-10.col-md-offset-1.content
-        .col-md-12
-          .col-md-3
-            img(src="/images/img_bg_placeholder.png")
-          .col-md-6
+      .col-md-12.content.corpo
+        .col-md-12.company_top(style="background-image: url('/images/uni_placeholder.jpg');")
+        .col-md-10.col-md-offset-1
+          .col-md-2.profile_photo.clearfix
+            img(src="/images/square_placeholder.png")
+          .col-md-10
             h3 British Red Cross
-            p Location: <br/>
-              |<em>25 Lexington St <br/>
-              |London W1F 9AG, UK</em> 
-              br
-              |Website: 
-              a(href="http://www.redcross.org.uk/") <em>http://www.redcross.org.uk</em>
-              br
-              |Email: 
-              a(href="mailto:london@redcross.org.uk") <em>london@redcross.org.uk </em>
-              br
-              |Phone Number: <em>555-5555-555</em>
+            .row
+              .col-md-6
+                p 
+                  |Website: 
+                  a(href="http://www.redcross.org.uk/") <em>http://www.redcross.org.uk</em>
+                  br
+                  |Email: 
+                  a(href="mailto:london@redcross.org.uk") <em>london@redcross.org.uk </em>
+                  br
+                  |Phone Number: <em>555-5555-555</em>
+              .col-md-6
+                p
+                  |Location: <br/>
+                  |<em>25 Lexington St <br/>
+                  |London W1F 9AG, UK</em> 
           
           .col-md-12
             br
