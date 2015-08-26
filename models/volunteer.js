@@ -20,7 +20,8 @@ var Volunteer = new Schema({
     discipline: String,
     graduate: String,
     graduation_year: { type: Number, min: 2000, max: 2050 },
-    company: String
+    company: String, 
+    skills: [{type: Schema.Types.ObjectId, ref: "Skill"}]
 });
 
 
