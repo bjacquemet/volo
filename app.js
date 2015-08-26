@@ -17,6 +17,7 @@ var Volunteer = require('./models/volunteer');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
+var skills = require('./routes/skill');
 
 var app = express();
 
@@ -56,6 +57,7 @@ app.use(flash());
 
 app.use('/', routes);
 app.use('/volunteer', volunteers);
+app.use('/skill', skills);
 
 // Passport config
 var Account = require('./models/account');

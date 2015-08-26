@@ -10,6 +10,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get("/photo/:email", function(req,res) {
+    console.log(req.params.email);
     Volunteer.findOne({ email: req.params.email },function(err,volunteer) {
       res.set("Content-Type", volunteer.photo.contentType);
       res.send(volunteer.photo.data );

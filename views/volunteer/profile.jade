@@ -168,14 +168,14 @@ block content
               form(action="#")
                 h4 Nonprofit
                 .form-group.col-md-12.no-gutter
-                  label.col-md-12(for="nonprofit") Nonprofit name *
+                  label.col-md-12.no-gutter(for="nonprofit") Nonprofit name *
                   input.col-md-12(name="nonprofit", input="text", required)
-                  label.col-md-12(for="description") Description of your experience
+                  label.col-md-12.no-gutter(for="description") Description of your experience
                   textarea.col-md-12(name="description", rows="2")
 
                 h4 Activity
                 .form-group.col-md-12.no-gutter
-                  label.col-md-12(for="role") Role
+                  label.col-md-12.no-gutter(for="role") Role
                   //- select(class="role-single select2 col-md-8", required)
                   //-   option()
                   //-   option(value="web_developer") Web Developer
@@ -186,19 +186,15 @@ block content
                   //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
-                      label.col-md-12.text-left(for="skills_role") Skills developed
+                      label.col-md-12.text-left.no-gutter(for="skills") Skills developed
                       //- input.col-md-8(id="skills", name="skills", type="text", required)
-                      select(id="skills_role", class="skills_set select2-multiple col-md-12", multiple, required)
-                        option(value="web") Web
-                        option(value="design") design
-                        option(value="app") App
-                        option(value="UX") UX
+                      select(id="skills", class="skills_set select2-multiple col-md-12", multiple, required)
 
                     .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                      label.col-md-12.text-left(for="hours") Number of hours
+                      label.col-md-12.text-left.no-gutter(for="hours") Number of hours
                       input.col-md-12(name="hours", type="number", required)
 
-                  label.col-md-12.col-sm-12.col-xs-12.text-left(for="s_date") Dates
+                  label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
                       span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
@@ -211,20 +207,20 @@ block content
                 p 
                   |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
                   |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                .form-group.col-md-12
+                .form-group.col-md-12.no-gutter
                   .col-md-6.no-gutter
-                    label.col-md-12(for="referee_name") Referee name *
+                    label.col-md-12.no-gutter(for="referee_name") Referee name *
                     input.col-md-12(name="referee_name", type="text", required)
                   .col-md-6.no-gutter_r
-                    label.col-md-12(for="referee_phone") Referee phone number *
+                    label.col-md-12.no-gutter(for="referee_phone") Referee phone number *
                     input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
 
-                  label.col-md-12(for="referee_email") Referee email *
+                  label.col-md-12.no-gutter(for="referee_email") Referee email *
                   input.col-md-12(name="referee_email", type="email", required)
 
                 h4 Personal Notes
-                .form-group.col-md-12
-                  label.col-md-12(for="note") You can write personal notes - they won't be public.
+                .form-group.col-md-12.no-gutter
+                  label.col-md-12.no-gutter(for="note") You can write personal notes - they won't be public.
                   textarea.col-md-12(name="note", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
 
                 .form-group.col-md-12.text-center
@@ -389,16 +385,24 @@ block content
         return false;
       });    
 
-
+      $.getJSON('/skill/list', function(skills) {
+        if (skills) {
+          $.each(skills, function(i, val){
+            $("#skills").append('<option value='+ val._id + '>'+ val.name +'</option>');
+          });
+        } 
+        console.log(skills);
+      });
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
-        $(".skills_set").select2({maximumSelectionLength: 3,
+        $("#skills").select2({
+          maximumSelectionLength: 3,
           language: {
-                maximumSelected: function () {
-                      return 'Sorry, you can only enter up to 3 skills';
-                    }
-              }
-          });
+            maximumSelected: function () {
+              return 'Sorry, you can only enter up to 3 skills';
+            }
+          }
+        });
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
@@ -408,6 +412,7 @@ block content
           });
         }
       });
+
     });
 
 

@@ -10,7 +10,8 @@ var Activity = new Schema({
     // end_date: Date,
     // hours: Number,
     // validated: {type: String, enum: [pending, accepted, declined]},
-    // decline_reason: String
+    // decline_reason: String,
+    // skills: [{type: Schema.Types.ObjectId, ref: "Skill"}]
 });
 
 

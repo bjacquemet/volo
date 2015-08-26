@@ -19,59 +19,7 @@ block content
                 p #{volunteer.gender}
 
         .col-md-12
-          form(role="form", action="volunteer/new", method="post")
+          form(role="form", action="/skill/new", method="post")
             h3 New
-            input(type='text', name="first_name", placeholder='Enter firstname')
-            input(type='text', name="last_name", placeholder='Enter lastname')
-            label Male
-              input(type="radio", value="male", name="gender")
-            label Female
-              input(type="radio", value="female", name="gender")
+            input(type='text', name="name", placeholder='Skill name')
             input(type="submit")
-
-
-        //- .col-md-12.content.general
-        //-   //- .alert.alert-warning.alert-dismissible(role="alert")
-        //-   //-   button(type="button", class="close", data-dismiss="alert", aria-label="Close")
-        //-   //-     span(aria-hidden="true") &times;
-        //-   //-   p Yo
-        //-   .col-md-2.user-bg
-        //-     a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal")
-        //-       img(src="/volunteer/photo/#{volunteer.email}", class="text-center")
-        //-       p Change photo
-        //-   .col-md-7
-        //-     h3
-        //-       a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
-        //-       | 
-        //-       a(href="#", id="last_name", data-type="text", data-pk="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
-        //-     a(href="#", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
-        //-     p 
-        //-       a(href="#", class="date", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
-        //-   .col-md-12
-        //-   .col-md-6.info
-        //-     p 
-        //-       - if (volunteer.email)
-        //-         a(href="#", data-value="#{volunteer.email}", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
-        //-       - else
-        //-         a(href="#", data-value="", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
-        //-     p 
-        //-       - if (volunteer.phone)
-        //-         a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
-        //-       - else
-        //-         a(href="#", data-value="", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
-        //-     p 
-        //-       - if (volunteer.position)
-        //-         a(href="#", data-value="#{volunteer.position}", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
-        //-       - else
-        //-         a(href="#", data-value="", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
-        //-       |&nbsp;at 
-        //-       - if (volunteer.university)
-        //-         a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
-        //-       - else
-        //-         a(href="#", data-value="", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
-        //-   .col-md-5.col-md-offset-1.info
-        //-     p 
-        //-       a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address")  
-        //-   .col-md-12.col-xs-12.col-sm-12.info
-        //-     p
-        //-       a(href="#", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
