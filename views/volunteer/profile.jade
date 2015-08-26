@@ -31,12 +31,17 @@ block content
 
   .container-fluid.profile_container
     .col-md-7.col-md-offset-1
-      div.row.row-centered
+      .row.row-centered
         .col-md-12
-          .col-md-12.content
+          .col-md-12.content.general
+            //- .alert.alert-warning.alert-dismissible(role="alert")
+            //-   button(type="button", class="close", data-dismiss="alert", aria-label="Close")
+            //-     span(aria-hidden="true") &times;
+            //-   p Yo
             .col-md-2.user-bg
-              img(src="#{volunteer.photo}", class="text-center")
-              a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal") Change photo
+              a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal")
+                img(src="/volunteer/photo/#{volunteer.email}", class="text-center")
+                p Change photo
             .col-md-7
               h3
                 a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
@@ -48,20 +53,108 @@ block content
             .col-md-12
             .col-md-6.info
               p 
-                a(href="#", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")  
+                - if (volunteer.email)
+                  a(href="#", data-value="#{volunteer.email}", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
+                - else
+                  a(href="#", data-value="", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
               p 
-                a(href="#", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                - if (volunteer.phone)
+                  a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                - else
+                  a(href="#", data-value="", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
               p 
-                a(href="#", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position")  
+                - if (volunteer.position)
+                  a(href="#", data-value="#{volunteer.position}", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
+                - else
+                  a(href="#", data-value="", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
                 |&nbsp;at 
-                | <em>Student at Oxford University</em>
+                - if (volunteer.university)
+                  a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                - else
+                  a(href="#", data-value="", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
             .col-md-5.col-md-offset-1.info
               p 
                 a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address")  
             .col-md-12.col-xs-12.col-sm-12.info
               p
                 a(href="#", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
-    
+
+      .row.row-centered
+        .col-md-12
+          .col-md-12.content.XP
+            .col-md-12
+              h2 Experiences
+
+            .col-md-12.XP_form 
+              h3 Add an experience to your volunteer profile
+              form(action="#")
+                h4 Nonprofit
+                .form-group.col-md-12.no-gutter
+                  label.col-md-12(for="nonprofit") Nonprofit name *
+                  input.col-md-12(name="nonprofit", input="text", required)
+                  label.col-md-12(for="description") Description of your experience
+                  textarea.col-md-12(name="description", rows="2")
+
+                h4 Activity
+                .form-group.col-md-12.no-gutter
+                  label.col-md-12(for="role") Role
+                  //- select(class="role-single select2 col-md-8", required)
+                  //-   option()
+                  //-   option(value="web_developer") Web Developer
+                  //-   option(value="designer") Designer
+                  //-   option(value="builder") Builder
+                  //-   option(value="event_organizer") Event Organizer
+                  input.col-md-12(class="role", name="role", type="text", required)
+                  //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
+                  .col-md-12.col-sm-12.col-xs-12.no-gutter
+                    .col-md-6.col-sm-6.col-xs-12.no-gutter
+                      label.col-md-12.text-left(for="skills_role") Skills developed
+                      //- input.col-md-8(id="skills", name="skills", type="text", required)
+                      select(id="skills_role", class="skills_set select2-multiple col-md-12", multiple, required)
+                        option(value="web") Web
+                        option(value="design") design
+                        option(value="app") App
+                        option(value="UX") UX
+
+                    .col-md-6.col-sm-6.col-xs-12.no-gutter_r
+                      label.col-md-12.text-left(for="hours") Number of hours
+                      input.col-md-12(name="hours", type="number", required)
+
+                  label.col-md-12.col-sm-12.col-xs-12.text-left(for="s_date") Dates
+                  .col-md-12.col-sm-12.col-xs-12.no-gutter
+                    .col-md-6.col-sm-6.col-xs-12.no-gutter
+                      span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
+                      input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
+                    .col-md-6.col-sm-6.col-xs-12.no-gutter_r
+                      span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
+                      input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
+
+                h4 Referee
+                p 
+                  |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
+                  |This person should be aged 18 or over, and you must ask their permission before giving us their details.
+                .form-group.col-md-12
+                  .col-md-6.no-gutter
+                    label.col-md-12(for="referee_name") Referee name *
+                    input.col-md-12(name="referee_name", type="text", required)
+                  .col-md-6.no-gutter_r
+                    label.col-md-12(for="referee_phone") Referee phone number *
+                    input.col-md-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
+
+                  label.col-md-12(for="referee_email") Referee email *
+                  input.col-md-12(name="referee_email", type="email", required)
+
+                h4 Personal Notes
+                .form-group.col-md-12
+                  label.col-md-12(for="note") You can write personal notes - they won't be public.
+                  textarea.col-md-12(name="note", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+
+                .form-group.col-md-12.text-center
+                  input(type="submit", value="Save this experience", class="btn primary sharp")
+
+            .col-md-12.add
+              a(href="#", id="addXP")
+                p.text-center Add an experience
     .col-md-3
       div.row.row-centered
         .col-md-12.content
@@ -92,11 +185,13 @@ block content
     $(document).ready(function() {
       
       // checking current data
-      if ("#{volunteer.email}" != '') var email = "#{volunteer.email}";
-      if ("#{volunteer.phone}" != '') var phone = "#{volunteer.phone}";
+      //- if ("#{volunteer.email}" != '') var email = "#{volunteer.email}";
       var gender;
       if ("#{volunteer.gender}" != '') gender = "#{volunteer.gender}";
       else gender = "blank";
+      var position;
+      if ("#{volunteer.position}" != '') position = "#{volunteer.position}";
+      else position = "";
 
 
       $('#first_name').editable({emptytext: 'First Name'});
@@ -125,7 +220,16 @@ block content
 
       $('#about').editable({emptytext: 'About Me', value: "#{volunteer.about}"});
       $('#address').editable({emptytext: 'Home Address'});
-      $('#position').editable({emptytext: 'Position'});
+      $('#position').editable({
+        emptytext: 'Position',
+        value: position,
+        source: [
+              {value:"student", text:"Student"},
+              {value:"employed", text:"Employed"},
+              {value:"unemployed", text:"Unemployed"}
+            ]
+      });
+      $('#university').editable({emptytext: 'University'});
       $('#birthdate').editable({
         format: 'YYYY-MM-DD',    
         viewformat: 'DD/MM/YYYY',    
@@ -144,8 +248,6 @@ block content
               {value:"female", text:"Female"}
             ]
       });
-
-
 
       $('#uploadForm').validate({
           rules: {
@@ -178,6 +280,25 @@ block content
         return false;
       });    
 
+
+      $('#addXP').on('click', function(){
+        $(".XP_form").fadeIn();
+        $(".skills_set").select2({maximumSelectionLength: 3,
+          language: {
+                maximumSelected: function () {
+                      return 'Sorry, you can only enter up to 3 skills';
+                    }
+              }
+          });
+        $('html, body').animate({
+            scrollTop: $(".XP").offset().top
+          }, "slow");
+        if ($(".role_form").is(":visible")) {
+          $(".role_form").hide().removeClass('height-auto').parent().addClass('text-center').removeClass('no-hover').parent().switchClass("col-md-12", "col-md-6", 500, function(){
+          $(".add_new").removeClass('hide_it').show();
+          });
+        }
+      });
     });
 
 

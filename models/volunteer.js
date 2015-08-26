@@ -7,7 +7,7 @@ var Volunteer = new Schema({
     last_name: String,
     email: {type: String, unique: true},
     birthdate: Date,
-    photo: String,
+    photo: { data: Buffer, contentType: String, path: String },
     uni_email: String,
     gender: String,
     phone: String,

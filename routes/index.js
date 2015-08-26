@@ -4,6 +4,7 @@ var Account = require('../models/account');
 var Volunteer = require('../models/volunteer');
 var router = express.Router();
 var moment = require('moment');
+var fs = require('fs');
 
 function ensureAuthenticated(req, res, next) {
   if (req.user) { return next(); }
@@ -25,6 +26,7 @@ router.post('/register', function(req, res) {
     {
       var usertype = ['volunteer', req.body.usertype];
     }
+    else var usertype = ['volunteer']; 
     Account.register(new Account(
       { 
         username : req.body.username, 
@@ -38,10 +40,10 @@ router.post('/register', function(req, res) {
         passport.authenticate('local')(req, res, function () {
           // If volunteer, create volunteer account
             var newVolunteer = Volunteer({
-              account_id: req.user._id,
+              account_id: account._id,
               first_name: req.body.first_name,
               last_name: req.body.last_name,
-              photo: '/images/placeholder.png',
+              photo: {data: fs.readFileSync('./public/images/placeholder.png'), contentType: 'image/png', path: 'images/placeholder.png'},
               email: req.body.email
             });
             newVolunteer.save(function(err) {

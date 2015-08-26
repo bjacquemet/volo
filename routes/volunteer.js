@@ -2,18 +2,25 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var Volunteer = require('../models/volunteer');
+var fs = require('fs');
 
 function ensureAuthenticated(req, res, next) {
   if (req.user) { return next(); }
   res.redirect('../login')
 }
 
+router.get("/photo/:email", function(req,res) {
+    Volunteer.findOne({ email: req.params.email },function(err,volunteer) {
+      res.set("Content-Type", volunteer.photo.contentType);
+      res.send(volunteer.photo.data );
+    });
+});
+
 router.post('/photo', function(req,res) {
   if(typeof(req.files.userPhoto.path) != 'undefined') {
     console.log(req.files);
     Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
-      var photo_url = req.files.userPhoto.path.substring(6);
-      var json = {photo: photo_url};
+      var json = {photo: {data: fs.readFileSync(req.files.userPhoto.path), contentType: req.files.userPhoto.mimetype, path: req.files.userPhoto.path.substring(6)}};
       volunteer.update(json, { upsert : true }, function(err) {
         if (err) {
            throw err;
