@@ -384,7 +384,8 @@ block content
         });
         return false;
       });    
-
+      
+      // Preload skills
       $.getJSON('/skill/list', function(skills) {
         if (skills) {
           $.each(skills, function(i, val){
@@ -393,6 +394,25 @@ block content
         } 
         console.log(skills);
       });
+
+      // Preload roles
+      var role_array = [];
+      $.getJSON('/role/list', function(roles){
+        if (roles) {
+          $.each(roles, function(i, val){
+            role_array.push({data: val._id, value: val.name});
+          });
+        }
+        console.log(role_array);
+      });
+
+      $('.role').autocomplete({
+          lookup: role_array,
+          onSelect: function (suggestion) {
+          }
+      });
+
+
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
         $("#skills").select2({

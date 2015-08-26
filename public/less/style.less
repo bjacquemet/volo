@@ -211,13 +211,17 @@ h1.logo {
   }
 }
 
-.bckground-header {
-  background-color: #7a7a7a;
+.background-header {
+  background-color: @volo-green;
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0px;
   height: 400px;
   h1, h2{
     position: relative;
-    top: 45%;
+    color:@brand-primary;
+    background-color: fade(white,80%);
+    top: 40%;
     transform: translateY(-50%);
     margin:0;
   }
@@ -375,7 +379,7 @@ h1.logo {
 .XP_form {
   background-color: fade(@brand-primary, 5%);
   margin-bottom: @profile-margin;
-  // display: none;
+  display: none;
   label{margin-bottom: 0px;margin-top: 5px;}
   p {
     font-size: @font-size-base *0.9;
