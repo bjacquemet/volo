@@ -103,6 +103,7 @@ nav {
     margin-bottom: 0px;
   }
   .navbar-right{
+    margin-top: 5px;
     ul:not(.dropdown-menu) li:first-child a{
       background-color: @volo-green;
       color: black;
@@ -186,6 +187,13 @@ h1.logo {
   padding: 27px 0px;
   h1, h2 {
     margin-top: 0px;
+  }
+}
+
+.general {
+  h4{
+    margin: 0px;
+    margin-top:13px;
   }
 }
 
@@ -292,8 +300,9 @@ h1.logo {
   margin-left: 10px;
 }
 
-.date {
+.editable:not(#first_name):not(#last_name) {
   font-weight: 400;
+  font-size: @font-size-base*1.02;
 }
 #changeImg p{
   font-size: @font-size-base*0.85;

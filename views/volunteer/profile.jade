@@ -1,6 +1,13 @@
 extends ../layout
 
 block content
+  -function format_date(date){
+  - var newDate = new Date(date);
+  - var y = newDate.getFullYear();
+  - var m = newDate.getMonth();
+  - var d = newDate.getDate();
+  - return y+'/'+m+'/'+d;
+  -}
   //- inline editing
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
   //- input mask for phone number
@@ -47,11 +54,18 @@ block content
                 a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
                 | 
                 a(href="#", id="last_name", data-type="text", data-pk="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
-              a(href="#", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
+              - if (volunteer.gender)
+                a(href="#", data-value="#{volunteer.gender}", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
+              - else
+                a(href="#", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
               p 
-                a(href="#", class="date", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
-            .col-md-12
-            .col-md-6.info
+                - if (volunteer.birthdate)
+                  a(href="#", data-value="#{format_date(volunteer.birthdate)}" id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
+                - else
+                  a(href="#", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
+            .col-md-12.col-xs-12.col-sm-12
+            .col-md-6.col-sm-6.col-xs-12.info
+              h4 Contacts
               p 
                 - if (volunteer.email)
                   a(href="#", data-value="#{volunteer.email}", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
@@ -62,22 +76,86 @@ block content
                   a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
                 - else
                   a(href="#", data-value="", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+            .col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-12.info
+              h4 &nbsp;
+              p 
+                - if (volunteer.home_address)
+                  a(href="#", data-value="#{volunteer.home_address}", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                - else
+                  a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+            .col-md-12.col-xs-12.col-sm-12.info
+              h4 Position
               p 
                 - if (volunteer.position)
                   a(href="#", data-value="#{volunteer.position}", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
                 - else
-                  a(href="#", data-value="", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
-                |&nbsp;at 
-                - if (volunteer.university)
+                  a(href="#", data-value="", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)   
+                - if (volunteer.position == 'student' && volunteer.university)
+                  |&nbsp;at 
                   a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
-                - else
+                  p 
+                  - if (volunteer.graduate && volunteer.discipline)
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else if (volunteer.graduate && !volunteer.discipline)
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else if (!volunteer.graduate && volunteer.discipline)
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - if (volunteer.graduation_year)
+                    |&nbsp;in 
+                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                  - else
+                    |&nbsp;in 
+                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                - else if (volunteer.position == 'student' && !volunteer.university)
+                  |&nbsp;at 
                   a(href="#", data-value="", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
-            .col-md-5.col-md-offset-1.info
-              p 
-                a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address")  
+                  p 
+                  - if (volunteer.graduate && volunteer.discipline)
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else if (volunteer.graduate && !volunteer.discipline)
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else if (!volunteer.graduate && volunteer.discipline)
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - else
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    |&nbsp;in 
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                  - if (volunteer.graduation_year)
+                    |&nbsp;graduating in  
+                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                  - else
+                    |&nbsp;graduating in 
+                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+
+                - if (volunteer.position == 'employed' && volunteer.company)
+                  |&nbsp;at 
+                  a(href="#", data-value="#{volunteer.company}", id="company", data-type="text", data-pk="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
+                - else if (volunteer.position == 'employed' && !volunteer.company)
+                  |&nbsp;at 
+                  a(href="#", data-value="", id="company", data-type="text", data-pk="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
             .col-md-12.col-xs-12.col-sm-12.info
+              h4 About me
               p
-                a(href="#", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
+                - if (volunteer.about)
+                  a(href="#", data-value="#{volunteer.about}", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
+                - else
+                  a(href="#", data-value="", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
 
       .row.row-centered
         .col-md-12
@@ -186,16 +264,20 @@ block content
       
       // checking current data
       //- if ("#{volunteer.email}" != '') var email = "#{volunteer.email}";
-      var gender;
-      if ("#{volunteer.gender}" != '') gender = "#{volunteer.gender}";
-      else gender = "blank";
-      var position;
-      if ("#{volunteer.position}" != '') position = "#{volunteer.position}";
-      else position = "";
+
 
 
       $('#first_name').editable({emptytext: 'First Name'});
       $('#last_name').editable({emptytext: 'Last Name'});
+      $('#graduate').editable({
+        emptytext: 'Level',
+        source: [
+              {value:"undergraduate", text:"Undergraduate"},
+              {value:"postgraduate", text:"Postgraduate"},
+            ]
+        });
+      $('#graduation_year').editable({emptytext: 'Graduation year'});
+      $('#discipline').editable({emptytext: 'Discipline'});
       $('#email').editable({
         value: email,
         emptytext: 'Email',
@@ -217,19 +299,39 @@ block content
          $(this).data('editable').input.$input.inputmask('+44 999-999-9999');
       }
       });
-
-      $('#about').editable({emptytext: 'About Me', value: "#{volunteer.about}"});
+      
+      $('#company').editable({emptytext: 'Company'});
+      $('#about').editable({emptytext: 'About Me'});
+      $('#about').on('shown', function(e, editable){
+          $('.editable-container').css("width", "90%");
+          $('.form-group').css("width", "90%");
+          $('.editable-input').css("width", "90%");
+          $('textarea').css("width", "100%");
+          });
       $('#address').editable({emptytext: 'Home Address'});
       $('#position').editable({
         emptytext: 'Position',
-        value: position,
         source: [
               {value:"student", text:"Student"},
               {value:"employed", text:"Employed"},
               {value:"unemployed", text:"Unemployed"}
             ]
       });
-      $('#university').editable({emptytext: 'University'});
+      $("#position").on('save', function(e, params){
+          switch(params.newValue)
+            {
+              case 'student':
+                location.reload();
+                break;
+              case 'unemployed':
+                location.reload();
+                break;
+              case "employed":
+                location.reload();
+                break;
+            }
+        });
+
       $('#birthdate').editable({
         format: 'YYYY-MM-DD',    
         viewformat: 'DD/MM/YYYY',    
@@ -241,11 +343,18 @@ block content
          emptytext: 'Birthdate'
       });
       $('#gender').editable({
-        value: gender,
+        emptytext: "Gender",
         source: [
-              {value:"blank", text:"Choose a gender"},
               {value:"male", text:"Male"},
               {value:"female", text:"Female"}
+            ]
+      });
+
+      $('#university').editable({
+        emptytext: 'University',
+        source: [
+              {value:"westminster", text:"University of Westminster"},
+              {value:"city", text:"City University"}
             ]
       });
 

@@ -67,7 +67,7 @@ router.post('/new', function(req, res){
 });
 
 router.post('/update', function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "home_address", "about"];
+  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "home_address", "about", "university", "discipline","company", "graduation_year", "graduate"];
   var field = req.body.pk;
   console.log(field);
   var value = req.body.value;
@@ -103,6 +103,21 @@ router.post('/update', function (req, res) {
         break;
       case 'about':
         json = {about: value};
+        break;
+      case 'university':
+        json = {university: value};
+        break;
+      case 'company':
+        json = {company: value};
+        break;
+      case 'graduate':
+        json = {graduate: value};
+        break;
+      case 'graduation_year':
+        json = {graduation_year: value};
+        break;
+      case 'discipline':
+        json = {discipline: value};
         break;
       default:
         break;
