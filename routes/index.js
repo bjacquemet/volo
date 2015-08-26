@@ -63,7 +63,7 @@ router.post('/register', function(req, res) {
 router.get('/login', function(req, res) {
     res.render('login', { user : req.user, info: req.flash('error') });
 });
-router.post('/login', passport.authenticate('local', { successRedirect: '/',
+router.post('/login', passport.authenticate('local', { successRedirect: '/volunteer',
                                    failureRedirect: '/login',
                                    failureFlash: true }));
 
