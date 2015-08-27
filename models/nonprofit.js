@@ -14,7 +14,8 @@ var Nonprofit = new Schema({
     // tax_id: String,
     // registered: Boolean,
     // team_member: [{type: Schema.Types.ObjectId, ref: 'Volunteer'}],
-    // main: {type: Schema.Types.ObjectId, ref: 'Volunteer'}
+    // main: {type: Schema.Types.ObjectId, ref: 'Volunteer'},
+    // suggested_by_volunteer: Boolean
 });
 
 

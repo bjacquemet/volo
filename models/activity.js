@@ -11,7 +11,8 @@ var Activity = new Schema({
     // hours: Number,
     // validated: {type: String, enum: [pending, accepted, declined]},
     // decline_reason: String,
-    // skills: [{type: Schema.Types.ObjectId, ref: "Skill"}]
+    // skills: [{type: Schema.Types.ObjectId, ref: "Skill"}],
+    // referee:{name: String, phone_number: String, email: String}
 });
 
 
