@@ -166,14 +166,14 @@ block content
                 h4 Nonprofit
                 .form-group.col-md-12.no-gutter
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="nonprofit") Nonprofit name *
-                  input.col-md-12.col-sm-12.col-xs-12(name="nonprofit", input="text", required)
+                  select.col-md-12.col-sm-12.col-xs-12(id="nonprofit", class="select2-single", required)
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="description") Description of your experience
                   textarea.col-md-12.col-sm-12.col-xs-12(name="description", rows="2")
 
                 h4 Activity
                 .form-group.col-md-12.no-gutter
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
-                  select.col-md-12.col-sm-12.col-xs-12(id="roles", class="select2-single", required)
+                  select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single", required)
                   //- input.col-md-12.col-sm-12.col-xs-12(class="role", name="role", type="text", required)
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
@@ -376,7 +376,7 @@ block content
         return false;
       });    
       
-      // Preload external data function for skills + roles
+      // Preload external data function for skills + role
       function loadExternalData(listName, id) {
         $.getJSON('/'+listName+'/list', function(listName) {
           $(id).empty();
@@ -391,11 +391,13 @@ block content
       }
 
       loadExternalData('skill', "#skills");
-      loadExternalData('role', "#roles");
+      loadExternalData('role', "#role");
+      loadExternalData('nonprofit', "#nonprofit");
 
       $('#addXP').on('click', function(e){
         e.preventDefault();
         $(".XP_form").fadeIn();
+        
         $("#skills").select2({
           placeholder: "Select up to 3 skills",
           maximumSelectionLength: 3,
@@ -405,15 +407,15 @@ block content
             }
           }
         });
-        $("#roles").select2({
-          maximumSelectionLength: 3,
+        
+        $("#role").select2({
           placeholder: "Select a role",
-          language: {
-            maximumSelected: function () {
-              return 'Sorry, you can only select one role';
-            }
-          }
         });
+
+        $("#nonprofit").select2({
+          placeholder: "Select a nonprofit",
+        });
+
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
