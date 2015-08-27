@@ -4,7 +4,7 @@ var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 
 router.get("/list", function(req,res) {
-    Experience.find({}).select('volunteer_id nonprofit_id description start_date end_date sum_validated_hours').exec(function(err,experience) {
+    Experience.find({}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experience) {
       res.send(experience);
     });
 });
@@ -32,8 +32,8 @@ router.post("/new", function(req,res) {
   // }
   var newExperience = Experience(
   {
-    volunteer_id: v_id,
-    nonprofit_id: n_id,
+    volunteer: v_id,
+    nonprofit: n_id,
     description: desc
   });
   newExperience.save(function (err, experience) {
@@ -43,8 +43,9 @@ router.post("/new", function(req,res) {
       // res.sendStatus(201);
       var newActivity = Activity(
       {
-        experience_id: experience._id,
-        role_id: role,
+        experience: experience._id,
+        volunteer: v_id,
+        role: role,
         skills: skills,
         start_date: start_date,
         end_date: end_date,

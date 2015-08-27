@@ -165,7 +165,7 @@ block content
               form(action="/experience/new", method="POST")
                 h4 Nonprofit
                 .form-group.col-md-12.no-gutter
-                  input(type="hidden", name="volunteer", value="#{user._id}")
+                  input(type="hidden", name="volunteer", value="#{volunteer._id}")
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="nonprofit") Nonprofit name *
                   select.col-md-12.col-sm-12.col-xs-12(id="nonprofit", name="nonprofit", class="select2-single", required)
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="description") Description of your experience

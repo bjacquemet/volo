@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var Volunteer = require('../models/volunteer');
+var Activity = require('../models/activity');
 var fs = require('fs');
 
 function ensureAuthenticated(req, res, next) {
@@ -41,12 +42,23 @@ router.post('/photo', function(req,res) {
 });
 
 router.get('/', ensureAuthenticated, function(req, res, next) {
-  Volunteer.findOne({account_id: req.user._id}, function (err, result) {
+  Volunteer.findOne({account_id: req.user._id}).exec(function (err, volunteer) {
+    console.log('volunteer');
+    console.log(volunteer);
     if (err) {
-      throw err;
-      // res.redirect('/');
+      console.log(err);
     }
-    res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: result });
+    else {
+      console.log('in da house');
+      Activity.find({volunteer: volunteer._id}).populate('experience').exec(function (err, activities) {
+        if (err) {
+          console.log(err);
+        }   
+        else console.log(activities);      
+        
+        res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, activities: activities });
+      });
+    }
   });
 });
 

@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Activity = new Schema({
-    experience_id: {type: Schema.Types.ObjectId, ref: "Experience", required:true},
+    experience: {type: Schema.Types.ObjectId, ref: "Experience", required:true},
+    volunteer: {type: Schema.Types.ObjectId, ref: "Volunteer", required:true },
     // manager_id: {type: Schema.Types.ObjectId, ref: "Manager"}
-    role_id: {type: Schema.Types.ObjectId, ref: "Role", required:true},
+    role: {type: Schema.Types.ObjectId, ref: "Role", required:true},
     feedback: String,
     start_date: {type: Date, required:true},
     end_date: {type: Date},
