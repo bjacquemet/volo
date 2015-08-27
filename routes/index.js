@@ -11,16 +11,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login')
 }
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Home', user: req.user });
-});
-
-// REGISTER
-router.get('/register', function(req, res) {
-    res.render('register', { });
-});
-
 router.post('/register', function(req, res) {
     if (req.body.usertype != 'volunteer')
     {
@@ -59,7 +49,14 @@ router.post('/register', function(req, res) {
     });
 });
 
-// LOG IN
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Home', user: req.user });
+});
+
+router.get('/register', function(req, res) {
+    res.render('register', { });
+});
+
 router.get('/login', function(req, res) {
     res.render('login', { user : req.user, info: req.flash('error') });
 });
@@ -72,11 +69,14 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-// Forgot password
+// Forgot password - To be done
 router.get('/forgot', function(req, res) {
   res.render('forgot', {user: req.user})
 });
 
+///////////////////////////////////////////////////////////
+///////////// Static pages for wireframing ///////////////
+/////////////////////////////////////////////////////////
 
 // volunteer private profile
 router.get('/profile', function(req, res, next) {
@@ -113,7 +113,7 @@ router.get('/volunteers', function(req, res, next) {
   res.render('volunteers', { title: 'Volunteer public profile', user: req.user });
 });
 
-// volunteers page
+// volunteer result page
 router.get('/volunteer_result', function(req, res, next) {
   res.render('volunteer_result', { title: 'Volunteer result list', user: req.user });
 });
@@ -144,6 +144,7 @@ router.get('/n_validation', function(req, res, next) {
 });
 
 
+// Test page
 router.get('/profiles', function(req, res, next) {
   var volunteers = Volunteer.find({}, function(err, results)
     {

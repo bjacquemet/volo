@@ -40,7 +40,8 @@ router.post("/new", function(req,res) {
     if (err) console.log(err);
     else {
       console.log(experience._id);
-      // res.sendStatus(201);
+
+      // To be change: POST to /activity/new
       var newActivity = Activity(
       {
         experience: experience._id,
@@ -59,9 +60,14 @@ router.post("/new", function(req,res) {
           email: referee_email
         }
       });
-      newActivity.save(function (err) {
+      newActivity.save(function (err, activity) {
         if (err) console.log(err);
-        else res.sendStatus(201);
+        else {
+          Experience.findByIdAndUpdate(experience._id, { $push: {activities: activity._id}}, function(err, exp) {
+            if (err) console.log(err);
+            else res.sendStatus(201);
+          });  
+        }  
       });
     }
   })

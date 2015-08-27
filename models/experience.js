@@ -7,7 +7,8 @@ var Experience = new Schema({
     description: String,
     start_date: Date,
     end_date: Date,
-    sum_validated_hours: Number
+    sum_validated_hours: Number,
+    activities: [{type: Schema.Types.ObjectId, ref: "Activity"}]
 });
 
 
