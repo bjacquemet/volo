@@ -2,13 +2,18 @@ var express = require('express');
 var router = express.Router();
 var Role = require('../models/role');
 
-router.get("/list", function(req,res) {
-    Role.find({},function(err,role) {
+function ensureAuthenticated(req, res, next) {
+  if (req.user) { return next(); }
+  res.sendStatus(401);
+}
+
+router.get("/list", ensureAuthenticated, function(req,res) {
+    Role.find({}).select('_id name').exec(function(err,role) {
       res.send(role);
     });
 });
 
-router.post("/new", function(req,res) {
+router.post("/new", ensureAuthenticated, function(req,res) {
   var name = req.body.name;
   if (Object.prototype.toString.call(name) === '[object Array]')
   {

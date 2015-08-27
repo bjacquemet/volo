@@ -22,9 +22,6 @@ block content
   script(src="/javascripts/bootstrap-formhelpers-phone.js")
   script(src="/javascripts/bootstrap-formhelpers-countries.js")
   
-  //- autocomplete for roles
-  script(src="/javascripts/jquery.autocomplete.min.js")  
-
   script(src="/javascripts/Chart.js")
   script(src="/javascripts/goal.js")  
 
@@ -80,9 +77,9 @@ block content
               h4 &nbsp;
               p 
                 - if (volunteer.postcode)
-                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="textarea", data-pk="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="text", data-pk="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
                 - else
-                  a(href="#", id="postcode", data-type="textarea", data-pk="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
+                  a(href="#", id="postcode", data-type="text", data-pk="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
             .col-md-12.col-xs-12.col-sm-12.info
               h4 Position
               p 
@@ -177,7 +174,6 @@ block content
                 .form-group.col-md-12.no-gutter
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
                   select.col-md-12.col-sm-12.col-xs-12(id="roles", class="select2-single", required)
-                    <option></option>
                   //- input.col-md-12.col-sm-12.col-xs-12(class="role", name="role", type="text", required)
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
@@ -380,36 +376,25 @@ block content
         return false;
       });    
       
-      // Preload skills
-      $.getJSON('/skill/list', function(skills) {
-        if (skills) {
-          $.each(skills, function(i, val){
-            $("#skills").append('<option value='+ val._id + '>'+ val.name +'</option>');
-          });
-        } 
-        console.log(skills);
-      });
+      // Preload external data function for skills + roles
+      function loadExternalData(listName, id) {
+        $.getJSON('/'+listName+'/list', function(listName) {
+          $(id).empty();
+          if (listName) {
+            $(id).append('<option></option>');
+            $.each(listName, function(i, val){
+              $(id).append('<option value='+ val._id + '>'+ val.name +'</option>');
+            });
+          } 
+          console.log(listName);
+        });
+      }
 
-      // Preload roles
-      var role_array = [];
-      $.getJSON('/role/list', function(roles){
-        if (roles) {
-          $.each(roles, function(i, val){
-            //- role_array.push({data: val._id, value: val.name});
-            $("#roles").append('<option value='+ val._id + '>'+ val.name +'</option>');
-          });
-        }
-        console.log(role_array);
-      });
+      loadExternalData('skill', "#skills");
+      loadExternalData('role', "#roles");
 
-      //- $('.role').autocomplete({
-      //-     lookup: role_array,
-      //-     onSelect: function (suggestion) {
-      //-     }
-      //- });
-
-
-      $('#addXP').on('click', function(){
+      $('#addXP').on('click', function(e){
+        e.preventDefault();
         $(".XP_form").fadeIn();
         $("#skills").select2({
           placeholder: "Select up to 3 skills",

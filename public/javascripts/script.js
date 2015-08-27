@@ -4,9 +4,5 @@ $(document).ready(function(){
       $('ul.nav a').filter(function() {
           return this.href == url;
       }).parent().addClass('active');
-
-  $("#addXP").on("click", function(e) {
-    e.preventDefault();
-  })
 });
 

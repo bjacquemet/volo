@@ -2,13 +2,18 @@ var express = require('express');
 var router = express.Router();
 var Skill = require('../models/skill');
 
-router.get("/list", function(req,res) {
-    Skill.find({},function(err,skill) {
+function ensureAuthenticated(req, res, next) {
+  if (req.user) { return next(); }
+  res.sendStatus(401);
+}
+
+router.get("/list", ensureAuthenticated, function(req,res) {
+    Skill.find({}).select('_id name').exec(function(err,skill) {
       res.send(skill);
     });
 });
 
-router.post("/new", function(req,res) {
+router.post("/new", ensureAuthenticated, function(req,res) {
   var name = req.body.name;
   if (Object.prototype.toString.call(name) === '[object Array]')
   {
