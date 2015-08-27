@@ -79,10 +79,10 @@ block content
             .col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-12.info
               h4 &nbsp;
               p 
-                - if (volunteer.home_address)
-                  a(href="#", data-value="#{volunteer.home_address}", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                - if (volunteer.postcode)
+                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="textarea", data-pk="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
                 - else
-                  a(href="#", id="address", data-type="textarea", data-pk="home_address", data-placeholder="Address", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                  a(href="#", id="postcode", data-type="textarea", data-pk="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
             .col-md-12.col-xs-12.col-sm-12.info
               h4 Position
               p 
@@ -176,19 +176,14 @@ block content
                 h4 Activity
                 .form-group.col-md-12.no-gutter
                   label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
-                  //- select(class="role-single select2 col-md-8", required)
-                  //-   option()
-                  //-   option(value="web_developer") Web Developer
-                  //-   option(value="designer") Designer
-                  //-   option(value="builder") Builder
-                  //-   option(value="event_organizer") Event Organizer
-                  input.col-md-12.col-sm-12.col-xs-12(class="role", name="role", type="text", required)
-                  //- input(type="text", autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false", class="select2-input skill-multiple col-md-8")
+                  select.col-md-12.col-sm-12.col-xs-12(id="roles", class="select2-single", required)
+                    <option></option>
+                  //- input.col-md-12.col-sm-12.col-xs-12(class="role", name="role", type="text", required)
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
                       label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
                       //- input.col-md-8(id="skills", name="skills", type="text", required)
-                      select.col-sm-12.col-xs-12(id="skills", class="skills_set select2-multiple col-md-12", multiple, required)
+                      select.col-md-12.col-sm-12.col-xs-12(id="skills", class="select2-multiple", multiple, required)
 
                     .col-md-6.col-sm-6.col-xs-12.no-gutter_r
                       label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
@@ -304,7 +299,7 @@ block content
           $('.editable-input').css("width", "90%");
           $('textarea').css("width", "100%");
           });
-      $('#address').editable({emptytext: 'Home Address'});
+      $('#postcode').editable({emptytext: 'Postcode'});
       $('#position').editable({
         emptytext: 'Position',
         source: [
@@ -400,26 +395,37 @@ block content
       $.getJSON('/role/list', function(roles){
         if (roles) {
           $.each(roles, function(i, val){
-            role_array.push({data: val._id, value: val.name});
+            //- role_array.push({data: val._id, value: val.name});
+            $("#roles").append('<option value='+ val._id + '>'+ val.name +'</option>');
           });
         }
         console.log(role_array);
       });
 
-      $('.role').autocomplete({
-          lookup: role_array,
-          onSelect: function (suggestion) {
-          }
-      });
+      //- $('.role').autocomplete({
+      //-     lookup: role_array,
+      //-     onSelect: function (suggestion) {
+      //-     }
+      //- });
 
 
       $('#addXP').on('click', function(){
         $(".XP_form").fadeIn();
         $("#skills").select2({
+          placeholder: "Select up to 3 skills",
           maximumSelectionLength: 3,
           language: {
             maximumSelected: function () {
-              return 'Sorry, you can only enter up to 3 skills';
+              return 'Sorry, you can only select up to 3 skills';
+            }
+          }
+        });
+        $("#roles").select2({
+          maximumSelectionLength: 3,
+          placeholder: "Select a role",
+          language: {
+            maximumSelected: function () {
+              return 'Sorry, you can only select one role';
             }
           }
         });

@@ -9,14 +9,25 @@ router.get("/list", function(req,res) {
 });
 
 router.post("/new", function(req,res) {
-  console.log(req.body.name);
+  var name = req.body.name;
+  if (Object.prototype.toString.call(name) === '[object Array]')
+  {
+    var name_is_array = true;
+    name = name[0];
+  }
   var newRole = Role(
   {
-    name: req.body.name
+    name: name
   });
   newRole.save(function (err) {
     if (err) throw err;
-    else res.sendStatus(201);
+    else {
+      if (name_is_array)
+      {
+        res.status(201).send('Only ' + name + ' has been created. Only one role can be set at a time');
+      }
+      else res.sendStatus(201);
+    }
   })
 });
 
