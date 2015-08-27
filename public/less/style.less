@@ -504,11 +504,17 @@ h1.logo {
 }
 
 // Select2 custom
-.select2-selection--multiple, .select2-selection--single{
+.select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single{
   border-radius: 0 !important;
   border: 1px solid #ccc !important;
-  font-size: @font-size-base *0.9;
+  font-size: @font-size-base *0.78;
   line-height: @line-height-base *0.8;
+  .select2-selection__choice
+  {
+    margin-top: 4px;
+    padding: 3px 5px;
+    .rounded(2px) !important;
+  }
 }
 
 // Autocomplete custom
