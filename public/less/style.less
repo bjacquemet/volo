@@ -50,6 +50,8 @@ a {
   }
 }
 
+.placeholder-font-size(@font-size-base*0.9);
+
 .liner {
   font-size: @font-size-base * 1.1;
   line-height: @line-height-base * 1.1;
@@ -62,12 +64,28 @@ a {
    margin-left: 0 !important;margin-right: 0 !important;
 }
 .no-gutter_r {
-  padding-right: 0 !important;
-  margin-right: 0 !important;
+  @media screen {
+    @media (min-width:@screen-sm-min) {
+      padding-right: 0 !important;
+      margin-right: 0 !important;
+    }
+    @media (max-width:@screen-xs-max) {
+      padding-left: 0 !important;padding-right: 0 !important;
+      margin-left: 0 !important;margin-right: 0 !important;
+    }
+  }
 }
 .no-gutter_l {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
+  @media screen {
+    @media (min-width:@screen-sm-min) {
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+    }
+    @media (max-width:@screen-sm-max) {
+      padding-left: 0 !important;padding-right: 0 !important;
+      margin-left: 0 !important;margin-right: 0 !important;
+    }
+  }
 }
 
 .break {
@@ -93,7 +111,7 @@ nav {
   #navbar {
     text-align: center;
     @media screen {
-      @media (max-width:992px) {
+      @media (max-width:@screen-sm-max) {
         text-align: right;
       }
     }
@@ -137,7 +155,7 @@ nav {
   }
   .welcome {
     @media screen {
-      @media (max-width:992px) {
+      @media (max-width:@screen-sm-max) {
         margin-bottom: 10px;
       }
     }
@@ -175,7 +193,7 @@ h1.logo {
   margin-top: 0px;
   margin-bottom: 0px;
     @media screen {
-      @media (max-width:767px) {
+      @media (max-width:@screen-sm-max) {
         background-position: top center;
       }
     }

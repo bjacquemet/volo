@@ -65,11 +65,29 @@
   &:-moz-placeholder {
     line-height: @height;
   }
+  &::-moz-placeholder {
+    line-height: @height;
+  }
   &::-webkit-input-placeholder {
     line-height: @height;
   }
   &.placeholder {
     line-height: @height;
+  }
+}
+
+.placeholder-font-size(@font-size) {
+  &::-webkit-input-placeholder {
+    font-size: @font-size;
+  }
+  &:-moz-placeholder {
+    font-size: @font-size;
+  }
+  &::-moz-placeholder {
+    font-size: @font-size;
+  }
+  &:-ms-input-placeholder {  
+    font-size: @font-size;
   }
 }
 
