@@ -45,7 +45,7 @@ router.post('/photo', function(req,res) {
 
 router.get('/edit', ensureAuthenticated, function(req, res, next) {
   Volunteer.findOne({account_id: req.user._id}).exec(function (err, volunteer) {
-    if (err) {
+    if (err || !volunteer) {
       console.log(err);
     }
     else {
@@ -54,6 +54,7 @@ router.get('/edit', ensureAuthenticated, function(req, res, next) {
         port: process.env.port || 3000,
         path: '/experience/volunteer/' + volunteer._id
       };
+      console.log("IP = " + process.env.IP);
       http.get(options, function(response){
         var jsonObject = '';
         response.on('data', function (d){
