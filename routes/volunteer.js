@@ -50,8 +50,8 @@ router.get('/edit', ensureAuthenticated, function(req, res, next) {
     }
     else {
       var options = {
-        host: process.env.HOST || "localhost",
-        port: process.env.PORT || 3000,
+        host: process.env.HOST || "localhost:3000",
+        // port: process.env.PORT || 3000,
         path: '/experience/volunteer/' + volunteer._id
       };
       http.get(options, function(response){
