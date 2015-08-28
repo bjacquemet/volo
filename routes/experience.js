@@ -4,8 +4,14 @@ var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 
 router.get("/list", function(req,res) {
-    Experience.find({}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experience) {
-      res.send(experience);
+    Experience.find({}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experiences) {
+      res.send(experiences);
+    });
+});
+
+router.get("/volunteer/:id", function(req,res) {
+    Experience.find({volunteer: req.params.id}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experiences) {
+      res.send(experiences);
     });
 });
 
