@@ -58,7 +58,6 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    if (req.user) redirect("/");
     res.render('login', { user : req.user, info: req.flash('error') });
 });
 router.post('/login', passport.authenticate('local', { successRedirect: '/volunteer/edit',

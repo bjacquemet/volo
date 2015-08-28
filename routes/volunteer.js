@@ -50,11 +50,10 @@ router.get('/edit', ensureAuthenticated, function(req, res, next) {
     }
     else {
       var options = {
-        host: process.env.IP || "localhost",
-        port: process.env.port || 3000,
+        host: process.env.HOST || "localhost",
+        port: process.env.PORT || 3000,
         path: '/experience/volunteer/' + volunteer._id
       };
-      console.log("IP = " + process.env.IP);
       http.get(options, function(response){
         var jsonObject = '';
         response.on('data', function (d){
