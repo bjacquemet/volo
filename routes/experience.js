@@ -4,19 +4,67 @@ var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 
 router.get("/list", function(req,res) {
-    Experience.find({}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experiences) {
-      res.send(experiences);
+    Experience.find({}).populate('nonprofit activities').exec(function(err,experiences) {
+      if(err) res.send(err);
+      else {
+        // populate role
+        Experience.populate(experiences, {
+            path: 'activities.role',
+            model: 'Role'
+          }, 
+          function (err, experiences_role) {
+            if (err) console.log(err);
+            else
+            {
+              console.log(experiences_role);
+              // populate skills
+              Experience.populate(experiences_role, {
+                path: 'activities.skills',
+                model: "Skill"
+              }, function(err, experiences_role_skills) {
+                if (err) console.log(err);
+                else
+                {
+                  res.send(experiences_role_skills);
+                }
+              })
+            }
+          });
+      }
     });
 });
 
 router.get("/volunteer/:id", function(req,res) {
-    Experience.find({volunteer: req.params.id}).select('volunteer nonprofit description start_date end_date sum_validated_hours').exec(function(err,experiences) {
-      res.send(experiences);
+    Experience.find({volunteer: req.params.id}).populate('nonprofit activities').exec(function(err,experiences) {
+      if(err) res.send(err);
+      else {
+        // populate role
+        Experience.populate(experiences, {
+            path: 'activities.role',
+            model: 'Role'
+          }, 
+          function (err, experiences_role) {
+            if (err) console.log(err);
+            else
+            {
+              // populate skills
+              Experience.populate(experiences_role, {
+                path: 'activities.skills',
+                model: "Skill"
+              }, function(err, experiences_role_skills) {
+                if (err) console.log(err);
+                else
+                {
+                  res.send(experiences_role_skills);
+                }
+              })
+            }
+          });
+      }
     });
 });
 
 router.post("/new", function(req,res) {
-  console.log('body:');
   console.log(req.body);
   console.log('body end');
   var v_id = req.body.volunteer,
@@ -31,11 +79,6 @@ router.post("/new", function(req,res) {
       referee_email = req.body.referee_email,
       referee_phone = req.body.referee_phone,
       notes = req.body.notes;
-  // if (Object.prototype.toString.call(name) === '[object Array]')
-  // {
-  //   var name_is_array = true;
-  //   name = name[0];
-  // }
   var newExperience = Experience(
   {
     volunteer: v_id,
@@ -48,14 +91,12 @@ router.post("/new", function(req,res) {
       console.log(experience._id);
 
       // To be change: POST to /activity/new
-      var newActivity = Activity(
-      {
+      var activity_json = {
         experience: experience._id,
         volunteer: v_id,
         role: role,
         skills: skills,
         start_date: start_date,
-        end_date: end_date,
         hours: hours,
         validated: 'pending',
         notes: notes,
@@ -65,7 +106,10 @@ router.post("/new", function(req,res) {
           phone_number: referee_phone,
           email: referee_email
         }
-      });
+      };
+      if (end_date != '') activity_json[end_date] = end_date;
+
+      var newActivity = Activity(activity_json);
       newActivity.save(function (err, activity) {
         if (err) console.log(err);
         else {

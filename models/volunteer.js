@@ -11,7 +11,7 @@ var Volunteer = new Schema({
     uni_email: String,
     gender: String,
     phone: String,
-    home_address: String,
+    postcode: String,
     about: String,
     twitter: String, 
     facebook: String, 

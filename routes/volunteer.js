@@ -3,7 +3,9 @@ var router = express.Router();
 var passport = require('passport');
 var Volunteer = require('../models/volunteer');
 var Activity = require('../models/activity');
+var Experience = require('../models/experience');
 var fs = require('fs');
+var http = require('http');
 
 function ensureAuthenticated(req, res, next) {
   if (req.user) { return next(); }
@@ -41,23 +43,57 @@ router.post('/photo', function(req,res) {
     }
 });
 
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/edit', ensureAuthenticated, function(req, res, next) {
   Volunteer.findOne({account_id: req.user._id}).exec(function (err, volunteer) {
-    console.log('volunteer');
-    console.log(volunteer);
     if (err) {
       console.log(err);
     }
     else {
-      console.log('in da house');
-      Activity.find({volunteer: volunteer._id}).populate('experience').exec(function (err, activities) {
-        if (err) {
-          console.log(err);
-        }   
-        else console.log(activities);      
-        
-        res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, activities: activities });
+      var options = {
+        host: process.env.IP || "localhost",
+        port: process.env.port || 3000,
+        path: '/experience/volunteer/' + volunteer._id
+      };
+      http.get(options, function(response){
+        var jsonObject = '';
+        response.on('data', function (d){
+          jsonObject += d;
+        });
+        response.on('end', function (){
+          var experiences = JSON.parse(jsonObject);
+          res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, experiences: experiences});
+        });
       });
+
+      // Experience.find({volunteer: volunteer._id}).populate('activities nonprofit').exec(function (err, experiences) {
+      //   if (err) {
+      //     console.log(err);
+      //   }   
+      //   else {
+      //     // populate role
+      //     Experience.populate(experiences, {
+      //         path: 'activities.role',
+      //         model: 'Role'
+      //       }, 
+      //       function (err, experiences_role) {
+      //         if (err) console.log(err);
+      //         else
+      //         {
+      //           // populate skills
+      //           Experience.populate(experiences_role, {
+      //             path: 'activities.skills',
+      //             model: "Skill"
+      //           }, function(err, experiences_role_skills) {
+      //             if (err) console.log(err);
+      //             else
+      //             {
+      //               res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, experiences: experiences_role_skills });
+      //             }
+      //           })
+      //         }
+      //       });
+      // }
+      // });
     }
   });
 });

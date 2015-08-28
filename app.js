@@ -21,6 +21,7 @@ var skills = require('./routes/skill');
 var roles = require('./routes/role');
 var nonprofits = require('./routes/nonprofit');
 var experiences = require('./routes/experience');
+var activities = require('./routes/activity');
 
 var app = express();
 
@@ -45,8 +46,8 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'session secret key',
@@ -65,6 +66,7 @@ app.use('/skill', skills);
 app.use('/role', roles);
 app.use('/nonprofit', nonprofits);
 app.use('/experience', experiences);
+app.use('/activity', activities);
 
 // Passport config
 var Account = require('./models/account');

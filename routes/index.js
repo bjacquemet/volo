@@ -39,7 +39,7 @@ router.post('/register', function(req, res) {
             newVolunteer.save(function(err) {
               if(err) throw err;
               console.log('Volunteer created');
-              if (req.body.usertype == "volunteer") res.redirect('/volunteer/');
+              if (req.body.usertype == "volunteer") res.redirect('/volunteer/edit');
               else if (req.body.usertype == "corporate") res.redirect('/corporates');
               else if (req.body.usertype == "nonprofit") res.redirect('/nonprofits');
               else if (req.body.usertype == "university") res.redirect('/universities');
@@ -58,9 +58,10 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
+    if (req.user) redirect("/");
     res.render('login', { user : req.user, info: req.flash('error') });
 });
-router.post('/login', passport.authenticate('local', { successRedirect: '/volunteer',
+router.post('/login', passport.authenticate('local', { successRedirect: '/volunteer/edit',
                                    failureRedirect: '/login',
                                    failureFlash: true }));
 

@@ -16,7 +16,7 @@ body
             .navbar-collapse.collapse#navbar
               ul.nav.navbar-nav.navbar-center
                 li
-                  a(href="volunteers") Volunteer
+                  a(href="/volunteers") Volunteer
                 li
                   a(href="/nonprofits") Nonprofit
                 li
@@ -41,7 +41,7 @@ body
                     ul.dropdown-menu
                       li
                         if (user.usertype == "volunteer")
-                          a(href="/profile") Volunteer Profile
+                          a(href="/volunteer/edit") Volunteer Profile
                         if (user.usertype == "nonprofit")
                           a(href="/profile") Nonprofit Profile
                         if (user.usertype == "corporate")
