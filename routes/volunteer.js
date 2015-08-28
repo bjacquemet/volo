@@ -50,7 +50,7 @@ router.get('/edit', ensureAuthenticated, function(req, res, next) {
     }
     else {
       var options = {
-        host: process.env.HOST || "localhost:3000",
+        host: process.env.HOST || "localhost", // in local, needs the line below - to be fixed!!
         // port: process.env.PORT || 3000,
         path: '/experience/volunteer/' + volunteer._id
       };

@@ -531,7 +531,7 @@ block content
         $('input[name*=e_date]').attr('min', $(this).val());
       });
 
-      $('.XP_form form').submit(function() {
+      $('.XP_form form').submit(function(event) {
         $(this).ajaxSubmit({
           error: function(xhr) {
             console.log(xhr);
@@ -544,10 +544,10 @@ block content
             location.reload();
           }
         });
-        return false;
+        event.preventDefault();
       });
 
-      $('.activity_form').submit(function() {
+      $('.activity_form').submit(function(event) {
         $(this).ajaxSubmit({
           error: function(xhr) {
             console.log(xhr);
@@ -559,7 +559,7 @@ block content
             location.reload();
           }
         });
-        return false;
+        event.preventDefault();
       });
 
 
