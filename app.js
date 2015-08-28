@@ -14,7 +14,6 @@ var crypto = require('crypto');
 var multer = require('multer');
 var done = false;
 var Volunteer = require('./models/volunteer');
-var os = require('os');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
