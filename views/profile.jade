@@ -161,13 +161,13 @@ block content
               
               h5 Activities
               .row
-                .col-md-6.role
+                .col-md-6.activity
                   .col-md-12.grey_background
                     p Role: <em>Web Developper</em>
                     p Skills: <em>autonomy, rigour, web development</em>
                     p <em>50 hours</em>
                     p.validation Validation pending
-                .col-md-6.role
+                .col-md-6.activity
                   .col-md-12.grey_background
                     p Role: <em>Events volunteer</em>
                     p Skills: <em>organization, logistics</em>
@@ -175,11 +175,11 @@ block content
                     p.validation Validated
               
               .row
-                .col-md-6.role
-                  .col-md-12.grey_background.add_role.text-center
-                    span.add_new Add new role
-                    form(action="#", class="role_form col-md-12 height-0")
-                      h3 Add new role
+                .col-md-6.activity
+                  .col-md-12.grey_background.add_activity.text-center
+                    span.add_new Add new activity
+                    form(action="#", class="activity_form col-md-12 height-0")
+                      h3 Add new activity
                       h4 Activity
                       .form-group.col-md-12.no-gutter
                         label.col-md-12(for="role") Role
@@ -320,25 +320,25 @@ block content
         $('html, body').animate({
             scrollTop: $(".XP").offset().top
           }, "slow");
-        if ($(".role_form").is(":visible")) {
-          $(".role_form").hide().removeClass('height-auto').parent().addClass('text-center').removeClass('no-hover').parent().switchClass("col-md-12", "col-md-6", 500, function(){
+        if ($(".activity_form").is(":visible")) {
+          $(".activity_form").hide().removeClass('height-auto').parent().addClass('text-center').removeClass('no-hover').parent().switchClass("col-md-12", "col-md-6", 500, function(){
           $(".add_new").removeClass('hide_it').show();
           });
         }
       });
 
-      $(".add_role").on('click', function(){
+      $(".add_activity").on('click', function(){
         $(this).unbind('click');
         if ($('.XP_form').is(':visible')) {
           $('.XP_form').hide();
           $('html, body').animate({
-              scrollTop: $(".role_form").offset().top
+              scrollTop: $(".activity_form").offset().top
             }, "slow");
         }
         $(".add_new").hide().addClass('hide_it');
-        $(".role_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
+        $(".activity_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
             $('html, body').animate({
-              scrollTop: $(".role_form").offset().top
+              scrollTop: $(".activity_form").offset().top
             }, "slow");
             $(".skills_set").select2({maximumSelectionLength: 3,
               language: {
