@@ -54,6 +54,7 @@ router.get('/edit', ensureAuthenticated, function(req, res, next) {
         // port: process.env.PORT || 3000,
         path: '/experience/volunteer/' + volunteer._id
       };
+      // to be changed with exports
       http.get(options, function(response){
         var jsonObject = '';
         response.on('data', function (d){

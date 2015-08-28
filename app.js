@@ -82,13 +82,14 @@ process.env.MONGOHQ_URL ||
 
 // The http server will listen to an appropriate port, or default to
 // port 5000.
-// var theport = process.env.PORT || 3000;
+var theport = process.env.PORT || 3000;
 
 mongoose.connect(uristring, function (err, res) {
   if (err) {
   console.log ('ERROR connecting to: ' + uristring + '. ' + err);
   } else {
   console.log ('Succeeded connected to: ' + uristring);
+  console.log ('Running on port: ' + theport);
   }
 });
 
