@@ -4,7 +4,7 @@ block content
   -function format_date(date){
   - var newDate = new Date(date);
   - var y = newDate.getFullYear();
-  - var m = newDate.getMonth();
+  - var m = newDate.getMonth() + 1;
   - var d = newDate.getDate();
   - return y+'/'+m+'/'+d;
   -}
