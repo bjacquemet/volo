@@ -17,7 +17,7 @@ var Account = new Schema({
 });
 
 Account.plugin(passportLocalMongoose);
-Account.plugin(uniqueValidator, { message: 'The email {PATH} already exists. Please check your email address.' });
+Account.plugin(uniqueValidator, { message: 'The {PATH} already exists. Please check your email address.' });
 
 
 module.exports = mongoose.model('Account', Account);

@@ -84,7 +84,7 @@ exports.newProfile = function(req, res){
   newVolunteer.save(function(err) {
     if(err) throw err;
     console.log('Volunteer created');
-    res.redirect('/volunteer/');
+    res.redirect('/volunteer/edit');
   });
 };
 

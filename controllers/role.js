@@ -6,6 +6,7 @@ exports.list = function(req,res) {
     });
 };
 
+// todo: add a created_by = volunteer._id
 exports.new = function(req,res) {
   var name = req.body.name;
   if (Object.prototype.toString.call(name) === '[object Array]')

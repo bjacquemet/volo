@@ -6,6 +6,7 @@ exports.list = function(req,res) {
     });
 };
 
+// todo: add a created_by = volunteer._id
 exports.new =function(req,res) {
   console.log(req.body);
   var name = req.body.name;
