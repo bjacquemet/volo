@@ -1,68 +1,27 @@
 var express = require('express');
-var passport = require('passport');
-var Account = require('../models/account');
-var Volunteer = require('../models/volunteer');
 var router = express.Router();
-var moment = require('moment');
-var fs = require('fs');
+var IndexController = require('../controllers/index');
+
 
 function ensureAuthenticated(req, res, next) {
   if (req.user) { return next(); }
   res.redirect('/login')
 }
 
-router.post('/register', function(req, res) {
-    if (req.body.usertype != 'volunteer')
-    {
-      var usertype = ['volunteer', req.body.usertype];
-    }
-    else var usertype = ['volunteer']; 
-    Account.register(new Account(
-      { 
-        username : req.body.username, 
-        email: req.body.email, 
-        usertype : usertype
-      }), 
-      req.body.password, function(err, account) {
-        if (err) {
-          return res.render("register", {info: err});
-        }
-        passport.authenticate('local')(req, res, function () {
-          // If volunteer, create volunteer account
-            var newVolunteer = Volunteer({
-              account_id: account._id,
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
-              photo: {data: fs.readFileSync('./public/images/placeholder.png'), contentType: 'image/png', path: 'images/placeholder.png'},
-              email: req.body.email
-            });
-            newVolunteer.save(function(err) {
-              if(err) throw err;
-              console.log('Volunteer created');
-              if (req.body.usertype == "volunteer") res.redirect('/volunteer/edit');
-              else if (req.body.usertype == "corporate") res.redirect('/corporates');
-              else if (req.body.usertype == "nonprofit") res.redirect('/nonprofits');
-              else if (req.body.usertype == "university") res.redirect('/universities');
-              else res.redirect('/');
-            });
-        });
-    });
-});
+router.post('/register', IndexController.register);
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Home', user: req.user });
 });
 
 router.get('/register', function(req, res) {
-    res.render('register', { });
+    res.render('register', {title: "Register"  });
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user, info: req.flash('error') });
+    res.render('login', { user : req.user, info: req.flash('error'), title: "Login" });
 });
-router.post('/login', passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true }));
+router.post('/login', IndexController.login);
 
 router.get('/logout', function(req, res) {
     req.logout();
