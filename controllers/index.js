@@ -41,9 +41,15 @@ exports.register = function(req, res) {
     });
 };
 
-exports.login = passport.authenticate('local', 
-  { successRedirect: '/volunteer/edit',
-    failureRedirect: '/login',
-    failureFlash: true 
-  }
-);
+exports.login = function (req, res) 
+  {
+    passport.authenticate('local', 
+    { failureRedirect: '/login',
+      failureFlash: true 
+    })(req, res, function () {
+      Account.findOneAndUpdate({username: req.user.username}, {last_sign_in: Date.now()}, {upsert: true, 'new': true}, function(err, account){
+        if (err) console.log(err);
+        else res.redirect('/volunteer/edit');
+      });
+  });
+}
