@@ -1,5 +1,6 @@
 var Volunteer = require('../models/volunteer');
 var Experience = require('../models/experience');
+var ExperienceController = require('./experience');
 var fs = require('fs');
 
 function getProfileByAccountId (volunteer_account_id, callback) {
@@ -8,37 +9,11 @@ function getProfileByAccountId (volunteer_account_id, callback) {
         console.log(err);
       }
       else {
-        Experience.find({volunteer: volunteer._id}).populate('activities nonprofit').exec(function (err, experiences) {
-          if (err) {
-            console.log(err);
-          }   
-          else {
-            Experience.populate(experiences, {
-                path: 'activities.role',
-                model: 'Role'
-              }, 
-              function (err, experiences_role) {
-                if (err) console.log(err);
-                else
-                {
-                  // populate skills
-                  Experience.populate(experiences_role, {
-                    path: 'activities.skills',
-                    model: "Skill"
-                  }, function(err, complete_experiences) {
-                    if (err) console.log(err);
-                    else
-                    {
-                      callback({
-                        experiences: complete_experiences,
-                        volunteer: volunteer
-                      });
-                    }
-                  })
-                }
-              }
-            );
-          }
+        ExperienceController.getByVolunteerId(volunteer._id, function(response) {
+          callback({
+            experiences: response.experiences,
+            volunteer: volunteer
+          });
         });
       }
     });
@@ -50,52 +25,11 @@ function getProfileById (volunteer_id, callback) {
         console.log(err);
       }
       else {
-        Experience.find({volunteer: volunteer._id}).populate('activities nonprofit')
-        .exec(function (err, experiences) {
-          if (err) {
-            console.log(err);
-          }   
-          else {
-            Experience.populate(experiences, {
-                path: 'activities.role',
-                model: 'Role'
-              }, 
-              function (err, experiences_role) {
-                if (err) console.log(err);
-                else
-                {
-                  // populate skills
-                  Experience.populate(experiences_role, {
-                    path: 'activities.skills',
-                    model: "Skill"
-                  }, function(err, experiences_skills_roles) {
-                    if (err) console.log(err);
-                    else
-                    {
-                      // The following foreach on experiences then activities lets
-                      // us calculate the sum of hours accumulated for each experience
-                      // Todo: improve that to include it in the Experience Schema (if possible)
-                      var hours = 0,
-                          complete_experiences = [];
-                      experiences_skills_roles.forEach(function(experience)
-                      {
-                        experience.activities.forEach(function(activity){
-                          hours += activity.hours;
-                        })
-                        experience['totalHours'] = hours;
-                        complete_experiences.push(experience);
-                      });
-                      // End total hours calculation
-                      callback({
-                        experiences: complete_experiences,
-                        volunteer: volunteer
-                      });
-                    }
-                  })
-                }
-              }
-            );
-          }
+        ExperienceController.getByVolunteerId(volunteer._id, function(response) {
+          callback({
+            experiences: response.experiences,
+            volunteer: volunteer
+          });
         });
       }
     });
@@ -173,10 +107,8 @@ exports.newProfile = function(req, res){
   });
 };
 
-exports.getProfileByAccountId = getProfileByAccountId;
-exports.getProfileById = getProfileById;
 
-exports.editProfile = function (req, res) {
+exports.updateProfile = function (req, res) {
   var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
   var field = req.body.pk;
   console.log(field);

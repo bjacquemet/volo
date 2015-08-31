@@ -1,35 +1,91 @@
 var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 
-exports.list = function(req,res) {
-    Experience.find({}).populate('nonprofit activities').exec(function(err,experiences) {
-      if(err) res.send(err);
-      else {
-        // populate role
-        Experience.populate(experiences, {
-            path: 'activities.role',
-            model: 'Role'
-          }, 
-          function (err, experiences_role) {
-            if (err) console.log(err);
-            else
-            {
-              console.log(experiences_role);
-              // populate skills
-              Experience.populate(experiences_role, {
-                path: 'activities.skills',
-                model: "Skill"
-              }, function(err, experiences_role_skills) {
-                if (err) console.log(err);
-                else
+function getVolunteerExperiences (volunteer_id, callback) {
+  var query = {}
+  if (volunteer_id != null) query = {'volunteer': volunteer_id};
+  Experience.find(query).populate('activities nonprofit')
+  .exec(function (err, experiences) {
+    if (err) {
+      console.log(err);
+    }   
+    else {
+      Experience.populate(experiences, {
+          path: 'activities.role',
+          model: 'Role'
+        }, 
+        function (err, experiences_role) {
+          if (err) console.log(err);
+          else
+          {
+            // populate skills
+            Experience.populate(experiences_role, {
+              path: 'activities.skills',
+              model: "Skill"
+            }, function(err, experiences_skills_roles) {
+              if (err) console.log(err);
+              else
+              {
+                // The following foreach on experiences then activities lets
+                // us calculate the sum of hours accumulated for each experience
+                // Todo: improve that to include it in the Experience Schema (if possible)
+                var hours = 0,
+                    complete_experiences = [];
+                experiences_skills_roles.forEach(function(experience)
                 {
-                  res.send(experiences_role_skills);
-                }
-              })
-            }
-          });
-      }
+                  experience.activities.forEach(function(activity){
+                    hours += activity.hours;
+                  })
+                  experience['totalHours'] = hours;
+                  complete_experiences.push(experience);
+                });
+                // End total hours calculation
+                callback({
+                  experiences: complete_experiences,
+                });
+              }
+            })
+          }
+        }
+      );
+    }
+  });
+}
+
+exports.getExperiencesByVolunteerId = getVolunteerExperiences;
+
+exports.list = function(req,res) {
+    getVolunteerExperiences(null, function(response) {
+      res.send(response.experiences);
     });
+    // Experience.find({}).populate('nonprofit activities').exec(function(err,experiences) {
+    //   if(err) res.send(err);
+    //   else {
+    //     // populate role
+    //     Experience.populate(experiences, {
+    //         path: 'activities.role',
+    //         model: 'Role'
+    //       }, 
+    //       function (err, experiences_role) {
+    //         if (err) console.log(err);
+    //         else
+    //         {
+    //           console.log(experiences_role);
+    //           // populate skills
+    //           Experience.populate(experiences_role, {
+    //             path: 'activities.skills',
+    //             model: "Skill"
+    //           }, function(err, experiences_role_skills) {
+    //             if (err) console.log(err);
+    //             else
+    //             {
+    //               res.send(experiences_role_skills);
+    //             }
+    //           })
+    //         }
+    //       });
+    //   }
+    // });
 };
 
 exports.new = function(req,res) {
@@ -88,31 +144,34 @@ exports.new = function(req,res) {
 };
 
 exports.getByVolunteerId = function(req,res) {
-    Experience.find({volunteer: req.params.id}).populate('nonprofit activities').exec(function(err,experiences) {
-      if(err) res.send(err);
-      else {
-        // populate role
-        Experience.populate(experiences, {
-            path: 'activities.role',
-            model: 'Role'
-          }, 
-          function (err, experiences_role) {
-            if (err) console.log(err);
-            else
-            {
-              // populate skills
-              Experience.populate(experiences_role, {
-                path: 'activities.skills',
-                model: "Skill"
-              }, function(err, experiences_role_skills) {
-                if (err) console.log(err);
-                else
-                {
-                  res.json(experiences_role_skills);
-                }
-              })
-            }
-          });
-      }
-    });
+  getVolunteerExperiences(req.params.id, function(response) {
+    res.send(response.experiences);
+  })
+    // Experience.find({volunteer: req.params.id}).populate('nonprofit activities').exec(function(err,experiences) {
+    //   if(err) res.send(err);
+    //   else {
+    //     // populate role
+    //     Experience.populate(experiences, {
+    //         path: 'activities.role',
+    //         model: 'Role'
+    //       }, 
+    //       function (err, experiences_role) {
+    //         if (err) console.log(err);
+    //         else
+    //         {
+    //           // populate skills
+    //           Experience.populate(experiences_role, {
+    //             path: 'activities.skills',
+    //             model: "Skill"
+    //           }, function(err, experiences_role_skills) {
+    //             if (err) console.log(err);
+    //             else
+    //             {
+    //               res.json(experiences_role_skills);
+    //             }
+    //           })
+    //         }
+    //       });
+    //   }
+    // });
 };

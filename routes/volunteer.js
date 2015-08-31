@@ -16,7 +16,7 @@ router.get('/edit', ensureAuthenticated, VolunteerController.getEditProfile);
 
 router.post('/new', ensureAuthenticated, VolunteerController.newProfile);
 
-router.post('/update', ensureAuthenticated, VolunteerController.editProfile);
+router.post('/update', ensureAuthenticated, VolunteerController.updateProfile);
 
 router.get('/list', VolunteerController.list);
 
