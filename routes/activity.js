@@ -7,6 +7,8 @@ router.get("/list", ActivityController.list);
 
 router.get("/volunteer/:id", ActivityController.getByVolunteerId);
 
+router.get("/skills/:id", ActivityController.getVolunteerSkills);
+
 router.post("/new", ActivityController.new);
 
 module.exports = router;

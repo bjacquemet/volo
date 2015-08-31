@@ -21,6 +21,7 @@ router.post('/update', ensureAuthenticated, VolunteerController.updateProfile);
 router.get('/list', VolunteerController.list);
 
 // need to be the last one in order to not overwrite all the ones before.
+// TODO: create a by username to make it more user friendly
 router.get('/:id', VolunteerController.getProfile);
 
 module.exports = router;

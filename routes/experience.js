@@ -4,7 +4,7 @@ var ExperienceController = require('../controllers/experience');
 
 router.get("/list", ExperienceController.list);
 
-router.get("/volunteer/:id", ExperienceController.getByVolunteerId);
+router.get("/volunteer/:id", ExperienceController.getByVolunteerIdParam);
 
 router.post("/new", ExperienceController.new);
 

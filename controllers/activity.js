@@ -1,5 +1,139 @@
 var Activity = require('../models/activity');
 var Experience = require('../models/experience');
+var Skill = require('../models/skill');
+var mongoose = require('mongoose');
+
+function getVolunteerSkills (volunteer_id, callback) {
+  volunteer_id = mongoose.Types.ObjectId(volunteer_id);
+
+  Activity
+  .aggregate(
+      [{
+        $match:
+        {
+          volunteer: volunteer_id
+        }
+      }
+      ,{
+        $unwind: "$skills"
+      },
+      {
+        $group: {
+          _id: "$skills",
+          sum_hours: {$sum: "$hours"}
+        }
+      },
+      {
+        $sort: {
+          sum_hours: -1
+        }
+      }
+      ],
+    function (err, results) {
+      if (err) {
+        console.log(err);
+        return
+      }
+      console.log(results);
+      var hours_per_skill = [];
+      Skill.populate(results, {path:'_id', select: 'name'}, function (err, skills) {
+        callback({skills: skills})
+      });
+    }
+    );
+};
+
+exports.getVolunteerSkills = getVolunteerSkills;
+
+exports.getSkills = function (req, res) {
+    var volunteer_id = req.params.id;
+    volunteer_id = mongoose.Types.ObjectId(volunteer_id);
+    // var o = {};
+    // o.map = function (){
+    //   var hours = this.hours;
+    //   print(hours);
+    //   this.skills.forEach(function (skill) {
+    //       emit(skill, hours);
+    //     });
+    // };
+
+    // o.reduce = function (key, value) {
+    //   var reduceSkills = {hours:0};
+    //   value.forEach(function (hours) {
+    //     reduceSkills.hours += hours;
+    //   });
+    //     return reduceSkills;
+    // },{
+    //   query: {volunteer: volunteer_id},
+    //   out: 'hours_per_skill'
+    // }
+    
+    // Activity.mapReduce(o, function (err, results) {
+    //   var hours_per_skill = []
+    //   if (err) {
+    //     console.log(err);
+    //     return
+    //   }
+    //   results.forEach(function(result){
+
+    //   })
+    //   Skill.populate(results, {path:'_id'}, function (skills) {
+    //     if (typeof(results.value) != 'undefined') var element = {skill: skills, hours: results.value.hours};
+    //     else var element = {skill: skills, hours: results.hours};
+    //     console.log(element);
+    //     hours_per_skill.push(element);
+    //   });
+    //   console.log(hours_per_skill);
+
+    //   // else {
+    //   //   var i =0, hours_per_skill = [];
+    //   //   results.forEach(function (hours_skills){
+    //   //     var element = {skill: hours_skills._id, hours: hours_skills.value.hours};
+    //   //     hours_per_skill.push(element);
+    //   //   });
+    //   //   res.send(hours_per_skill);
+    //   //   };
+    // });
+
+  Activity
+  .aggregate(
+      [{
+        $match:
+        {
+          volunteer: volunteer_id
+        }
+      }
+      ,{
+        $unwind: "$skills"
+      },
+      {
+        $group: {
+          _id: "$skills",
+          sum_hours: {$sum: "$hours"}
+        }
+      }
+      ],
+    function (err, results) {
+      if (err) {
+        console.log(err);
+        return
+      }
+      console.log(results);
+      var hours_per_skill = [];
+      Skill.populate(results, {path:'_id', select: 'name'}, function (err, skills) {
+        console.log('obj');
+        console.log(skills);
+        callback({skills: skills})
+        res.send(skills);
+        // if (typeof(results.value) != 'undefined') var element = {skill: skills, hours: results.value.hours};
+        // else var element = {skill: skills, hours: results.hours};
+        // console.log(element);
+        // hours_per_skill.push(element);
+      });
+      // console.log(hours_per_skill);
+    }
+    );
+}
 
 exports.list = function(req,res) {
     Activity.find({}).populate('role skills').exec(function(err,activities) {

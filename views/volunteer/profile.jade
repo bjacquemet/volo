@@ -22,6 +22,17 @@ block content
   - if (d <10) d= '0'+d;
   - return d+'/'+m+'/'+y;
   -}
+  -function bar_size(size){
+  -var barSize = Math.round(size*1.5);
+  -if(barSize >= 100) barSize = 80;
+  -return barSize + '%'
+  -}
+  -function color_opacity(size){
+  -var opacity = size/100*1.5;
+  -if(opacity >= 1) opacity = 1;
+  -return opacity
+  -}
+
 
   div.container-fluid.profile_container
     div.row.row-centered
@@ -58,19 +69,12 @@ block content
         .col-md-12
           .col-md-12
             h2 Skills
-
-          .col-md-12
-            .col-md-7.bar(style="background-color:#666")
-              span Web development
-            .clearfix
-            .col-md-5.bar(style="background-color:#888")
-              span Marketing
-            .clearfix
-            .col-md-4.bar(style="background-color:#aaa")
-              span Communication
-            .clearfix
-            .col-md-2.bar(style="background-color:#ccc")
-              span Social Media
+            each skills in volunteer_skills
+              each skill in skills
+                .col-md-12.no-gutter_l
+                  .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
+                    span #{skill._id.name}
+                  span #{skill.sum_hours} hours
             
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content.XP
@@ -84,7 +88,15 @@ block content
                 p #{experience.start_date}
                 p #{experience.description}
                 p <em>#{experience.totalHours}</em> accumulated hours
-                p Skills acquired: <em>autonomy, rigour, communication</em>
+                - if (experience.skills_list.length > 0)
+                  p Skills acquired: 
+                    each skill, i in experience.skills_list
+                      em
+                      if (i == 0)
+                        span #{skill.name}
+                      else
+                        span , #{skill.name}
+
                 p <u><a href="#" id="reco">1 recommendation</a></u>
               .col-md-2.col-md-offset-1
                 img(src="/images/img_placeholder.png")

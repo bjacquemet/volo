@@ -1,6 +1,7 @@
 var Volunteer = require('../models/volunteer');
 var Experience = require('../models/experience');
 var ExperienceController = require('./experience');
+var ActivityController = require('./activity');
 var fs = require('fs');
 
 function getProfileByAccountId (volunteer_account_id, callback) {
@@ -76,7 +77,10 @@ exports.getEditProfile = function(req, res, next) {
   getProfileByAccountId(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    res.render('volunteer/editProfile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, experiences: experiences });
+    res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
+      user: req.user, 
+      volunteer: volunteer, 
+      experiences: experiences });
   });
 };
 
@@ -84,10 +88,14 @@ exports.getProfile = function (req, res, next) {
   getProfileById(req.params.id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
-      user: req.user, 
-      volunteer: volunteer, 
-      experiences: experiences });
+    ActivityController.getVolunteerSkills(req.params.id, function (skills) {
+      console.log(skills);
+      res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+        user: req.user, 
+        volunteer: volunteer, 
+        experiences: experiences,
+        volunteer_skills: skills });
+    })
   });
 }
 

@@ -27,21 +27,32 @@ function getVolunteerExperiences (volunteer_id, callback) {
               else
               {
                 // The following foreach on experiences then activities lets
-                // us calculate the sum of hours accumulated for each experience
+                // us calculate the sum of hours accumulated and skills list
+                // for each experience
                 // Todo: improve that to include it in the Experience Schema (if possible)
-                var hours = 0,
-                    complete_experiences = [];
+                var complete_experiences = [];
                 experiences_skills_roles.forEach(function(experience)
                 {
-                  experience.activities.forEach(function(activity){
+                  var hours = 0,
+                      skills_list = [];
+                  experience.activities.forEach(function(activity) {
                     hours += activity.hours;
-                  })
-                  experience['totalHours'] = hours;
+                    activity.skills.forEach(function(skill) {
+                      if (skills_list.indexOf(skill) < 0 ) skills_list.push(skill);
+                    });
+                  });
+                  // reformat the json
+                  experience = JSON.stringify(experience);
+                  experience = JSON.parse(experience);
+                  // end reformat json object
+
+                  experience.totalHours = hours
+                  experience.skills_list = skills_list;
                   complete_experiences.push(experience);
                 });
-                // End total hours calculation
+                // End total hours calculation and skills list aggregation
                 callback({
-                  experiences: complete_experiences,
+                  experiences: complete_experiences
                 });
               }
             })
@@ -52,40 +63,12 @@ function getVolunteerExperiences (volunteer_id, callback) {
   });
 }
 
-exports.getExperiencesByVolunteerId = getVolunteerExperiences;
+exports.getByVolunteerId = getVolunteerExperiences;
 
 exports.list = function(req,res) {
     getVolunteerExperiences(null, function(response) {
       res.send(response.experiences);
     });
-    // Experience.find({}).populate('nonprofit activities').exec(function(err,experiences) {
-    //   if(err) res.send(err);
-    //   else {
-    //     // populate role
-    //     Experience.populate(experiences, {
-    //         path: 'activities.role',
-    //         model: 'Role'
-    //       }, 
-    //       function (err, experiences_role) {
-    //         if (err) console.log(err);
-    //         else
-    //         {
-    //           console.log(experiences_role);
-    //           // populate skills
-    //           Experience.populate(experiences_role, {
-    //             path: 'activities.skills',
-    //             model: "Skill"
-    //           }, function(err, experiences_role_skills) {
-    //             if (err) console.log(err);
-    //             else
-    //             {
-    //               res.send(experiences_role_skills);
-    //             }
-    //           })
-    //         }
-    //       });
-    //   }
-    // });
 };
 
 exports.new = function(req,res) {
@@ -143,7 +126,7 @@ exports.new = function(req,res) {
   })
 };
 
-exports.getByVolunteerId = function(req,res) {
+exports.getByVolunteerIdParam = function(req,res) {
   getVolunteerExperiences(req.params.id, function(response) {
     res.send(response.experiences);
   })
