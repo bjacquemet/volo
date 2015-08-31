@@ -17,7 +17,7 @@ var Nonprofit = new Schema({
     // main: {type: Schema.Types.ObjectId, ref: 'Volunteer'},
     suggested_by_volunteer: Boolean
 });
-// todo: if suggested_by_volunteer add a created by = volunteer._id
+// todo: if suggested_by_volunteer: add a created_by = volunteer._id
 
 
 module.exports = mongoose.model('Nonprofit', Nonprofit);

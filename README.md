@@ -106,8 +106,8 @@ Returns a list of activities of a given volunteer.
 
 Create a new activity.
 
-#### /volunteer/photo/:email
+#### /volunteer/photo/:id
 - Method: GET
-- Params: email (volunteer.email)
+- Params: id (volunteer._id_)
 
 Returns the profile picture of a given volunteer.

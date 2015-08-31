@@ -1,8 +1,8 @@
 var Skill = require('../models/skill');
 
 exports.list = function(req, res) {
-  Skill.find({}).select('_id name').exec(function(err,skill) {
-        res.send(skill);
+  Skill.find({}).select('_id name').exec(function(err,skills) {
+        res.send(skills);
       });
 };
 

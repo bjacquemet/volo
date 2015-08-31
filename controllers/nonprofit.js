@@ -1,8 +1,8 @@
 var Nonprofit = require('../models/nonprofit');
 
 exports.list = function(req,res) {
-    Nonprofit.find({}).select('_id name suggested_by_volunteer').exec(function(err,nonprofit) {
-      res.send(nonprofit);
+    Nonprofit.find({}).select('_id name suggested_by_volunteer').exec(function(err,nonprofits) {
+      res.send(nonprofits);
     });
 };
 

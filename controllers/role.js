@@ -1,8 +1,8 @@
 var Role = require('../models/role');
 
 exports.list = function(req,res) {
-    Role.find({}).select('_id name').exec(function(err,role) {
-      res.send(role);
+    Role.find({}).select('_id name').exec(function(err,roles) {
+      res.send(roles);
     });
 };
 

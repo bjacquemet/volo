@@ -2,10 +2,115 @@ var Volunteer = require('../models/volunteer');
 var Experience = require('../models/experience');
 var fs = require('fs');
 
-exports.getPhotoByVolunteerEmail = function(req,res) {
-    Volunteer.findOne({ email: req.params.email },function(err,volunteer) {
+function getProfileByAccountId (volunteer_account_id, callback) {
+  Volunteer.findOne({account_id: volunteer_account_id}).exec(function (err, volunteer) {
+      if (err || !volunteer) {
+        console.log(err);
+      }
+      else {
+        Experience.find({volunteer: volunteer._id}).populate('activities nonprofit').exec(function (err, experiences) {
+          if (err) {
+            console.log(err);
+          }   
+          else {
+            Experience.populate(experiences, {
+                path: 'activities.role',
+                model: 'Role'
+              }, 
+              function (err, experiences_role) {
+                if (err) console.log(err);
+                else
+                {
+                  // populate skills
+                  Experience.populate(experiences_role, {
+                    path: 'activities.skills',
+                    model: "Skill"
+                  }, function(err, complete_experiences) {
+                    if (err) console.log(err);
+                    else
+                    {
+                      callback({
+                        experiences: complete_experiences,
+                        volunteer: volunteer
+                      });
+                    }
+                  })
+                }
+              }
+            );
+          }
+        });
+      }
+    });
+};
+
+function getProfileById (volunteer_id, callback) {
+  Volunteer.findById(volunteer_id, function (err, volunteer) {
+      if (err || !volunteer) {
+        console.log(err);
+      }
+      else {
+        Experience.find({volunteer: volunteer._id}).populate('activities nonprofit')
+        .exec(function (err, experiences) {
+          if (err) {
+            console.log(err);
+          }   
+          else {
+            Experience.populate(experiences, {
+                path: 'activities.role',
+                model: 'Role'
+              }, 
+              function (err, experiences_role) {
+                if (err) console.log(err);
+                else
+                {
+                  // populate skills
+                  Experience.populate(experiences_role, {
+                    path: 'activities.skills',
+                    model: "Skill"
+                  }, function(err, experiences_skills_roles) {
+                    if (err) console.log(err);
+                    else
+                    {
+                      // The following foreach on experiences then activities lets
+                      // us calculate the sum of hours accumulated for each experience
+                      // Todo: improve that to include it in the Experience Schema (if possible)
+                      var hours = 0,
+                          complete_experiences = [];
+                      experiences_skills_roles.forEach(function(experience)
+                      {
+                        experience.activities.forEach(function(activity){
+                          hours += activity.hours;
+                        })
+                        experience['totalHours'] = hours;
+                        complete_experiences.push(experience);
+                      });
+                      // End total hours calculation
+                      callback({
+                        experiences: complete_experiences,
+                        volunteer: volunteer
+                      });
+                    }
+                  })
+                }
+              }
+            );
+          }
+        });
+      }
+    });
+};
+
+exports.list = function(req, res) {
+  Volunteer.find({}).limit(3).exec(function(err, volunteers) {
+    res.send(volunteers);
+  });
+};
+
+exports.getPhotoByVolunteerId = function(req,res) {
+    Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
       res.set("Content-Type", volunteer.photo.contentType);
-      res.send(volunteer.photo.data );
+      res.send(volunteer.photo.data);
     });
 };
 
@@ -34,43 +139,23 @@ exports.postPhoto = function(req,res) {
 };
 
 exports.getEditProfile = function(req, res, next) {
-  Volunteer.findOne({account_id: req.user._id}).exec(function (err, volunteer) {
-    if (err || !volunteer) {
-      console.log(err);
-    }
-    else {
-      Experience.find({volunteer: volunteer._id}).populate('activities nonprofit').exec(function (err, experiences) {
-        if (err) {
-          console.log(err);
-        }   
-        else {
-          Experience.populate(experiences, {
-              path: 'activities.role',
-              model: 'Role'
-            }, 
-            function (err, experiences_role) {
-              if (err) console.log(err);
-              else
-              {
-                // populate skills
-                Experience.populate(experiences_role, {
-                  path: 'activities.skills',
-                  model: "Skill"
-                }, function(err, experiences_role_skills) {
-                  if (err) console.log(err);
-                  else
-                  {
-                    res.render('volunteer/profile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, experiences: experiences_role_skills });
-                  }
-                })
-              }
-            }
-          );
-        }
-      });
-    }
+  getProfileByAccountId(req.user._id, function (complete_profile){
+    var volunteer = complete_profile.volunteer;
+    var experiences = complete_profile.experiences;
+    res.render('volunteer/editProfile', { title: 'Volunteer private profile', user: req.user, volunteer: volunteer, experiences: experiences });
   });
 };
+
+exports.getProfile = function (req, res, next) {
+  getProfileById(req.params.id, function (complete_profile){
+    var volunteer = complete_profile.volunteer;
+    var experiences = complete_profile.experiences;
+    res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+      user: req.user, 
+      volunteer: volunteer, 
+      experiences: experiences });
+  });
+}
 
 exports.newProfile = function(req, res){
   var newVolunteer = Volunteer({
@@ -87,6 +172,9 @@ exports.newProfile = function(req, res){
     res.redirect('/volunteer/edit');
   });
 };
+
+exports.getProfileByAccountId = getProfileByAccountId;
+exports.getProfileById = getProfileById;
 
 exports.editProfile = function (req, res) {
   var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
