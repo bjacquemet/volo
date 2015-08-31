@@ -214,7 +214,7 @@ block content
                   textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
 
                 .form-group.col-md-12.text-center
-                  input(type="submit", value="Save this experience", class="btn primary sharp")
+                  input(type="submit", value="Save this experience", class="btn btn-primary")
             
             .col-md-12
               each experience in experiences
@@ -316,7 +316,7 @@ block content
                           textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
 
                         .form-group.col-md-12.text-center
-                          input(type="submit", value="Add activity", class="btn primary sharp")
+                          input(type="submit", value="Add activity", class="btn btn-primary sharp")
               
             .col-md-12.add
               a(href="#", id="addXP")
@@ -435,8 +435,8 @@ block content
       $('#university').editable({
         emptytext: 'University',
         source: [
-              {value:"westminster", text:"University of Westminster"},
-              {value:"city", text:"City University"}
+              {value:"University of Westminster", text:"University of Westminster"},
+              {value:"City University", text:"City University"}
             ]
       });
       

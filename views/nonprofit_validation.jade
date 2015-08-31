@@ -24,9 +24,8 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
-              &nbsp;
-              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+              a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-default btn-validate", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
           
           .col-md-12.col-sm-12.col-xs-12.not_colored
             .col-md-1.col-sm-1.col-xs-3.user-md
@@ -38,9 +37,8 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
-              &nbsp;
-              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+              a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-default btn-validate", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
           
           .col-md-12.col-sm-12.col-xs-12.colored
             .col-md-1.col-sm-1.col-xs-3.user-md
@@ -52,9 +50,8 @@ block content
               p Skills acquired: <em>Web development, marketing, communication</em>
             .col-md-3.col-sm-3.col-xs-12.text-center
               br
-              a(href="#", class="btn sharp btn-lg btn-primary", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
-              &nbsp;
-              a(href="#", class="btn sharp btn-lg btn-default", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
+              a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept") Accept
+              a(href="#", class="btn sharp btn-lg btn-default btn-validate", data-toggle="modal", data-target="#declineModal", data-response="decline") Decline
 
           .modal.fade#declineModal(tabindex='-1')
             .modal-dialog
@@ -78,6 +75,6 @@ block content
                   p Thanks for accepting this experience. Do you also want to add a recommendation to this volunteer? This will be public on his profile.
                   form(id="declineForm", action="#", method="post", class="text-center")
                     textarea.col-md-12(name="recommendation", rows="2")
-                    input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary sharp modal-submit")
-                    span &nbsp;
-                    input(type="submit", value="No thanks", data-dismiss="modal", class="btn btn-info sharp modal-submit")
+                    input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary modal-submit")
+                    &nbsp;
+                    input(type="submit", value="No thanks", data-dismiss="modal", class="btn btn-default modal-submit")
