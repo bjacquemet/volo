@@ -14,7 +14,7 @@ r.forEach(function(name){
 
 // Seed for nonprofits
 db.nonprofits.drop();
-var n = ['Habitat for Humanity', 'British Red Cross', 'ABL Health'];
+var n = ['Habitat for Humanity', 'British Red Cross', 'ABL Health', 'Other'];
 n.forEach(function(name){
   db.nonprofits.save({name: name});
 });

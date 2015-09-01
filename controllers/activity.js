@@ -47,7 +47,7 @@ exports.getVolunteerSkills = getVolunteerSkills;
 
 exports.getSkills = function (req, res) {
     var volunteer_id = req.params.id;
-    volunteer_id = mongoose.Types.ObjectId(volunteer_id);
+    volunteer_id = mongoose.Types.ObjectId(volunteer_id.toString());
     // var o = {};
     // o.map = function (){
     //   var hours = this.hours;

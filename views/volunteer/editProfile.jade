@@ -290,7 +290,7 @@ block content
                           .col-md-12.col-sm-12.col-xs-12.no-gutter
                             .col-md-6.col-sm-6.col-xs-12.no-gutter
                               label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
-                              select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills select2-multiple", multiple, required)
+                              select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
 
                             .col-md-6.col-sm-6.col-xs-12.no-gutter_r
                               label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
@@ -354,7 +354,20 @@ block content
           .modal-body
             form(id="uploadForm", enctype="multipart/form-data", action="/volunteer/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
-              input(type="submit", value="Change photo", name="submit", class="btn btn-primary sharp modal-submit")
+              input(type="submit", value="Change photo", name="submit", class="btn btn-primary modal-submit")
+
+    .modal.fade#nonprofitModal(tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Add a new Nonprofit
+          .modal-body
+            p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information.
+            form(id="nonprofitForm", action="/nonprofit/new", method="post")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", placeholder="Nonprofit name")
+              input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="submit", value="Add new nonprofit", name="submit", class="btn btn-primary modal-submit")
 
   script.
     $.fn.editable.defaults.mode = 'inline';
@@ -474,7 +487,7 @@ block content
       $('#addXP').on('click', function(e){
         e.preventDefault();
         $(".XP_form").fadeIn();
-        $(".skills").select2({
+        $(".skills_list").select2({
           placeholder: "Select up to 3 skills",
           maximumSelectionLength: 3,
           language: {
@@ -490,6 +503,24 @@ block content
 
         $("#nonprofit").select2({
           placeholder: "Select a nonprofit",
+        }).on('change', function(e){
+          console.log(e.currentTarget.selectedOptions[0].text);
+          if(e.currentTarget.selectedOptions[0].text=="Other")
+            {
+              $('#nonprofitModal').modal('toggle');
+            }
+        });
+        $('#nonprofitForm').submit(function(event){
+          event.preventDefault();
+          $(this).ajaxSubmit({
+            error: function(xhr) {
+              console.log(xhr);
+            },
+            success: function(response) {
+              loadExternalData('nonprofit', "#nonprofit");
+              $('#nonprofitModal').modal('toggle');
+            }
+          });
         });
 
         $('html, body').animate({
@@ -509,7 +540,7 @@ block content
           $('html, body').animate({
             scrollTop: $(element).find(".activity_form").offset().top
           }, "slow");
-          $(".skills").select2({
+          $(".skills_list").select2({
             placeholder: "Select up to 3 skills",
             maximumSelectionLength: 3,
             language: {
@@ -542,34 +573,27 @@ block content
       });
 
       $('.XP_form form').submit(function(event) {
+        event.preventDefault();
         $(this).ajaxSubmit({
           error: function(xhr) {
             console.log(xhr);
           },
           success: function(response) {
-            console.log(response);
-            console.log(this);
-            //- $(".add_new").on('click', showActivity);
-            //- $(this).fadeOut('slow', function(){location.reload()});
             location.reload();
           }
         });
-        event.preventDefault();
       });
 
       $('.activity_form').submit(function(event) {
+        event.preventDefault();
         $(this).ajaxSubmit({
           error: function(xhr) {
             console.log(xhr);
           },
           success: function(response) {
-            console.log(response);
-            console.log(this);
-            //- $(this).fadeOut('slow', function(){location.reload()});
             location.reload();
           }
         });
-        event.preventDefault();
       });
 
 
@@ -598,7 +622,7 @@ block content
             console.log(response);
             //remove public from path
             var $newFile = response.substring(6);
-            $('.modal').modal('toggle');
+            $('#uploadModal').modal('toggle');
             $(".user-bg img").attr('src',$newFile);
           }
         });
