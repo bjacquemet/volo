@@ -47,8 +47,6 @@ block content
                 - else if (volunteer.gender == 'female')
                   img(src="/images/female.svg", class="ico")
               p
-                - if (volunteer.birthdate)
-                  em #{format_date(volunteer.birthdate)}
                   -var hours = 0;
                   each experience in experiences
                     each activity, i in experience.activities
@@ -66,6 +64,20 @@ block content
               p Current position: <em>#{capitalize(volunteer.position)}</em>
             - else
               p Current position: <em>#{volunteer.position}</em>
+            - if (volunteer.graduate && volunteer.discipline && volunteer.graduation_year) 
+              p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
+            - else if (volunteer.graduate && volunteer.discipline && !volunteer.graduation_year)
+              p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>
+            - else if (volunteer.graduate && !volunteer.discipline && !volunteer.graduation_year)
+              p <em>#{capitalize(volunteer.graduate)}</em>
+            - else if (volunteer.graduate && !volunteer.discipline && volunteer.graduation_year)
+              p <em>#{capitalize(volunteer.graduate)}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
+            - else if (!volunteer.graduate && volunteer.discipline && !volunteer.graduation_year)
+              p Studying in <em>#{volunteer.discipline}</em>
+            - else if (!volunteer.graduate && !volunteer.discipline && volunteer.graduation_year)
+              p Gratuating in <em>#{volunteer.graduation_year}</em>
+            - else if (!volunteer.graduate && volunteer.discipline && volunteer.graduation_year)
+              p Studying in <em>#{volunteer.discipline}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
             p Postcode: <em>#{volunteer.postcode}</em>
     
     div.row.row-centered
