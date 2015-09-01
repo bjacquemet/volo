@@ -8,6 +8,16 @@ block content
   - var d = newDate.getDate();
   - return y+'/'+m+'/'+d;
   -}
+  -function bar_size(size){
+  -var barSize = Math.round(size*1.5);
+  -if(barSize >= 100) barSize = 80;
+  -return barSize + '%'
+  -}
+  -function color_opacity(size){
+  -var opacity = size/100*1.5;
+  -if(opacity >= 1) opacity = 1;
+  -return opacity
+  -}
   //- inline editing
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
   //- input mask for phone number
@@ -156,6 +166,18 @@ block content
 
       .row.row-centered
         .col-md-12
+          .col-md-12.content.skills
+            .col-md-12
+              h2 Skills
+              each skills in volunteer_skills
+                each skill in skills
+                  .col-md-12.no-gutter_l
+                    .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
+                      span #{skill._id.name}
+                    span #{skill.sum_hours} hours
+
+      .row.row-centered
+        .col-md-12
           .col-md-12.content.XP
             .col-md-12
               h2 Experiences
@@ -178,7 +200,7 @@ block content
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     .col-md-6.col-sm-6.col-xs-12.no-gutter
                       label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
-                      select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills select2-multiple", multiple, required)
+                      select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
 
                     .col-md-6.col-sm-6.col-xs-12.no-gutter_r
                       label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
@@ -252,18 +274,6 @@ block content
                           </em>
                         p <em>#{activity.hours} Hours</em>
                     != "</div>"
-
-                  //- .col-md-6.activity
-                  //-   .col-md-12.grey_background
-                  //-     p Role: <em>#{activity.role.name}</em>
-                  //-     p Skills: <em>
-                  //-       each skill, i in activity.skills
-                  //-         if (i == 0)
-                  //-           span #{skill.name} 
-                  //-         else
-                  //-           span , #{skill.name}
-                  //-       </em>
-                  //-     p <em>#{activity.hours} Hours</em>
                 
                 .row
                   .col-md-6.activity
@@ -456,7 +466,7 @@ block content
 
       // Prepare form to add new skill
 
-      loadExternalData('skill', ".skills");
+      loadExternalData('skill', ".skills_list");
       loadExternalData('role', ".role");
       loadExternalData('nonprofit', "#nonprofit");
       

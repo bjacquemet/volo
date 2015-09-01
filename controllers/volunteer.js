@@ -77,10 +77,14 @@ exports.getEditProfile = function(req, res, next) {
   getProfileByAccountId(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
+    ActivityController.getVolunteerSkills(volunteer._id, function (skills) {
+      console.log(skills);
+      res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
       user: req.user, 
       volunteer: volunteer, 
-      experiences: experiences });
+      experiences: experiences,
+      volunteer_skills: skills });
+    });
   });
 };
 
@@ -95,7 +99,7 @@ exports.getProfile = function (req, res, next) {
         volunteer: volunteer, 
         experiences: experiences,
         volunteer_skills: skills });
-    })
+    });
   });
 }
 
