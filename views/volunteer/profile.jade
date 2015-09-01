@@ -65,19 +65,19 @@ block content
             - else
               p Current position: <em>#{volunteer.position}</em>
             - if (volunteer.graduate && volunteer.discipline && volunteer.graduation_year) 
-              p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
+              p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>, graduating in <em>#{volunteer.graduation_year}</em>
             - else if (volunteer.graduate && volunteer.discipline && !volunteer.graduation_year)
               p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>
             - else if (volunteer.graduate && !volunteer.discipline && !volunteer.graduation_year)
               p <em>#{capitalize(volunteer.graduate)}</em>
             - else if (volunteer.graduate && !volunteer.discipline && volunteer.graduation_year)
-              p <em>#{capitalize(volunteer.graduate)}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
+              p <em>#{capitalize(volunteer.graduate)}</em>, graduating in <em>#{volunteer.graduation_year}</em>
             - else if (!volunteer.graduate && volunteer.discipline && !volunteer.graduation_year)
               p Studying in <em>#{volunteer.discipline}</em>
             - else if (!volunteer.graduate && !volunteer.discipline && volunteer.graduation_year)
-              p Gratuating in <em>#{volunteer.graduation_year}</em>
+              p Graduating in <em>#{volunteer.graduation_year}</em>
             - else if (!volunteer.graduate && volunteer.discipline && volunteer.graduation_year)
-              p Studying in <em>#{volunteer.discipline}</em>, gratuating in <em>#{volunteer.graduation_year}</em>
+              p Studying in <em>#{volunteer.discipline}</em>, graduating in <em>#{volunteer.graduation_year}</em>
     
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content.skills
