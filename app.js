@@ -12,8 +12,8 @@ var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
 var multer = require('multer');
+var compression = require('compression');
 var done = false;
-var Volunteer = require('./models/volunteer');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -56,8 +56,10 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+var maxAge = 31536000000;
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: maxAge}));
 app.use(flash());
+app.use(compression());
 
 //  Load routes
 app.use('/', routes);
