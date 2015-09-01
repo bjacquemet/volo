@@ -49,7 +49,11 @@ block content
               p
                 - if (volunteer.birthdate)
                   em #{format_date(volunteer.birthdate)}
-              p Accumulated hours: <em>620</em>
+                  -var hours = 0;
+                  each experience in experiences
+                    each activity, i in experience.activities
+                      - hours += activity.hours
+                  p Accumulated hours: <em>#{hours}</em>
 
           .col-md-5.info
             - if (volunteer.position == 'student' && volunteer.university)
