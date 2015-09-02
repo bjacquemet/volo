@@ -1,5 +1,6 @@
 var Volunteer = require('../models/volunteer');
 var Experience = require('../models/experience');
+var Skill = require('../models/skill');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
 var fs = require('fs');
@@ -103,18 +104,58 @@ exports.getProfile = function (req, res, next) {
   });
 }
 
-exports.searchProfile = function(req, res) {
+exports.searchProfile = function (req, res) {
   var searchTerm = req.query.search;
   searchTerm = searchTerm.toString();
+  console.log(searchTerm);
   Volunteer.search({
     query_string: {
       query: searchTerm
-    }
-  }, function (err, result) {
+    },
+  }, {hydrate:true},
+  function (err, search_result) {
       if (err) console.log(err);
       else {
-        console.log(result.hits.hits);
-        res.redirect('/volunteer_result');
+        var volunteer_profiles = [];
+        var profil = {};
+        var result_length = search_result.hits.hits.length,
+            i =0;
+        search_result.hits.hits.forEach(function(hit) {
+          ActivityController.getVolunteerSkills(hit._id, function (skills) {
+            if (err) {
+              console.log(err);
+            }
+            else {
+              profil = {first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
+              if (hit.university) profil['university'] = hit.university;
+              if (hit.company) profil['company'] = hit.company;
+              profil.skills = skills.skills;
+              volunteer_profiles.push(profil);
+              i++;
+              if (result_length == i) {
+                  res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
+                  user: req.user,
+                  results: volunteer_profiles
+                });
+              }
+            }
+          })
+        });
+        // res.render('/volunteer/results', {title: "Volunteer Results for search " + searchTerm, 
+          // user: req.user,
+          // results: volunteer_profiles
+        // });
+        // Volunteer.populate(result, {path: "_id", select: "first_name"}, function (err, results){
+        //   if (err) console.log(err);
+        //   else
+        //   {
+        //     // console.log(results);
+        //     res.render('/volunteer/results', {title: "Volunteer Results for search " + searchTerm, 
+        //       user: req.user,
+        //       results: results
+        //     });
+        //   }
+        // })
       }
     }
   );

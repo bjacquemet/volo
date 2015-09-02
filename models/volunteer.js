@@ -27,7 +27,8 @@ var Volunteer = new Schema({
 
 // Set up elastic search to allow search on volunteers first_name and lastname
 
-var esHost = process.env.SEARCHBOX_URL || 'localhost:9200';
+var esHost = process.env.SEARCHBOX_SSL_URL || 'localhost:9200';
+console.log(esHost);
 var esClient = new elasticsearch.Client({host: esHost, curlDebug:true});
 
 Volunteer.plugin(mongoosastic, {esClient:esClient});

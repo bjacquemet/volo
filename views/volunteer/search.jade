@@ -1,0 +1,53 @@
+extends ../layout
+
+block content
+
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-offset-1.content
+        .col-md-12.col-sm-12.col-xs-12
+          h3 Volunteer results
+
+          .col-md-6.col-md-offset-3
+            form(action="/volunteer/search")
+              .input-group.col-md-12
+                input(type="text", class="form-control input-lg", placeholder="Type a volunteer name" )
+                span.input-group-btn
+                  button(class="btn btn-primary", type="button")
+                    i.glyphicon.glyphicon-search
+
+          .col-md-12.col-xs-12.col-sm-12.break
+
+            each result in results
+              p #{result.first_name} #{result.last_name}
+              each skill in result.skills
+                p #{skill._id.name}
+
+          .col-md-10.col-md-offset-1.colored
+            a(href="/v_profile")
+              .col-md-2.user-md
+                img(src="/images/placeholder.png")
+              .col-md-10
+                p.volunteer_name John Doe
+                p <em>Student at Oxford University</em>
+                p Main skills: <em>Web development, marketing, communication</em>
+
+
+          .col-md-10.col-md-offset-1.not_colored
+            a(href="/v_profile")              
+              .col-md-2.user-md
+                img(src="/images/placeholder.png")
+              .col-md-10
+                p.volunteer_name Jack Joe
+                p <em>Student at Oxford University</em>
+                p Main skills: <em>Web development, marketing, communication</em>
+
+          .col-md-10.col-md-offset-1.colored
+            a(href="/v_profile")              
+              .col-md-2.user-md
+                img(src="/images/placeholder.png")
+              .col-md-10
+                p.volunteer_name Paul Smith
+                p <em>Student at Oxford University</em>
+                p Main skills: <em>Web development, marketing, communication</em>
+
