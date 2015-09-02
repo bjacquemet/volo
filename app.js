@@ -56,10 +56,11 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(compression());
 var maxAge = 31536000000;
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: maxAge}));
 app.use(flash());
-app.use(compression());
 
 //  Load routes
 app.use('/', routes);
