@@ -261,6 +261,7 @@ block content
                                 span , #{skill.name}
                             </em>
                           p <em>#{activity.hours} Hours</em>
+                          p.validation #{activity.validated}
 
                     if ((i == experience.activities.length-1) && (experience.activities.length%2 != 0))
                       != "</div>"
@@ -277,6 +278,7 @@ block content
                               span , #{skill.name}
                           </em>
                         p <em>#{activity.hours} Hours</em>
+                        p.validation #{activity.validated}
                     != "</div>"
                 
                 .row
@@ -634,6 +636,3 @@ block content
       });    
 
     });
-
-
-

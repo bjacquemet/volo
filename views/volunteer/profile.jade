@@ -38,9 +38,9 @@ block content
     div.row.row-centered
       div.col-md-10.col-md-push-1.col-xs-12.col-sm-12.no-gutter_l.content
         .col-md-12.col-sm-12.col-xs-12
-          .col-md-2.user-bg
+          .col-md-2.col-xs-12.user-bg.text-center
             img(src="/volunteer/photo/#{volunteer._id}")
-          .col-md-5
+          .col-md-5.col-xs-12
               h3 #{volunteer.first_name} #{volunteer.last_name}
                 - if (volunteer.gender == 'male')
                   img(src="/images/male.svg", class="ico")
@@ -92,13 +92,13 @@ block content
                   span #{skill.sum_hours} hours
             
     div.row.row-centered
-      div.col-md-10.col-md-offset-1.content.XP
-        .col-md-12
-          .col-md-12
+      div.col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content.XP
+        .col-md-12.col-xs-12.col-sm-12
+          .col-md-12.col-xs-12.col-sm-12
             h2 Experiences
 
             each experience, i in experiences
-              .col-md-9
+              .col-md-9.col-xs-12.col-sm-12.no-gutter_l
                 p.charity_name #{experience.nonprofit.name}
                 p #{experience.start_date}
                 p #{experience.description}

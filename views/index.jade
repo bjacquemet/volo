@@ -1,9 +1,8 @@
 extends layout
 
 block content
-
   div.row.row-centered.background-header(style="background-image: url('/images/index_background.png');")
-    h1.text-center.col-md-10.col-md-push-1 Everyone has a role in creating a better future
+    h1.text-center.col-md-10.col-md-push-1.col-sm-12.col-xs-12 Everyone has a role in creating a better future
 
   div.container-fluid
     div.row.row-centered
@@ -42,11 +41,11 @@ block content
           .col-md-3.col-sm-4.col-xs-6
             .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
               a(href="v_profile")
-                img(src="/images/leonie.png")
+                img.lazy(src="/images/leonie.png")
                 p.volunteer_name Léonie
 
           .col-md-3.col-sm-4.col-xs-6
             .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
               a(href="v_profile")
-                img(src="/images/adrien.png")
+                img.lazy(src="/images/adrien.png")
                 p.volunteer_name Adrien

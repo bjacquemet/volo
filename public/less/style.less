@@ -17,6 +17,7 @@ body {
 p {margin-bottom: 0 !important;}
 li {list-style-type: none;}
 img, canvas { max-width: 100%;}
+
 h1, h2 {
   font-weight: 300;
 }
@@ -32,6 +33,28 @@ h5 {
   font-weight: 300;
   line-height: @line-height-base * 0.9;
   margin-bottom: @profile-margin * 0.5;
+}
+
+h1 {
+  @media screen {
+    @media (max-width:@screen-xs-max) {
+      font-size: @font-size-h1 * 0.75;
+    }
+  }
+}
+h2 {
+  @media screen {
+    @media (max-width:@screen-xs-max) {
+      font-size: @font-size-h2 * 0.75;
+    }
+  }
+}
+h3 {
+  @media screen {
+    @media (max-width:@screen-xs-max) {
+      font-size: @font-size-h3 * 0.75;
+    }
+  }
 }
 
 em {
@@ -185,8 +208,8 @@ h1.logo {
   line-height: 50px;
   font-variant: small-caps;
   color: @brand-primary;
-  text-indent: -999em;
   background-image: url('/images/volo_logo.png');
+  text-indent: -999em;
   background-position: top left;
   background-repeat: no-repeat;
   background-size: contain;
@@ -235,6 +258,21 @@ h1.logo {
   background-size: cover;
   margin: 0px;
   height: 400px;
+  h1 {
+    @media screen {
+      @media (max-width:@screen-xs-max) {
+        margin-top:50px !important;
+      }
+    }
+  }
+  h2 {
+    top:50% !important;
+    @media screen {
+      @media (max-width:@screen-xs-max) {
+        margin-top:35px !important;
+      }
+    }
+  }
   h1, h2{
     position: relative;
     color:@brand-primary;
@@ -242,6 +280,12 @@ h1.logo {
     top: 40%;
     transform: translateY(-50%);
     margin:0;
+    @media screen {
+      @media (max-width:@screen-xs-max) {
+        transform: none;
+        top:0px !important;
+      }
+    }
   }
 }
 
