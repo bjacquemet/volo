@@ -103,6 +103,23 @@ exports.getProfile = function (req, res, next) {
   });
 }
 
+exports.searchProfile = function(req, res) {
+  var searchTerm = req.query.search;
+  searchTerm = searchTerm.toString();
+  Volunteer.search({
+    query_string: {
+      query: searchTerm
+    }
+  }, function (err, result) {
+      if (err) console.log(err);
+      else {
+        console.log(result.hits.hits);
+        res.redirect('/volunteer_result');
+      }
+    }
+  );
+};
+
 exports.newProfile = function(req, res){
   var newVolunteer = Volunteer({
     account_id: req.user._id,

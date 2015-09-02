@@ -14,6 +14,9 @@ var crypto = require('crypto');
 var multer = require('multer');
 var compression = require('compression');
 var done = false;
+var elasticsearch = require('elasticsearch');
+
+var Volunteer = require('./models/volunteer');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -95,6 +98,28 @@ mongoose.connect(uristring, function (err, res) {
   console.log ('Running on port: ' + theport);
   }
 });
+
+Volunteer.createMapping(function(err, mapping){  
+  if(err){
+    console.log('error creating mapping (you can safely ignore this)');
+    console.log(err);
+  }else{
+    console.log('mapping created!');
+    console.log(mapping);
+  }
+});
+
+// var es_host = process.env.SEARCHBOX_URL || 'localhost:9200';
+// var client = new elasticsearch.Client({
+//   host: es_host,
+//   log: 'trace'
+// }, function(err, res) {
+//   if (err) console.log(err);
+//   else {
+//     console.log('obj');
+//     console.log(res);
+//   }
+// });
 
 
 // catch 404 and forward to error handler
