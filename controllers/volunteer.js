@@ -141,21 +141,6 @@ exports.searchProfile = function (req, res) {
             }
           })
         });
-        // res.render('/volunteer/results', {title: "Volunteer Results for search " + searchTerm, 
-          // user: req.user,
-          // results: volunteer_profiles
-        // });
-        // Volunteer.populate(result, {path: "_id", select: "first_name"}, function (err, results){
-        //   if (err) console.log(err);
-        //   else
-        //   {
-        //     // console.log(results);
-        //     res.render('/volunteer/results', {title: "Volunteer Results for search " + searchTerm, 
-        //       user: req.user,
-        //       results: results
-        //     });
-        //   }
-        // })
       }
     }
   );
