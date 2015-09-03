@@ -289,6 +289,16 @@ h1.logo {
   }
 }
 
+.search_result {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-top: 0px;
+  &:nth-of-type(odd) {
+    background-color: fade(@brand-primary, 15%);
+  }
+}
+
+// to be removed (after experience validation done)
 .colored {
   background-color: fade(@brand-primary, 15%);
   padding-top: 30px;
@@ -296,6 +306,7 @@ h1.logo {
   margin-top: 0px;
 }
 
+// to be removed (after experience validation done)
 .not_colored {
   padding-top: 30px;
   padding-bottom: 30px;

@@ -126,7 +126,7 @@ exports.searchProfile = function (req, res) {
               console.log(err);
             }
             else {
-              profil = {first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
+              profil = {_id: hit._id, first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
               if (hit.university) profil['university'] = hit.university;
               if (hit.company) profil['company'] = hit.company;
               profil.skills = skills.skills;
