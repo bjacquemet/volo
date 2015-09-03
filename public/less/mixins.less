@@ -610,7 +610,8 @@
 .button-variant(@color; @background; @hover-background; @active-background; @disabled-background: @gray-light) {
   color: @color;
   background-color: @background;
-
+  
+  &:visited{color:@color;}
   &:hover,
   &:focus,
   &:active,

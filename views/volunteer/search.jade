@@ -24,7 +24,8 @@ block content
               a(href="/volunteer/#{result._id}")
                 .col-md-2.user-md
                   img(src="/volunteer/photo/#{result._id}")
-                .col-md-10
+                
+                .col-md-8
                   p.volunteer_name #{result.first_name} #{result.last_name}
                   - if (result.position == 'student' && result.university)
                     p <em>#{capitalize(result.position)} at #{capitalize(result.university)}</em>
@@ -42,3 +43,6 @@ block content
                           span <em>#{skill._id.name}</em>
                         else if (j < 3)
                           span , <em>#{skill._id.name}</em>
+
+                .col-md-2.text-center
+                  a(href="/volunteer/#{result._id}", class="btn sharp btn-lg first-btn btn-primary") View

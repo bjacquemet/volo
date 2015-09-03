@@ -66,10 +66,11 @@
 // --------------------------------------------------
 // button-variant params: @color; @background; @hover-background; @active-background; @disabled-background: @gray-light
 .first-btn { margin-bottom: 10px;}
+
 .btn-default {
   .button-variant(@brand-secondary, white, @brand-secondary, @brand-secondary);
   border: 0.13em solid @brand-secondary;
-  &:hover, &:active, &:visited, &:focus {
+  &:hover, &:active, &:focus {
     border: 0.13em solid @brand-secondary;
     color: white;
   }
@@ -77,7 +78,7 @@
 .btn-primary {
   .button-variant(@volo-green, white, @volo-green, @volo-green);
   border: 0.13em solid @volo-green;
-  &:hover, &:active, &:visited, &:focus {
+  &:hover, &:active, &:focus {
     border: 0.13em solid @volo-green;
     color: white;
   }
