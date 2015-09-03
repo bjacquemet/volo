@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  //- Scripts to compare password = confirm password
+  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/additional-methods.min.js")
+  if messages.error
+      .alert.alert-danger
+        div= messages.error
+    if messages.info
+      .alert.alert-info
+        div= messages.info
+    if messages.success
+      .alert.alert-success
+        div= messages.success
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-offset-1.content
+        div.col-md-12
+          h3 Reset your password
+          h4= info
+          form(method="post", class="col-md-5 no-gutter col-sm-12 col-xs-12")
+            .form-group
+              input.form-control(type='password', name="password", placeholder='New password', autofocus, required)
+            .form-group
+              input.form-control(type='password', name="confirm", placeholder='Confirm Password', required)
+            button.btn.btn-primary(type='submit') Update Password
+
+
+  script.
+    $('form').validate({
+      rules:{
+        password: required,
+        confirm: {
+          equalTo: password
+        }
+      }
+    });
