@@ -8,7 +8,7 @@ block content
         .col-md-12.col-sm-12.col-xs-12
           h3 Volunteer results
 
-          .col-md-6.col-md-offset-3
+          .col-md-6.col-md-offset-3.col-xs-12.col-sm-12
             form(action="/volunteer/search")
               .input-group.col-md-12.col-xs-12.col-sm-12
                 input(type="text", name="search", class="form-control", placeholder="Type a volunteer name" )
@@ -21,28 +21,27 @@ block content
 
           each result in results
             .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.search_result
-              a(href="/volunteer/#{result._id}")
-                .col-md-2.user-md
-                  img(src="/volunteer/photo/#{result._id}")
+              .col-md-2.col-xs-12.col-sm-2.user-md.text-center
+                img(src="/volunteer/photo/#{result._id}")
+              
+              .col-md-8.col-xs-12.col-sm-8
+                p.volunteer_name #{result.first_name} #{result.last_name}
+                - if (result.position == 'student' && result.university)
+                  p <em>#{capitalize(result.position)} at #{capitalize(result.university)}</em>
+                - else if (result.position == 'student' && !result.university)
+                  p <em>#{capitalize(result.position)}</em>
+                - else if (result.position == 'employed' && result.company)
+                  p <em>#{capitalize(result.position)} at #{capitalize(result.company)}</em>
+                - else if (result.position == 'employed' && !result.company)
+                  p <em>#{capitalize(result.position)}</em>
                 
-                .col-md-8
-                  p.volunteer_name #{result.first_name} #{result.last_name}
-                  - if (result.position == 'student' && result.university)
-                    p <em>#{capitalize(result.position)} at #{capitalize(result.university)}</em>
-                  - else if (result.position == 'student' && !result.university)
-                    p <em>#{capitalize(result.position)}</em>
-                  - else if (result.position == 'employed' && result.company)
-                    p <em>#{capitalize(result.position)} at #{capitalize(result.company)}</em>
-                  - else if (result.position == 'employed' && !result.company)
-                    p <em>#{capitalize(result.position)}</em>
-                  
-                  - if (result.skills.length > 0)
-                    p Main skills: 
-                      each skill, j in result.skills
-                        if (j == 0)
-                          span <em>#{skill._id.name}</em>
-                        else if (j < 3)
-                          span , <em>#{skill._id.name}</em>
+                - if (result.skills.length > 0)
+                  p Main skills: 
+                    each skill, j in result.skills
+                      if (j == 0)
+                        span <em>#{skill._id.name}</em>
+                      else if (j < 3)
+                        span , <em>#{skill._id.name}</em>
 
-                .col-md-2.text-center
-                  a(href="/volunteer/#{result._id}", class="btn sharp btn-lg first-btn btn-primary") View
+              .col-md-2.col-sm-2.col-xs-12.text-center
+                a(href="/volunteer/#{result._id}", class="btn sharp btn-lg first-btn btn-primary") View

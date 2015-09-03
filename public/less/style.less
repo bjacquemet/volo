@@ -296,6 +296,16 @@ h1.logo {
   &:nth-of-type(odd) {
     background-color: fade(@brand-primary, 15%);
   }
+  a {
+    margin-top: 10px;
+  }
+  .volunteer_name {
+    @media screen {
+      @media (max-width:@screen-xs-max) {
+        text-align: center;
+      }
+    }
+  }
 }
 
 // to be removed (after experience validation done)
