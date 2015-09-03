@@ -17,7 +17,7 @@ $ mongo localhost/socialLift seed.js
 ### Developing with git branches
 We are going to use branches to develop the different features.
 
-##### Branch naming: user/type/code_part/
+##### Branch naming: user/type/code_part/scope
 
 ##### User:
 - Baptiste: bj
