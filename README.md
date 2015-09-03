@@ -14,6 +14,34 @@ $ mongo localhost/socialLift seed.js
 ```
 *Note that you may have to change the db depending on your config*
 
+### Developing with git branches
+We are going to use branches to develop the different features.
+
+##### Branch naming: user/type/code_part/
+
+##### User:
+- Baptiste: bj
+- Plamen: ph
+- Kofi: ks
+
+##### Type:
+- wip: Works in progress; stuff I know won't be finished soon
+- feat: Feature I'm adding or expanding
+- bug: Bug fix or experiment
+- junk: Throwaway branch created to experiment
+
+##### Code part:
+- views
+- routes
+- public
+- models
+- controllers
+- multiple
+
+##### Scope
+The scope should describe the task/ticket being achieved. \
+For example: add_registration_with_linkedin or add_experience_validation_by_manager
+
 ### Endpoints accessible from Postman
 
 #### /skill/list
