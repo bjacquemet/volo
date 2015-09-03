@@ -14,12 +14,11 @@ block content
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content
         div.col-md-12
-          h1 Login Page
-          p.lead Please login with creadentials.
+          h3 Login
           h4= info
-          form(role='form', action="/login",method="post", class="col-md-5 no-gutter")
+          form(role='form', action="/login",method="post", class="col-md-5 no-gutter col-sm-12 col-xs-12")
             .form-group
-              input.form-control(type='text', name="username", placeholder='Enter Username')
+              input.form-control(type='text', name="username", placeholder='Username')
             .form-group
               input.form-control(type='password', name="password", placeholder='Password')
             button.btn.btn-primary(type='submit') Login

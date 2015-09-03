@@ -53,7 +53,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
-    secret: 'session secret key',
+    secret: 'volo session secret',
     resave: false,
     saveUninitialized: false
 }));
@@ -108,18 +108,6 @@ Volunteer.createMapping(function(err, mapping){
     console.log(mapping);
   }
 });
-
-// var es_host = process.env.SEARCHBOX_URL || 'localhost:9200';
-// var client = new elasticsearch.Client({
-//   host: es_host,
-//   log: 'trace'
-// }, function(err, res) {
-//   if (err) console.log(err);
-//   else {
-//     console.log('obj');
-//     console.log(res);
-//   }
-// });
 
 
 // catch 404 and forward to error handler

@@ -1,6 +1,15 @@
 extends layout
 
 block content
+  if messages.error
+      .alert.alert-danger
+        div= messages.error
+    if messages.info
+      .alert.alert-info
+        div= messages.info
+    if messages.success
+      .alert.alert-success
+        div= messages.success
   div.container-fluid
     div.row.row-centered
       div.col-md-10.col-md-offset-1.content
