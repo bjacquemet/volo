@@ -43,9 +43,9 @@ block content
           .col-md-5.col-xs-12
               h3 #{volunteer.first_name} #{volunteer.last_name}
                 - if (volunteer.gender == 'male')
-                  img(src="/images/male.svg", class="ico")
+                  img(src="/images/male.svg", class="sex")
                 - else if (volunteer.gender == 'female')
-                  img(src="/images/female.svg", class="ico")
+                  img(src="/images/female.svg", class="sex")
               p
                   -var hours = 0;
                   each experience in experiences

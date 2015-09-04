@@ -73,13 +73,24 @@ a {
   }
 }
 
+.pictogram {
+  width: 140px;
+  margin-bottom: @profile-margin;
+}
+
 .placeholder-font-size(@font-size-base*0.9);
 
 .liner {
-  font-size: @font-size-base * 1.1;
-  line-height: @line-height-base * 1.1;
   margin-top: @profile-margin * 4;
   margin-bottom: @profile-margin * 4;
+  p {
+    font-size: @font-size-base * 1.1;
+    line-height: @line-height-base * 1.1;
+  }
+  img {
+    border: 5px solid @volo-green;
+    .rounded(3px);
+  }
 }
 
 .no-gutter {
@@ -388,7 +399,7 @@ h1.logo {
   font-weight: 400;
   font-size: @font-size-base*1.2
 }
-.ico {
+.sex {
   width: @icon-medium;
   margin-left: 10px;
 }
