@@ -43,6 +43,21 @@ function getVolunteerSkills (volunteer_id, callback) {
     );
 };
 
+// function GetActivityByRefereeEmail (referee_email) {
+//   Activity.find({referee.email: referee_email}).exec(function (err, activities){
+//     res.send(activities);
+//   });
+// }
+
+exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
+  Activity.find({'referee.email': req.params.email, validated: "pending"}).populate('volunteer').exec(function (err, activities){
+    Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+      if (err) console.log(err);
+      res.send(full_activities);
+    });
+  });
+};
+
 exports.getVolunteerSkills = getVolunteerSkills;
 
 exports.getSkills = function (req, res) {

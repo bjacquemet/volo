@@ -11,4 +11,6 @@ router.get("/skills/:id", ActivityController.getVolunteerSkills);
 
 router.post("/new", ActivityController.new);
 
+router.get('/validation/:email', ActivityController.ActivityToBeValidatedByRefereeEmail)
+
 module.exports = router;
