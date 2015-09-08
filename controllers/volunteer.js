@@ -78,13 +78,17 @@ exports.getEditProfile = function(req, res, next) {
   getProfileByAccountId(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    ActivityController.getVolunteerSkills(volunteer._id, function (skills) {
-      console.log(skills);
-      res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
-      user: req.user, 
-      volunteer: volunteer, 
-      experiences: experiences,
-      volunteer_skills: skills });
+    ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
+      if (err) console.log(err);
+      else 
+      {
+        console.log(skills);
+        res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
+        user: req.user, 
+        volunteer: volunteer, 
+        experiences: experiences,
+        volunteer_skills: skills });
+      }
     });
   });
 };
@@ -93,13 +97,16 @@ exports.getProfile = function (req, res, next) {
   getProfileById(req.params.id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    ActivityController.getVolunteerSkills(req.params.id, function (skills) {
-      console.log(skills);
-      res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
-        user: req.user, 
-        volunteer: volunteer, 
-        experiences: experiences,
-        volunteer_skills: skills });
+    ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
+      if (err) console.log(err);
+      else {
+        console.log(skills);
+        res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+          user: req.user, 
+          volunteer: volunteer, 
+          experiences: experiences,
+          volunteer_skills: skills });
+      }
     });
   });
 }
@@ -119,9 +126,17 @@ exports.searchProfile = function (req, res) {
         var volunteer_profiles = [];
         var profil = {};
         var result_length = search_result.hits.hits.length,
-            i =0;
+            i =1;
+        console.log(result_length);
+        if (result_length == 0) {
+            res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
+            user: req.user,
+            results: null
+          })
+            console.log(null);
+        }
         search_result.hits.hits.forEach(function(hit) {
-          ActivityController.getVolunteerSkills(hit._id, function (skills) {
+          ActivityController.getVolunteerSkills(hit._id, function (err, skills) {
             if (err) {
               console.log(err);
             }
