@@ -40,7 +40,12 @@ function getVolunteerSkills (volunteer_id, callback) {
       console.log(results);
       var hours_per_skill = [];
       Skill.populate(results, {path:'_id', select: 'name'}, function (err, skills) {
-        callback({skills: skills})
+        if (err) 
+          {
+            console.log(err);
+            callback(err, null);
+          }
+        else callback(null, {skills: skills})
       });
     }
     );
@@ -99,8 +104,12 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
   Activity.find({'referee.email': req.params.email, validated: "pending"}).populate('volunteer role').exec(function (err, activities){
     Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
       if (err) console.log(err);
-
-      res.send(full_activities);
+      else {
+        // res.send(full_activities);
+        res.render('activity/validation', { title: 'Activities pending validation', 
+        user: req.user, 
+        activities: full_activities });
+      }
     });
   });
 };
