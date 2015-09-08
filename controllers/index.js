@@ -84,7 +84,7 @@ exports.forgot = function (req, res, next) {
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
         host: 'smtp.mailgun.org',
-        serivce: "Mailgun",
+        service: "Mailgun",
         auth: {
           user: "postmaster@sandbox58067a7e1e8447b980854930b974d10b.mailgun.org",
           pass: "ca8c5477f73b7d3360ce90e739615054"
@@ -154,7 +154,7 @@ exports.updatePassword = function (req, res) {
     function (user, done) {
       var smtpTransport = nodemailer.createTransport({
         host: 'smtp.mailgun.org',
-        serivce: "Mailgun",
+        service: "Mailgun",
         auth: {
           user: "postmaster@sandbox58067a7e1e8447b980854930b974d10b.mailgun.org",
           pass: "ca8c5477f73b7d3360ce90e739615054"
