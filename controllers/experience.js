@@ -1,5 +1,7 @@
 var Experience = require('../models/experience');
 var Activity = require('../models/activity');
+var ValidationPending = require('../models/validation_pending');
+
 
 function getVolunteerExperiences (volunteer_id, callback) {
   var query = {}
@@ -118,7 +120,30 @@ exports.new = function(req,res) {
         else {
           Experience.findByIdAndUpdate(experience._id, { $push: {activities: activity._id}}, function(err, exp) {
             if (err) console.log(err);
-            else res.sendStatus(201);
+            else 
+            {
+              var validation_pending = {
+                activity: activity._id,
+                volunteer: v_id,
+                role: role,
+                start_date: start_date,
+                hours: hours,
+                skills: skills,
+                referee: {
+                  name: referee_name,
+                  phone_number: referee_phone,
+                  email: referee_email
+                },
+                validated_via_email: false,
+                sent: false
+              }
+              if (end_date != '') validation_pending[end_date] = end_date;
+              var newValidation = ValidationPending(validation_pending);
+              newValidation.save(function (err, validation) {
+                if (err) console.log(err);
+                else res.sendStatus(201);
+              });
+            }
           });  
         }  
       });

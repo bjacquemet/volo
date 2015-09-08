@@ -3,6 +3,7 @@ var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
+var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 
 function getVolunteerSkills (volunteer_id, callback) {
@@ -204,8 +205,6 @@ exports.list = function(req,res) {
 };
 
 exports.new = function(req,res) {
-  console.log(req.body);
-  console.log('body end');
   var v_id = req.body.volunteer,
       e_id = req.body.experience,
       role = req.body.role,
@@ -240,13 +239,36 @@ exports.new = function(req,res) {
   newActivity.save(function (err, activity) {
     if (err) console.log(err);
     else {
-      Experience.findByIdAndUpdate(e_id, { $push: {activities: activity._id}}, function(err, exp) {
+      Experience.findByIdAndUpdate(e_id, { $push: {activities: activity._id}}, function (err, exp) {
         if (err) console.log(err);
-        else res.sendStatus(201);
-      });  
-    }  
+        else {
+          var validation_pending = {
+            activity: activity._id,
+            volunteer: v_id,
+            role: role,
+            start_date: start_date,
+            hours: hours,
+            skills: skills,
+            referee: {
+              name: referee_name,
+              phone_number: referee_phone,
+              email: referee_email
+            },
+            validated_via_email: false,
+            sent: false
+          }
+          if (end_date != '') validation_pending[end_date] = end_date;
+          var newValidation = ValidationPending(validation_pending);
+          newValidation.save(function (err, validation) {
+            if (err) console.log(err);
+            else res.sendStatus(201);
+          });
+        }  
+      })  
+    }
   });
-};
+}
+
 
 exports.getByVolunteerId = function(req,res) {
     Activity.find({volunteer: req.params.id}).populate('role skills').exec(function(err,activities) {
