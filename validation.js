@@ -130,7 +130,7 @@ function sendEmail (ToBeValidated) {
 }
 
 function removeFromList (ValidationPendingId) {
-  ValidationPending.findAndUpdate({_id: ValidationPendingId}, {sent: true}, function (err, validation) {
+  ValidationPending.findOneAndUpdate({_id: ValidationPendingId}, {sent: true}, function (err, validation) {
     if (err) console.log(err);
     else {
       mongoose.connection.close();
