@@ -96,6 +96,8 @@ function sendEmail (ToBeValidated) {
         pass: "18682498971f9e94b4c22b6433284351"
       }
     });
+    // TODO: HTML TEMPLATE
+    // TODO: catch when count = 0
     var mailOptions = {
       to: r_email,
       from: 'Baptiste <baptiste@volo.org.uk>',
