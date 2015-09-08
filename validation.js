@@ -105,7 +105,7 @@ function sendEmail (ToBeValidated) {
       text: 'Hello ' + r_name + ',\n\n' +
         'Volunteers have been adding activities with your Nonprofit, please validate these experiences \n\n' + 
         v_name + ' volunteered ' + hours + ' hours and acquired the following skills: ' + skills.join(', ') + '.\n' +
-        'On our website, you\'ll also be able to validate ' + count + ' other activities \n\n' +
+        'On our website, you\'ll also be able to validate ' + count + ' other new activities \n\n' +
         'thanks very much'
     };
     console.log(JSON.stringify(mailOptions));
