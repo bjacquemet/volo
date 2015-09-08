@@ -13,4 +13,6 @@ router.post("/new", ActivityController.new);
 
 router.get('/validation/:email', ActivityController.ActivityToBeValidatedByRefereeEmail)
 
+router.get('/all_pending', ActivityController.allPending)
+
 module.exports = router;

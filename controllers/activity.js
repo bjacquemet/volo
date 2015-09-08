@@ -1,6 +1,8 @@
 var Activity = require('../models/activity');
 var Experience = require('../models/experience');
 var Skill = require('../models/skill');
+var Volunteer = require('../models/volunteer');
+var Role = require('../models/role');
 var mongoose = require('mongoose');
 
 function getVolunteerSkills (volunteer_id, callback) {
@@ -49,10 +51,54 @@ function getVolunteerSkills (volunteer_id, callback) {
 //   });
 // }
 
+exports.allPending = function (req, res) {
+  Activity.aggregate(
+    [
+    {$match: {validated: 'pending'}},
+    {
+      $project: {
+        volunteer : 1,
+        validated: 1,
+        role: 1,
+        start_date: 1,
+        end_date: 1,
+        hours: 1,
+        skills: 1,
+        referee:
+          {
+            email: "$referee.email",
+            name: "$referee.name"
+          }
+      }
+    },
+    {
+      $group:
+      {
+        _id: '$referee.email',
+        activities: {$push: "$$ROOT"},
+        count: {$sum: 1},
+      }
+    }
+    ], 
+    function (err, activity) {
+      if (err) console.log(err);
+      else {
+        Skill.populate(activity, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
+          Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
+            Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, full_activity) {
+              res.send(full_activity);
+            })
+          })
+        })
+      }
+    });
+};
+
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
-  Activity.find({'referee.email': req.params.email, validated: "pending"}).populate('volunteer').exec(function (err, activities){
+  Activity.find({'referee.email': req.params.email, validated: "pending"}).populate('volunteer role').exec(function (err, activities){
     Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
       if (err) console.log(err);
+
       res.send(full_activities);
     });
   });
