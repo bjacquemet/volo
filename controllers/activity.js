@@ -116,6 +116,27 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
 
 exports.getVolunteerSkills = getVolunteerSkills;
 
+exports.accept = function (req, res) {
+  console.log(req.body.activityId);
+  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "accepted"}, function (err, activity) {
+    if (err) res.send(err);
+    else {
+      res.sendStatus(201);
+    }
+  });
+}
+
+exports.decline = function (req, res) {
+  console.log(req.body.activityId);
+  console.log(req.body.declineReason);
+  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason}, function (err, activity) {
+    if (err) res.send(err);
+    else {
+      res.sendStatus(201);
+    }
+  });
+}
+
 exports.getSkills = function (req, res) {
     var volunteer_id = req.params.id;
     volunteer_id = mongoose.Types.ObjectId(volunteer_id.toString());
