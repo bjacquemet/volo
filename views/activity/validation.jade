@@ -40,64 +40,69 @@ block content
             |Please, we'd appreciate if you could take the time to accept these experiences if they are correct 
             |or decline them if they did not happen.
           .col-md-12.break
-          
-          each activity in activities
-            .col-md-12.col-sm-12.col-xs-12.validation_pending
-              .col-md-1.col-sm-1.col-xs-3.user-md
-                img(src="/volunteer/photo/#{activity.volunteer._id}")
-              .col-md-8.col-sm-8.col-xs-9
-                p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
-                - if (activity.volunteer.position == 'student' && activity.volunteer.university)
-                  p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
-                - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
-                  p <em>#{capitalize(activity.volunteer.position)}</em>
-                - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
-                  p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
-                - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
-                  p <em>#{capitalize(activity.volunteer.position)}</em>
-                - else
-                  p <em>#{activity.volunteer.position}</em>
-                p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
-                - if (activity.skills.length > 0)
-                  p Skills acquired: 
-                    each skill, i in activity.skills
-                      em
-                      if (i == 0)
-                        span #{skill.name}
-                      else
-                        span , #{skill.name}
-              .col-md-3.col-sm-3.col-xs-12.text-center
-                a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}") Accept
-                a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}") Decline
-          
+          if (activities.length == 0)
+            h4.col-md-12.text-center 
+              |No validation pending
+              br
+              |Thanks for your help in making VOLO a success
+          else
+            each activity in activities
+              .col-md-12.col-sm-12.col-xs-12.validation_pending
+                .col-md-1.col-sm-1.col-xs-3.user-md
+                  img(src="/volunteer/photo/#{activity.volunteer._id}")
+                .col-md-8.col-sm-8.col-xs-9
+                  p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
+                  - if (activity.volunteer.position == 'student' && activity.volunteer.university)
+                    p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
+                  - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
+                    p <em>#{capitalize(activity.volunteer.position)}</em>
+                  - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
+                    p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
+                  - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
+                    p <em>#{capitalize(activity.volunteer.position)}</em>
+                  - else
+                    p <em>#{activity.volunteer.position}</em>
+                  p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                  - if (activity.skills.length > 0)
+                    p Skills acquired: 
+                      each skill, i in activity.skills
+                        em
+                        if (i == 0)
+                          span #{skill.name}
+                        else
+                          span , #{skill.name}
+                .col-md-3.col-sm-3.col-xs-12.text-center
+                  a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}") Accept
+                  a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}") Decline
+            
 
-          .modal.fade#declineModal(tabindex='-1')
-            .modal-dialog
-              .modal-content
-                .modal-header
-                  button(type="button" class="close" data-dismiss="modal") &times;
-                  p Decline volunteer experience
-                .modal-body
-                  p Please, explain us why you decline this experience. This won't be public.
-                  form(id="declineForm", action="/activity/decline", method="post", class="text-center")
-                    input(type="hidden", name="activityId", class="activityId")
-                    textarea.col-md-12(name="declineReason", rows="2")
-                    input(type="submit", value="Decline experience", name="submit", class="btn btn-primary sharp modal-submit")
+            .modal.fade#declineModal(tabindex='-1')
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    button(type="button" class="close" data-dismiss="modal") &times;
+                    p Decline volunteer experience
+                  .modal-body
+                    p Please, explain us why you decline this experience. This won't be public.
+                    form(id="declineForm", action="/activity/decline", method="post", class="text-center")
+                      input(type="hidden", name="activityId", class="activityId")
+                      textarea.col-md-12(name="declineReason", rows="2")
+                      input(type="submit", value="Decline experience", name="submit", class="btn btn-primary sharp modal-submit")
 
-          .modal.fade#acceptModal(tabindex='-1')
-            .modal-dialog
-              .modal-content
-                .modal-header
-                  button(type="button" class="close" data-dismiss="modal") &times;
-                  p Reccomend volunteer
-                .modal-body
-                  p Thanks for accepting this experience. Do you also want to add a recommendation to this volunteer? This will be public on his profile.
-                  form(id="declineForm", action="/activity/accept", method="post", class="text-center")
-                    input(type="hidden", name="activityId", class="activityId")
-                    textarea.col-md-12(name="recommendation", rows="2")
-                    input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary modal-submit")
-                    &nbsp;
-                    input(type="submit", value="No thanks", class="btn btn-default modal-submit")
+            .modal.fade#acceptModal(tabindex='-1')
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    button(type="button" class="close" data-dismiss="modal") &times;
+                    p Reccomend volunteer
+                  .modal-body
+                    p Thanks for accepting this experience. Do you also want to add a recommendation to this volunteer? This will be public on his profile.
+                    form(id="declineForm", action="/activity/accept", method="post", class="text-center")
+                      input(type="hidden", name="activityId", class="activityId")
+                      textarea.col-md-12(name="recommendation", rows="2")
+                      input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary modal-submit")
+                      &nbsp;
+                      input(type="submit", value="No thanks", class="btn btn-default modal-submit")
 
       script.
         $(document).ready(function() {
