@@ -15,4 +15,8 @@ router.get('/validation/:email', ActivityController.ActivityToBeValidatedByRefer
 
 router.get('/all_pending', ActivityController.allPending)
 
+router.post("/accept", ActivityController.accept);
+
+router.post("/decline", ActivityController.decline);
+
 module.exports = router;
