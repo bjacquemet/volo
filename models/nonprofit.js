@@ -15,9 +15,21 @@ var Nonprofit = new Schema({
     // registered: Boolean,
     // team_member: [{type: Schema.Types.ObjectId, ref: 'Volunteer'}],
     // main: {type: Schema.Types.ObjectId, ref: 'Volunteer'},
-    suggested_by_volunteer: Boolean
+    suggested_by_volunteer: Boolean,
+    updated_at: Date,
+    created_at: {type: Date, default: Date.now()}
 });
 // todo: if suggested_by_volunteer: add a created_by = volunteer._id
 
+Nonprofit.pre('update', function(next) {
+  console.log('------------->>>>>> update updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
+});
+Nonprofit.pre('findOneAndUpdate', function(next) {
+  console.log('------------->>>>>> findandupdate updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
+});
 
 module.exports = mongoose.model('Nonprofit', Nonprofit);

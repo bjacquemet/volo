@@ -22,7 +22,21 @@ var Volunteer = new Schema({
     discipline: String,
     graduate: String,
     graduation_year: { type: Number, min: 2000, max: 2050 },
-    company: String
+    company: String,
+    updated_at: Date,
+    created_at: {type: Date, default: Date.now()}
+});
+
+
+Volunteer.pre('update', function(next) {
+  console.log('------------->>>>>> update updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
+});
+Volunteer.pre('findOneAndUpdate', function(next) {
+  console.log('------------->>>>>> findandupdate updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
 });
 
 // Set up elastic search to allow search on volunteers first_name and lastname

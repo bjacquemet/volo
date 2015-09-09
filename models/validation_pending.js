@@ -11,7 +11,8 @@ var ValidationPending = new Schema({
     skills: [{type: Schema.Types.ObjectId, ref: "Skill"}],
     referee:{name: String, phone_number: String, email: String},
     validated_via_email: Boolean,
-    sent: Boolean
+    sent: Boolean,
+    created_at: {type: Date, default: Date.now()}
 });
 
 
