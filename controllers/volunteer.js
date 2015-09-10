@@ -112,66 +112,74 @@ exports.getProfile = function (req, res, next) {
 }
 
 exports.searchProfile = function (req, res) { 
-  var terms = req.query.search.split(' ');
-  var regexString = "";
-  for (var i = 0; i < terms.length; i++)
-  {
-      regexString += terms[i];
-      if (i < terms.length - 1) regexString += '|';
-  }
-  var re = new RegExp(regexString, 'ig');
-  Volunteer.aggregate([
-    {$project:
+  if (req.query.search) {
+    var terms = req.query.search.split(' ');
+    var regexString = "";
+    for (var i = 0; i < terms.length; i++)
     {
-      fullname: {$concat: ['$first_name', ' ', '$last_name']},
-      first_name: 1,
-      last_name: 1,
-      position:1,
-      university:1,
-      company:1
-    },
-     },
-     {$match:
-      {fullname: re}}
-    ],
-    function (err, results) {
-      if (err) console.log(err);
-      console.log("results");
-      console.log(results);
-      var volunteer_profiles = [],
-          profil = {},
-          result_length = results.length,
-          i =0;
-      console.log("result_length =" + result_length);
-      if (result_length == 0) {
-          res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
-          user: req.user,
-          results: null
+        regexString += terms[i];
+        if (i < terms.length - 1) regexString += '|';
+    }
+    var re = new RegExp(regexString, 'ig');
+    Volunteer.aggregate([
+      {$project:
+      {
+        fullname: {$concat: ['$first_name', ' ', '$last_name']},
+        first_name: 1,
+        last_name: 1,
+        position:1,
+        university:1,
+        company:1
+      },
+       },
+       {$match:
+        {fullname: re}}
+      ],
+      function (err, results) {
+        if (err) console.log(err);
+        console.log("results");
+        console.log(results);
+        var volunteer_profiles = [],
+            profil = {},
+            result_length = results.length,
+            i =0;
+        console.log("result_length =" + result_length);
+        if (result_length == 0) {
+            res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+            user: req.user,
+            results: null
+          })
+        }
+        results.forEach(function (volunteer) {
+          ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
+            if (err) console.log(err);
+            profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position};
+            if (volunteer.university) profil['university'] = volunteer.university;
+            if (volunteer.company) profil['company'] = volunteer.company;
+            console.log(skills);
+            if (skills)
+            {
+              profil.skills = skills.skills;
+            }
+            volunteer_profiles.push(profil);
+            i++;
+            if (result_length == i) {
+                res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+                user: req.user,
+                results: volunteer_profiles
+              });
+            }
+          });
         })
       }
-      results.forEach(function (volunteer) {
-        ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
-          if (err) console.log(err);
-          profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position};
-          if (volunteer.university) profil['university'] = volunteer.university;
-          if (volunteer.company) profil['company'] = volunteer.company;
-          console.log(skills);
-          if (skills)
-          {
-            profil.skills = skills.skills;
-          }
-          volunteer_profiles.push(profil);
-          i++;
-          if (result_length == i) {
-              res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
-              user: req.user,
-              results: volunteer_profiles
-            });
-          }
-        });
-      })
-    }
-  )
+    )
+  }
+  else
+  {
+    res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+      user: req.user
+    });
+  }
 }
 
 exports.newProfile = function(req, res){
