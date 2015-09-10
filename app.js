@@ -12,7 +12,6 @@ var bcrypt = require('bcrypt-nodejs');
 var multer = require('multer');
 var compression = require('compression');
 var done = false;
-var elasticsearch = require('elasticsearch');
 
 var Volunteer = require('./models/volunteer');
 
