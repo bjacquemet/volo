@@ -14,5 +14,15 @@ var ValidationPending = new Schema({
     sent: Boolean
 });
 
+// validation pending alternative schema
+// referee:{name: String, phone_number: String, email: String},
+// activities: [{type: Schema.Types.ObjectId, ref: "Activity"}],
+// validated_via_email: Boolean,
+// sent: Boolean,
+// created_at: {type: Date, default: Date.now()},
+// token: String
+
+// Advantage: all the activities pending validation are together with a referee and we can add a token
+
 
 module.exports = mongoose.model('ValidationPending', ValidationPending);
