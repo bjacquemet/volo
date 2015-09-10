@@ -150,7 +150,7 @@ exports.searchProfile = function (req, res) {
         })
       }
       results.forEach(function (volunteer) {
-        ActivityController.getVolunteerSkills(volunteer._id, function (skills) {
+        ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
           if (err) console.log(err);
           profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position};
           if (volunteer.university) profil['university'] = volunteer.university;

@@ -96,17 +96,6 @@ mongoose.connect(uristring, function (err, res) {
   }
 });
 
-Volunteer.createMapping(function(err, mapping){  
-  if(err){
-    console.log('error creating mapping (you can safely ignore this)');
-    console.log(err);
-  }else{
-    console.log('mapping created!');
-    console.log(mapping);
-  }
-});
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
