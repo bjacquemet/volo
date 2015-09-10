@@ -174,56 +174,6 @@ exports.searchProfile = function (req, res) {
   )
 }
 
-// exports.searchProfile = function (req, res) {
-//   var searchTerm = req.query.search;
-//   searchTerm = searchTerm.toString();
-//   console.log(searchTerm);
-//   Volunteer.search({
-//     query_string: {
-//       query: searchTerm
-//     },
-//   }, {hydrate:true},
-//   function (err, search_result) {
-//       if (err) console.log(err);
-//       else {
-//         var volunteer_profiles = [];
-//         var profil = {};
-//         var result_length = search_result.hits.hits.length,
-//             i =1;
-//         console.log(result_length);
-//         if (result_length == 0) {
-//             res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
-//             user: req.user,
-//             results: null
-//           })
-//             console.log(null);
-//         }
-//         search_result.hits.hits.forEach(function(hit) {
-//           ActivityController.getVolunteerSkills(hit._id, function (err, skills) {
-//             if (err) {
-//               console.log(err);
-//             }
-//             else {
-//               profil = {_id: hit._id, first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
-//               if (hit.university) profil['university'] = hit.university;
-//               if (hit.company) profil['company'] = hit.company;
-//               profil.skills = skills.skills;
-//               volunteer_profiles.push(profil);
-//               i++;
-//               if (result_length == i) {
-//                   res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
-//                   user: req.user,
-//                   results: volunteer_profiles
-//                 });
-//               }
-//             }
-//           })
-//         });
-//       }
-//     }
-//   );
-// };
-
 exports.newProfile = function(req, res){
   var newVolunteer = Volunteer({
     account_id: req.user._id,
