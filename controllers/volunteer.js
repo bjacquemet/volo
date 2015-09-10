@@ -111,55 +111,118 @@ exports.getProfile = function (req, res, next) {
   });
 }
 
-exports.searchProfile = function (req, res) {
-  var searchTerm = req.query.search;
-  searchTerm = searchTerm.toString();
-  console.log(searchTerm);
-  Volunteer.search({
-    query_string: {
-      query: searchTerm
+exports.searchProfile = function (req, res) { 
+  var terms = req.query.search.split(' ');
+  var regexString = "";
+  for (var i = 0; i < terms.length; i++)
+  {
+      regexString += terms[i];
+      if (i < terms.length - 1) regexString += '|';
+  }
+  var re = new RegExp(regexString, 'ig');
+  Volunteer.aggregate([
+    {$project:
+    {
+      fullname: {$concat: ['$first_name', ' ', '$last_name']},
+      first_name: 1,
+      last_name: 1,
+      position:1,
+      university:1,
+      company:1
     },
-  }, {hydrate:true},
-  function (err, search_result) {
+     },
+     {$match:
+      {fullname: re}}
+    ],
+    function (err, results) {
       if (err) console.log(err);
-      else {
-        var volunteer_profiles = [];
-        var profil = {};
-        var result_length = search_result.hits.hits.length,
-            i =1;
-        console.log(result_length);
-        if (result_length == 0) {
-            res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
-            user: req.user,
-            results: null
-          })
-            console.log(null);
-        }
-        search_result.hits.hits.forEach(function(hit) {
-          ActivityController.getVolunteerSkills(hit._id, function (err, skills) {
-            if (err) {
-              console.log(err);
-            }
-            else {
-              profil = {_id: hit._id, first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
-              if (hit.university) profil['university'] = hit.university;
-              if (hit.company) profil['company'] = hit.company;
-              profil.skills = skills.skills;
-              volunteer_profiles.push(profil);
-              i++;
-              if (result_length == i) {
-                  res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
-                  user: req.user,
-                  results: volunteer_profiles
-                });
-              }
-            }
-          })
-        });
+      console.log("results");
+      console.log(results);
+      var volunteer_profiles = [],
+          profil = {},
+          result_length = results.length,
+          i =0;
+      console.log("result_length =" + result_length);
+      if (result_length == 0) {
+          res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+          user: req.user,
+          results: null
+        })
       }
+      results.forEach(function (volunteer) {
+        ActivityController.getVolunteerSkills(volunteer._id, function (skills) {
+          if (err) console.log(err);
+          profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position};
+          if (volunteer.university) profil['university'] = volunteer.university;
+          if (volunteer.company) profil['company'] = volunteer.company;
+          console.log(skills);
+          if (skills)
+          {
+            profil.skills = skills.skills;
+          }
+          volunteer_profiles.push(profil);
+          i++;
+          if (result_length == i) {
+              res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+              user: req.user,
+              results: volunteer_profiles
+            });
+          }
+        });
+      })
     }
-  );
-};
+  )
+}
+
+// exports.searchProfile = function (req, res) {
+//   var searchTerm = req.query.search;
+//   searchTerm = searchTerm.toString();
+//   console.log(searchTerm);
+//   Volunteer.search({
+//     query_string: {
+//       query: searchTerm
+//     },
+//   }, {hydrate:true},
+//   function (err, search_result) {
+//       if (err) console.log(err);
+//       else {
+//         var volunteer_profiles = [];
+//         var profil = {};
+//         var result_length = search_result.hits.hits.length,
+//             i =1;
+//         console.log(result_length);
+//         if (result_length == 0) {
+//             res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
+//             user: req.user,
+//             results: null
+//           })
+//             console.log(null);
+//         }
+//         search_result.hits.hits.forEach(function(hit) {
+//           ActivityController.getVolunteerSkills(hit._id, function (err, skills) {
+//             if (err) {
+//               console.log(err);
+//             }
+//             else {
+//               profil = {_id: hit._id, first_name: hit.first_name, last_name: hit.last_name, position:hit.position};
+//               if (hit.university) profil['university'] = hit.university;
+//               if (hit.company) profil['company'] = hit.company;
+//               profil.skills = skills.skills;
+//               volunteer_profiles.push(profil);
+//               i++;
+//               if (result_length == i) {
+//                   res.render('volunteer/search', {title: "Volunteer Results for search " + searchTerm, 
+//                   user: req.user,
+//                   results: volunteer_profiles
+//                 });
+//               }
+//             }
+//           })
+//         });
+//       }
+//     }
+//   );
+// };
 
 exports.newProfile = function(req, res){
   var newVolunteer = Volunteer({
