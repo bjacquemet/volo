@@ -39,7 +39,7 @@ block content
                   - else if (result.position == 'employed' && !result.company)
                     p <em>#{capitalize(result.position)}</em>
                   
-                  - if (result.skills.length > 0)
+                  - if (result.skills && result.skills.length > 0)
                     p Main skills: 
                       each skill, j in result.skills
                         if (j == 0)

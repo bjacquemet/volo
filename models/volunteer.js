@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var mongoosastic = require('mongoosastic')
-var elasticsearch = require('elasticsearch')
 
 var Volunteer = new Schema({
     account_id: {type: Schema.Types.ObjectId, ref: 'Account'},
@@ -39,26 +38,4 @@ Volunteer.pre('findOneAndUpdate', function(next) {
   next();
 });
 
-// Set up elastic search to allow search on volunteers first_name and lastname
-
-var esHost = process.env.SEARCHBOX_SSL_URL || 'localhost:9200';
-console.log(esHost);
-var esClient = new elasticsearch.Client({host: esHost, curlDebug:true});
-
-Volunteer.plugin(mongoosastic, {esClient:esClient});
-
-var VolunteerModel = mongoose.model('Volunteer', Volunteer),
-                     stream = VolunteerModel.synchronize(),
-                     count = 0;
-
-                     stream.on('data', function(err, doc){
-                       count++;
-                     });
-                     stream.on('close', function(){
-                       console.log('indexed ' + count + ' documents!');
-                     });
-                     stream.on('error', function(err){
-                       console.log(err);
-                     });
-
-module.exports = VolunteerModel;
+module.exports = mongoose.model('Volunteer', Volunteer);
