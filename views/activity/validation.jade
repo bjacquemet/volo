@@ -79,8 +79,8 @@ block content
                         else
                           span , #{skill.name}
                 .col-md-3.col-sm-3.col-xs-12.text-center
-                  a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}") Accept
-                  a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}") Decline
+                  a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}" data-referee="#{activity.referee.name}") Accept
+                  a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}",) Decline
             
 
             .modal.fade#declineModal(tabindex='-1')
@@ -104,18 +104,28 @@ block content
                     p Reccomend volunteer
                   .modal-body
                     p Thanks for accepting this experience. Do you also want to add a recommendation to this volunteer? This will be public on his profile.
-                    form(id="declineForm", action="/activity/accept", method="post", class="text-center")
+                    form(id="recoForm", action="/activity/accept", method="post", class="text-center")
                       input(type="hidden", name="activityId", class="activityId")
-                      textarea.col-md-12(name="recommendation", rows="2")
+                      input(type="hidden", name="referee", class='referee')
+                      textarea.col-md-12(name="recommendation", rows="2", required)
                       input(type="submit", value="Add recommendation", name="submit", class="btn btn-primary modal-submit")
-                      &nbsp;
+                    form(id="acceptForm", action="/activity/accept", method="post", class="text-center")
+                      input(type="hidden", name="activityId", class="activityId")
+                      input(type="hidden", name="referee", class='referee')
                       input(type="submit", value="No thanks", class="btn btn-default modal-submit")
 
       script.
         $(document).ready(function() {
           $(".btn-validate").on('click', function () {
-             var activityID = $(this).data('activity');
-             $(".activityId").val(activityID);
+            var activityID = $(this).data('activity');
+            var referee = $(this).data('referee');
+            $(".referee").val(referee);
+            $(".activityId").val(activityID);
+          });
+
+          $('.btn-decline').on('click', function () {
+            var activityID = $(this).data('activity');
+            $(".activityId").val(activityID);
           });
 
           //- $('.modal form').on('submit', function (e) {
@@ -123,7 +133,19 @@ block content
           //-   location.reload();
           //- })
 
-          $('.modal form').submit(function(event) {
+          $('#acceptModal form').submit(function(event) {
+            event.preventDefault();
+            $(this).ajaxSubmit({
+              error: function(xhr) {
+                console.log(xhr);
+              },
+              success: function(response) {
+                location.reload();
+              }
+            });
+          });
+
+          $('#declineModal form').submit(function(event) {
             event.preventDefault();
             $(this).ajaxSubmit({
               error: function(xhr) {

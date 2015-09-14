@@ -3,6 +3,7 @@ var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
+var Recommendation = require('../models/recommendation');
 var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
@@ -132,18 +133,29 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
 exports.getVolunteerSkills = getVolunteerSkills;
 
 exports.accept = function (req, res) {
-  console.log(req.body.activityId);
   Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "accepted"}, function (err, activity) {
     if (err) res.send(err);
     else {
-      res.sendStatus(201);
+      if (req.body.recommendation) {
+        var recommendation_json = {
+          activity: req.body.activityId,
+          referee_name: req.body.referee,
+          recommendation: req.body.recommendation
+        }
+        var newReco = Recommendation(recommendation_json);
+        newReco.save(function (err, recom) {
+          if (err) console.log(err);
+          else {
+            res.sendStatus(201);     
+          }
+        })
+      }
+      else res.sendStatus(201);
     }
   });
 }
 
 exports.decline = function (req, res) {
-  console.log(req.body.activityId);
-  console.log(req.body.declineReason);
   Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason}, function (err, activity) {
     if (err) res.send(err);
     else {
