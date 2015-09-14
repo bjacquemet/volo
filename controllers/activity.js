@@ -5,6 +5,7 @@ var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
 var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
+var crypto = require('crypto');
 
 function getVolunteerSkills (volunteer_id, callback) {
   volunteer_id = mongoose.Types.ObjectId(volunteer_id);
@@ -242,33 +243,53 @@ exports.new = function(req,res) {
       Experience.findByIdAndUpdate(e_id, { $push: {activities: activity._id}}, function (err, exp) {
         if (err) console.log(err);
         else {
-          var validation_pending = {
-            activity: activity._id,
-            volunteer: v_id,
-            role: role,
-            start_date: start_date,
-            hours: hours,
-            skills: skills,
-            referee: {
-              name: referee_name,
-              phone_number: referee_phone,
-              email: referee_email
-            },
-            validated_via_email: false,
-            sent: false
-          }
-          if (end_date != '') validation_pending[end_date] = end_date;
-          var newValidation = ValidationPending(validation_pending);
-          newValidation.save(function (err, validation) {
+          ValidationPending.findOne({referee_email:referee_email}, function (err, validation) {
             if (err) console.log(err);
-            else res.sendStatus(201);
-          });
+            if (validation) {
+              var validation_pending = {
+                activity: activity._id,
+                referee: {
+                  name: referee_name,
+                  phone_number: referee_phone
+                },
+                validated_via_email: false,
+                sent: false
+              };
+              ValidationPending.findByIdAndUpdate(validation._id, { $push: {activities: validation_pending}}, function (err, validation_added) {
+                if (err) console.log(err);
+                else res.sendStatus(201);
+              })
+            }
+            else {
+              crypto.randomBytes(20, function(err, buf) {
+                var token = buf.toString('hex');
+              });
+              var validation_pending = {
+                referee_email: referee_email,
+                token: token,
+                activities:
+                [{
+                  activity: activity._id,
+                  referee: {
+                    name: referee_name,
+                    phone_number: referee_phone
+                  },
+                  validated_via_email: false,
+                  sent: false
+                }]
+              };
+              var newValidation = ValidationPending(validation_pending);
+              newValidation.save(function (err, validation) {
+                if (err) console.log(err);
+                else res.sendStatus(201);
+              });
+            }
+          })
         }  
       })  
     }
   });
 }
-
 
 exports.getByVolunteerId = function(req,res) {
     Activity.find({volunteer: req.params.id}).populate('role skills').exec(function(err,activities) {
