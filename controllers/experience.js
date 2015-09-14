@@ -52,11 +52,20 @@ function getVolunteerExperiences (volunteer_id, callback) {
 
                   experience.totalHours = hours
                   experience.skills_list = skills_list;
-                  RecommendationController.getRecofromExperienceId(experience._id, function (err, reco) {
-                    console.log("reco = "+ reco);
-                    experience.reco_sum = reco;
-                    complete_experiences.push(experience);
-                  })
+                  // RecommendationController.getRecofromExperienceId(experience._id, function (err, reco) {
+                  //   if (err) console.log(err);
+                  //   else
+                  //   {
+                  //     if (reco) {
+                  //       console.log("reco = "+ reco);
+                  //       experience.reco_sum = reco;
+                  //      }
+                      complete_experiences.push(experience);
+                  //     callback({
+                  //       experiences: complete_experiences
+                  //     });
+                  //   }
+                  // })
                 });
                 // End total hours calculation and skills list aggregation
                 callback({
