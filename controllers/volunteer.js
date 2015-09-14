@@ -3,6 +3,7 @@ var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
+var RecommendationController = require('../controllers/recommendation');
 var fs = require('fs');
 
 function getProfileByAccountId (volunteer_account_id, callback) {
@@ -100,12 +101,14 @@ exports.getProfile = function (req, res, next) {
     ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
       if (err) console.log(err);
       else {
-        console.log(skills);
-        res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
-          user: req.user, 
-          volunteer: volunteer, 
-          experiences: experiences,
-          volunteer_skills: skills });
+        RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+          res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+            user: req.user, 
+            volunteer: volunteer, 
+            experiences: experiences,
+            volunteer_skills: skills,
+            recommendations: reco });
+        })
       }
     });
   });

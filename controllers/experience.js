@@ -1,6 +1,7 @@
 var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 var ValidationPending = require('../models/validation_pending');
+var RecommendationController = require('../controllers/recommendation');
 var crypto = require('crypto');
 var async = require('async');
 
@@ -51,7 +52,11 @@ function getVolunteerExperiences (volunteer_id, callback) {
 
                   experience.totalHours = hours
                   experience.skills_list = skills_list;
-                  complete_experiences.push(experience);
+                  RecommendationController.getRecofromExperienceId(experience._id, function (err, reco) {
+                    console.log("reco = "+ reco);
+                    experience.reco_sum = reco;
+                    complete_experiences.push(experience);
+                  })
                 });
                 // End total hours calculation and skills list aggregation
                 callback({
