@@ -14,7 +14,20 @@ var Activity = new Schema({
     decline_reason: String,
     skills: [{type: Schema.Types.ObjectId, ref: "Skill"}],
     notes: String,
-    referee:{name: String, phone_number: String, email: String}
+    referee:{name: String, phone_number: String, email: String},
+    updated_at: Date,
+    created_at: {type: Date, default: Date.now()}
+});
+
+Activity.pre('update', function(next) {
+  console.log('------------->>>>>> update updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
+});
+Activity.pre('findOneAndUpdate', function(next) {
+  console.log('------------->>>>>> findandupdate updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
 });
 
 

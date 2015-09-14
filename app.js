@@ -12,7 +12,6 @@ var bcrypt = require('bcrypt-nodejs');
 var multer = require('multer');
 var compression = require('compression');
 var done = false;
-var elasticsearch = require('elasticsearch');
 
 var Volunteer = require('./models/volunteer');
 
@@ -96,17 +95,6 @@ mongoose.connect(uristring, function (err, res) {
   console.log ('Running on port: ' + theport);
   }
 });
-
-Volunteer.createMapping(function(err, mapping){  
-  if(err){
-    console.log('error creating mapping (you can safely ignore this)');
-    console.log(err);
-  }else{
-    console.log('mapping created!');
-    console.log(mapping);
-  }
-});
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
