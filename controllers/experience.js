@@ -1,7 +1,8 @@
 var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 var ValidationPending = require('../models/validation_pending');
-
+var crypto = require('crypto');
+var async = require('async');
 
 function getVolunteerExperiences (volunteer_id, callback) {
   var query = {}
@@ -122,27 +123,59 @@ exports.new = function(req,res) {
             if (err) console.log(err);
             else 
             {
-              var validation_pending = {
-                activity: activity._id,
-                volunteer: v_id,
-                role: role,
-                start_date: start_date,
-                hours: hours,
-                skills: skills,
-                referee: {
-                  name: referee_name,
-                  phone_number: referee_phone,
-                  email: referee_email
-                },
-                validated_via_email: false,
-                sent: false
-              }
-              if (end_date != '') validation_pending[end_date] = end_date;
-              var newValidation = ValidationPending(validation_pending);
-              newValidation.save(function (err, validation) {
+              ValidationPending.findOne({referee_email:referee_email}, function (err, validation) {
                 if (err) console.log(err);
-                else res.sendStatus(201);
-              });
+                if (validation) {
+                  var validation_pending = {
+                    activity: activity._id,
+                    referee: {
+                      name: referee_name,
+                      phone_number: referee_phone
+                    },
+                    validated_via_email: false,
+                    sent: false
+                  };
+                  ValidationPending.findByIdAndUpdate(validation._id, { $push: {activities: validation_pending}}, function (err, validation_added) {
+                    if (err) console.log(err);
+                    else res.sendStatus(201);
+                  })
+                }
+                else {
+                  async.waterfall([
+                    function (done) {
+                      crypto.randomBytes(20, function(err, buf) {
+                        var token = buf.toString('hex');
+                        done(err, token);
+                      });
+                    },
+                    function (token, done) {
+                      var validation_pending = {
+                        referee_email: referee_email,
+                        token: token,
+                        activities:
+                        [{
+                          activity: activity._id,
+                          referee: {
+                            name: referee_name,
+                            phone_number: referee_phone
+                          },
+                          validated_via_email: false,
+                          sent: false
+                        }]
+                      };
+                      var newValidation = ValidationPending(validation_pending);
+                      newValidation.save(function (err, validation) {
+                        if (err) console.log(err);
+                        else res.sendStatus(201);
+                      });
+                    }
+                  ],
+                  function (err) {
+                    if (err) return next(err);
+                    res.sendStatus(500);
+                  })
+                }
+              })
             }
           });  
         }  

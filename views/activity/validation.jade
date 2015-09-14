@@ -33,19 +33,26 @@ block content
     div.row.row-centered
       div.col-md-10.col-md-offset-1.col-xs-12.content
         .col-md-12.col-sm-12.col-xs-12
-          h3 Volunteering experience validation
-          p
-            |Here is the list of experiences volunteers have had with your nonprofit.
-            br
-            |Please, we'd appreciate if you could take the time to accept these experiences if they are correct 
-            |or decline them if they did not happen.
-          .col-md-12.break
-          if (activities.length == 0)
+          if (authorized == false)
+            h4.col-md-12.text-center 
+              |You are not authorized to access this page
+            p 
+              |Please verify that you have the right link to this page. First check the email you received for validating volunteer experiences and contact 
+              a(href="mailto:melissa@volo.org.uk") melissa@volo.org.uk
+              |&nbsp;if you have any problem.
+          else if (activities.length == 0)
             h4.col-md-12.text-center 
               |No validation pending
               br
               |Thanks for your help in making VOLO a success
           else
+            h3 Volunteering experience validation
+            p
+              |Here is the list of experiences volunteers have had with your nonprofit.
+              br
+              |Please, we'd appreciate if you could take the time to accept these experiences if they are correct 
+              |or decline them if they did not happen.
+            .col-md-12.break
             each activity in activities
               .col-md-12.col-sm-12.col-xs-12.validation_pending
                 .col-md-1.col-sm-1.col-xs-3.user-md

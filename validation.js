@@ -25,48 +25,44 @@ function getActi () {
 
   ValidationPending.aggregate(
     [
+    {$unwind: "$activities"},
     {$match: {
-      sent: false,
-      validated_via_email: false
+      'activities.sent': false,
+      'activities.validated_via_email': false
     }},
     {
       $project: {
-        volunteer : 1,
-        validated: 1,
-        role: 1,
-        start_date: 1,
-        end_date: 1,
-        hours: 1,
-        skills: 1,
-        referee:
-          {
-            email: "$referee.email",
-            name: "$referee.name"
-          }
+        referee_email:1,
+        token:1,
+        activity:"$activities.activity",
       }
     },
     {
       $group:
       {
-        _id: '$referee.email',
-        activities: {$push: "$$ROOT"},
+        _id: {referee_email:'$referee_email', token:"$token"},
+        activities: {$push: "$activity"},
         count: {$sum: 1},
       }
     }
     ],
     function (err, pendings) {
-      Skill.populate(pendings, {path:'activities.skills', select: 'name'}, function (err, skilled_pendings) {
-        if (err) console.log(err);
-        Role.populate(skilled_pendings, {path: 'activities.role', select: "name"}, function (err, skilled_roled_pendings) {
-          if (err) console.log(err);
-          Volunteer.populate(skilled_roled_pendings, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, full_pendings) {
-            if (err) console.log(err);
-            else {
-              console.log(JSON.stringify(full_pendings));
-              sendEmail(full_pendings);
-            }
-          }); 
-        });
+      Activity.populate(pendings, {path:'activities'}, function (err, activities) {
+        Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skilled_pendings) {
+               if (err) console.log(err);
+               Role.populate(skilled_pendings, {path: 'activities.role', select: "name"}, function (err, skilled_roled_pendings) {
+                 if (err) console.log(err);
+                 Volunteer.populate(skilled_roled_pendings, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, full_pendings) {
+                   if (err) console.log(err);
+                   else {
+                     console.log(JSON.stringify(full_pendings));
+                     mongoose.connection.close();
+                     process.exit();
+                     // sendEmail(full_pendings);
+                   }
+                 }); 
+               });
+             });
       });
     }
   );
@@ -81,6 +77,7 @@ function sendEmail (ToBeValidated) {
         start_date = pendings.activities[0].start_date,
         hours = pendings.activities[0].hours,
         count = pendings.count - 1,
+        token = pendings.token,
         skills = [];
 
     pendings.activities[0].skills.forEach(function (skill) {

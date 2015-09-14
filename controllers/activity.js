@@ -6,6 +6,8 @@ var Role = require('../models/role');
 var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
+var async = require('async');
+
 
 function getVolunteerSkills (volunteer_id, callback) {
   volunteer_id = mongoose.Types.ObjectId(volunteer_id);
@@ -102,17 +104,29 @@ exports.allPending = function (req, res) {
 };
 
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
-  Activity.find({'referee.email': req.params.email, validated: "pending"}).populate('volunteer role').exec(function (err, activities){
-    Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
-      if (err) console.log(err);
+  ValidationPending.find({referee_email: req.query.email, token: req.query.token}, function (err, validationOK) {
+    if (err) console.log(err);
+    else {
+      if (validationOK.length > 0) 
+      {
+        Activity.find({'referee.email': validationOK.referee_email, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
+          Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+            if (err) console.log(err);
+            else {
+              res.render('activity/validation', { title: 'Activities pending validation', 
+              user: req.user, 
+              activities: full_activities });
+            }
+          });
+        });
+      }
       else {
-        // res.send(full_activities);
         res.render('activity/validation', { title: 'Activities pending validation', 
         user: req.user, 
-        activities: full_activities });
+        authorized: false });
       }
-    });
-  });
+    }
+  })
 };
 
 exports.getVolunteerSkills = getVolunteerSkills;
@@ -235,7 +249,7 @@ exports.list = function(req,res) {
     });
 };
 
-exports.new = function(req,res) {
+exports.new = function(req,res, next) {
   var v_id = req.body.volunteer,
       e_id = req.body.experience,
       role = req.body.role,
@@ -291,28 +305,39 @@ exports.new = function(req,res) {
               })
             }
             else {
-              crypto.randomBytes(20, function(err, buf) {
-                var token = buf.toString('hex');
-              });
-              var validation_pending = {
-                referee_email: referee_email,
-                token: token,
-                activities:
-                [{
-                  activity: activity._id,
-                  referee: {
-                    name: referee_name,
-                    phone_number: referee_phone
-                  },
-                  validated_via_email: false,
-                  sent: false
-                }]
-              };
-              var newValidation = ValidationPending(validation_pending);
-              newValidation.save(function (err, validation) {
-                if (err) console.log(err);
-                else res.sendStatus(201);
-              });
+              async.waterfall([
+                function (done) {
+                  crypto.randomBytes(20, function(err, buf) {
+                    var token = buf.toString('hex');
+                    done(err, token);
+                  });
+                },
+                function (token, done) {
+                  var validation_pending = {
+                    referee_email: referee_email,
+                    token: token,
+                    activities:
+                    [{
+                      activity: activity._id,
+                      referee: {
+                        name: referee_name,
+                        phone_number: referee_phone
+                      },
+                      validated_via_email: false,
+                      sent: false
+                    }]
+                  };
+                  var newValidation = ValidationPending(validation_pending);
+                  newValidation.save(function (err, validation) {
+                    if (err) console.log(err);
+                    else res.sendStatus(201);
+                  });
+                }
+              ],
+              function (err) {
+                if (err) return next(err);
+                res.sendStatus(500);
+              })
             }
           })
         }  
