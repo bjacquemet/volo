@@ -115,8 +115,8 @@ block content
                         span #{skill.name}
                       else
                         span , #{skill.name}
-                - if (experience.reco_sum > 0)
-                    p <u><a href="#" id="reco">#{plurialize_reco(experience.reco_sum)}</a></u>
+                - if (experience.recommendation_number > 0)
+                    p <u><a href="#" id="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
               .col-md-2.col-md-offset-1
                 img(src="/images/img_placeholder.png")
 

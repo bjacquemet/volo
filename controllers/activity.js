@@ -146,7 +146,10 @@ exports.accept = function (req, res) {
         newReco.save(function (err, recom) {
           if (err) console.log(err);
           else {
-            res.sendStatus(201);     
+            Experience.findByIdAndUpdate(activity.experience, {$inc:{recommendation_number: 1}}, function (err, experience) {
+              if (err) console.log(err);
+              else res.sendStatus(201);
+            })
           }
         })
       }

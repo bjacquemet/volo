@@ -9,6 +9,7 @@ var Experience = new Schema({
     end_date: Date,
     sum_validated_hours: Number,
     activities: [{type: Schema.Types.ObjectId, ref: "Activity"}],
+    recommendation_number: Number,
     updated_at: Date,
     created_at: {type: Date, default: Date.now()}
 });
