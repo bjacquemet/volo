@@ -25,8 +25,7 @@ function getHoursPerMonth (university, callback) {
         validated: 'accepted',
         start_date: {$gte: start}
       }
-    }
-    ,
+    },
     {
       $group: {
         _id: {volunteer: "$volunteer", month: {$month: "$start_date"}, year: {$year: "$start_date"}},
@@ -248,11 +247,50 @@ function getHoursPerGraduate (university, callback) {
   })
 }
 
-exports.perMonth = function (req, res) {
-  getHoursPerGraduate(req.params.university, function (err, activities) {
-    if (err) console.log(err);
-    else res.send(activities);
-  });
+exports.all = function (req, res) {
+  if (req.params.university)
+  {
+    var university = req.params.university;
+    getHoursPerMonth(university, function (err, perMonth) {
+      if (err) console.log(err);
+      else {
+        getHoursPerDiscipline(university, function (err, perDiscipline) {
+          if (err) console.log(err);
+          else {
+            getHoursPerGraduationYear(university, function (err, perGraduationYear) {
+              if (err) console.log(err);
+              else
+              {
+                getHoursPerGraduate(university, function (err, perGraduate) {
+                  if (err) console.log(err);
+                  else
+                  {
+                    // res.render('university/tracking', {
+                    //   title: 'University Tracking: ' + university,
+                    //   user: req.user,
+                    //   perMonth: perMonth, 
+                    //   perDiscipline: perDiscipline, 
+                    //   perGraduationYear: perGraduationYear,
+                    //   perGraduate: perGraduate
+                    // });
+                    res.send({perMonth: perMonth, 
+                              perDiscipline: perDiscipline, 
+                              perGraduationYear: perGraduationYear,
+                              perGraduate: perGraduate
+                            });
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    });
+  }
+  else
+  {
+    res.send([]);
+  }
 }
 
 
