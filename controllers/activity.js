@@ -105,6 +105,39 @@ exports.allPending = function (req, res) {
     });
 };
 
+exports.listActivitiesForAdmin = function (req, res) {
+  Activity.aggregate([
+    {
+      $group: {
+        _id: "$start_date",
+        activities: {$push: "$$ROOT"}
+      }
+    },
+    {
+      $sort: {
+        "_id": -1
+      }
+    }
+    ], 
+    function (err, activities) {
+      if (err) console.log(err);
+      else {
+        Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
+          Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
+            Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {
+              Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
+                Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activity) {
+                  res.send(full_activity);
+                })
+              })
+            })
+          })
+        })
+      }
+    }
+  )
+}
+
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
   ValidationPending.find({referee_email: req.query.email, token: req.query.token}, function (err, validationOK) {
     if (err) console.log(err);
