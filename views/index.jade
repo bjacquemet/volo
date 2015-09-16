@@ -2,7 +2,8 @@ extends layout
 
 block content
   div.row.row-centered.background-header(style="background-image: url('/images/index_background.png');")
-    h1.text-center.col-md-10.col-md-push-1.col-sm-12.col-xs-12 Everyone has a role in creating a better future
+    h1.text-center.col-md-10.col-md-push-1.col-sm-12.col-xs-12 Social Responsibility is EVERYONE’s responsibility
+    h2.text-center.col-md-10.col-md-push-1.col-sm-12.col-xs-12 Everyone has a role in creating a better future
 
   div.container-fluid
     div.row.row-centered
@@ -11,41 +12,58 @@ block content
         .col-md-12.col-sm-12.col-xs-12
           .col-md-10.col-md-push-1.col-sm-12.col-xs-12.no-gutter
             p.liner.text-center 
-              |VOLO is an online platform that brings together the community in order to create social change. <br/>
-              |We believe that social responsibility is everyone’s responsibility and that a small commitment from many vs. a large sacrifice from few, will provide a more sustainable solution for creating long-term social impact. <br/>
-              |We also believe that social progress should benefit everyone. And now with VOLO it does! 
+              |VOLO is an online platform that brings individuals, companies and charities together to create social change.
               br
-              a(href="/volunteers") Learn more about how being a VOLO volunteer helps you to get ahead.   
+              br
+              |At VOLO we believe that social responsibility is everyone’s responsibility and that a small commitment from many can provide a sustainable solution for creating long-term social impact.  
+              |We also believe that social progress should benefit everyone involved, so when you volunteer with VOLO, you not only give back, but you also get ahead!
+              //- a(href="/volunteers") Learn more about how being a VOLO volunteer helps you to get ahead.   
         
-        .col-md-12.break
+        .col-md-12.col-sm-12.col-xs.12.break
 
-        .col-md-12.col-sm-12.col-xs-12
-          h2.text-center VOLO is easy, fun and benefits everyone!
+        .col-md-12.col-sm-12.col-xs-12.text-center
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/do_good.svg", alt="VOLO do good")
+            h4 DO GOOD
 
-        .col-md-12.break
-        .col-md-12.col-sm-12.col-xs-12
-          h3 Check out the VOLO Volunteers that are making a difference:
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/skills.svg", alt="VOLO skills")
+            h4 BUILD SKILLS
 
-          .col-md-3.col-sm-4.col-xs-6
-            .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
-              a(href="v_profile")
-                img(src="/images/melissa.png")
-                p.volunteer_name Melissa 
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/connect.svg", alt="VOLO connect")
+            h4 CONNECT
 
-          .col-md-3.col-sm-4.col-xs-6
-            .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
-              a(href="v_profile")
-                img(src="/images/baptiste.png")
-                p.volunteer_name Baptiste 
+        .col-md-12.col-sm-12.col-xs.12.break
 
-          .col-md-3.col-sm-4.col-xs-6
-            .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
-              a(href="v_profile")
-                img.lazy(src="/images/leonie.png")
-                p.volunteer_name Léonie
+        .col-md-12.col-sm-12.col-xs-12.text-center
+          a(href="/register", class="btn sharp btn-lg btn-primary big-btn") Volunteer with volo
 
-          .col-md-3.col-sm-4.col-xs-6
-            .col-md-10.col-md-offset-1.text-center.v_story.no-gutter
-              a(href="v_profile")
-                img.lazy(src="/images/adrien.png")
-                p.volunteer_name Adrien
+        .col-md-12.col-sm-12.col-xs.12.break
+
+        .col-md-12.col-sm-12.col-xs-12.hiw
+          h3 How it works
+
+          .col-md-6.col-sm-6.col-xs-12.text-center
+            img.pictogram(src="/images/create.svg", alt="VOLO create")
+            h4.col-md-8.col-md-offset-2 1. Create your VOLO volunteer profile
+
+          .col-md-6.col-sm-6.col-xs-12.text-center
+            img.pictogram(src="/images/upload.svg", alt="VOLO upload")
+            h4.col-md-8.col-md-offset-2 2. Upload your volunteering activities
+
+          .col-md-6.col-sm-6.col-xs-12.text-center
+            img.pictogram(src="/images/blocks_dotted.svg", alt="VOLO skills")
+            h4.col-md-8.col-md-offset-2 3. Identify skills you’ve gained
+
+          .col-md-6.col-sm-6.col-xs-12.text-center
+            img.pictogram(src="/images/promote.svg", alt="VOLO promote")
+            h4.col-md-8.col-md-offset-2 4. Promote your skills to employers on your volunteer profile
+
+          p 
+          |You can browse VOLO’s non-profit partners to identify valuable skill-based volunteer opportunities in your community.
+          |You can also opt in to receive weekly notifications of upcoming activities that might interest you. 
+
+      .col-md-12.col-sm-12.col-xs-12.text-center
+        a(href="/register", class="btn sharp btn-lg btn-primary big-btn") Volunteer with volo
+      .col-md-12.col-sm-12.col-xs-12.break
