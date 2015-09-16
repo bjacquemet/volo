@@ -8,6 +8,7 @@ var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var async = require('async');
+var nodemailer = require('nodemailer');
 
 
 function getVolunteerSkills (volunteer_id, callback) {
@@ -158,10 +159,53 @@ exports.accept = function (req, res) {
   });
 }
 
+function sendEmailIfDeclined (activityId) {
+  Activity.findById(activityId).populate('role skills volunteer').exec(function (err, activity) {
+    var skills= [];
+    activity.skills.forEach(function (skill) {
+      skills.push(skill.name);
+    });
+    var smtpTransport = nodemailer.createTransport({
+      host: 'smtp.mailgun.org',
+      service: "Mailgun",
+      auth: {
+        user: "postmaster@mg.volo.org.uk",
+        pass: "18682498971f9e94b4c22b6433284351"
+      }
+    });
+
+    var mailOptions = {
+      to: "baptiste.jacquemet@gmail.com",
+      from: 'VOLO <password@volo.org.uk>',
+      subject: "Activity declined",
+      text: 'Hi Melissa!'+ '\n\n' +
+        'The following activity has been declined:' + '\n'+
+        "Volunteer: " + activity.volunteer.first_name + ' ' + activity.volunteer.last_name + '\n' +
+        "You can see his profile here: http://localhost:3000/volunteer/" + activity.volunteer._id + '\n\n' +
+        "ACTIVITY: " + '\n' +
+        "Role: " + activity.role.name + '\n' +
+        "Skills: " + skills.join(', ')+ '\n' +
+        "Start date: " + activity.start_date + '\n' +
+        "End date: " + activity.end_date + '\n' +
+        "Number of hours: " + activity.hours + ' hours' + '\n' +
+        "Referee name: " + activity.referee.name+ '\n' +
+        "Referee phone number: " + activity.referee.phone_number+ '\n' +
+        "Referee email: " + activity.referee.email+ '\n' +
+        "Status: " + activity.validated+ '\n' +
+        "Decline reason: " + activity.decline_reason+ '\n\n' +
+        "Have a great day"         
+    };
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) console.log(err);
+    })
+  })
+}
+
 exports.decline = function (req, res) {
   Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason}, function (err, activity) {
     if (err) res.send(err);
     else {
+      sendEmailIfDeclined(req.body.activityId);
       res.sendStatus(201);
     }
   });
