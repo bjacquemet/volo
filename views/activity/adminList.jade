@@ -74,4 +74,7 @@ block content
                       a(href="mailto:#{activity.referee.email}") #{activity.referee.email} 
                     p Tel: <em>#{activity.referee.phone_number}</em>
                 
-
+            .col-md-12.col-sm-12.col-xs-12.text-center
+              if (pages > 1)
+                  ul.pagination
+                    != createPagination(pages, page)

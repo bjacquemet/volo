@@ -28,6 +28,6 @@ router.post("/accept", ActivityController.accept);
 
 router.post("/decline", ActivityController.decline);
 
-router.get("/admin/list", ActivityController.listActivitiesForAdmin);
+router.get("/admin/list", ensureAdmin, ActivityController.listActivitiesForAdmin);
 
 module.exports = router;
