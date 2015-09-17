@@ -21,8 +21,7 @@ var ValidationPending = new Schema({
     {
         referee: {name: String, phone_number: String},
         activity: {type: Schema.Types.ObjectId, ref: "Activity"},
-        sent: Boolean,
-        validated_via_email: Boolean
+        sent: Boolean
     }
     ]
 });

@@ -131,7 +131,6 @@ exports.new = function(req,res) {
                       name: referee_name,
                       phone_number: referee_phone
                     },
-                    validated_via_email: false,
                     sent: false
                   };
                   ValidationPending.findByIdAndUpdate(validation._id, { $push: {activities: validation_pending}}, function (err, validation_added) {
@@ -158,7 +157,6 @@ exports.new = function(req,res) {
                             name: referee_name,
                             phone_number: referee_phone
                           },
-                          validated_via_email: false,
                           sent: false
                         }]
                       };
