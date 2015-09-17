@@ -30,4 +30,6 @@ router.post("/decline", ActivityController.decline);
 
 router.get("/admin/list", ensureAdmin, ActivityController.listActivitiesForAdmin);
 
+router.get("/admin/validation", ensureAdmin, ActivityController.validateActivitiesByAdmin);
+
 module.exports = router;
