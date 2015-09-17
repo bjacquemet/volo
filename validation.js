@@ -27,7 +27,8 @@ function getActi () {
     [
     {$unwind: "$activities"},
     {$match: {
-      'activities.sent': false
+      'activities.sent': false,
+      'activities.validated_via_email': false
     }},
     {
       $project: {
