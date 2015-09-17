@@ -105,6 +105,86 @@ exports.allPending = function (req, res) {
     });
 };
 
+exports.listActivitiesForAdmin = function (req, res) {
+  var perPage = 2, 
+      page = req.query.page > 0 ? req.query.page : 0,
+      count,
+      skip = perPage * page;
+  Activity.aggregate([
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated_at" }},
+        activities: {$push: "$$ROOT"}
+      }
+    },
+    {
+      $sort: {
+        "_id": -1
+      }
+    },
+    {
+      $skip: skip
+    },
+    {
+      $limit: perPage
+    }
+    ], 
+    function (err, activities) {
+      if (err) console.log(err);
+      else {
+        Activity.aggregate([
+          {
+            $group: {
+              _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated_at" }},
+              activities: {$push: "$$ROOT"}
+            }
+          }],
+          function (err, all_activities) {
+            count = all_activities.length;
+            Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
+              Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
+                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {
+                  Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
+                    Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
+                      // res.send(full_activities);
+                      res.locals.createPagination = function (pages, page) {
+                        var url = require('url')
+                          , qs = require('querystring')
+                          , params = qs.parse(url.parse(req.url).query)
+                          , str = ''
+                        params.page = 0
+                        var clas = page == 0 ? "active" : "no"
+                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">First</a></li>'
+                        for (var p = 1; p < pages; p++) {
+                          params.page = p
+                          clas = page == p ? "active" : "no"
+                          str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">'+ p +'</a></li>'
+                        }
+                        params.page = --p
+                        clas = page == params.page ? "active" : "no"
+                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">Last</a></li>'
+
+                        return str
+                      };
+                      res.render('activity/adminList',
+                        { title: 'Activities pending validation', 
+                          user: req.user, 
+                          activities: full_activities,
+                          page: page,
+                          pages: count / perPage
+                      });
+                    })
+                  })
+                })
+              })
+            })
+          }
+        );
+      }
+    }
+  )
+}
+
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
   ValidationPending.find({referee_email: req.query.email, token: req.query.token}, function (err, validationOK) {
     if (err) console.log(err);
