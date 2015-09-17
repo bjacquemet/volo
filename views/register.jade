@@ -17,25 +17,18 @@ block content
           h3 Create your account with VOLO.
           h4= info
           form(role='form', action="/register",method="post", class="col-md-7 no-gutter")
-            p First choose your type of user:
             .form-group
-              label.radio-inline Volunteer
-                input(type="radio", value="volunteer", name="usertype", required)
-              label.radio-inline Nonprofit
-                input(type="radio", value="nonprofit", name="usertype", required)
-              label.radio-inline Corporate
-                input(type="radio", value="corporate", name="usertype", required)
-              label.radio-inline University
-                input(type="radio", value="university", name="usertype", required)
+              input(type="hidden", value="volunteer", name="usertype")
             .form-group
-              input.form-control(type='text', name="first_name", placeholder='Enter your first name')
+              input.form-control(type='text', name="first_name", pattern="\\w+", required, placeholder='Enter your first name')
             .form-group
-              input.form-control(type='text', name="last_name", placeholder='Enter your last name')
+              input.form-control(type='text', name="last_name", pattern="\\w+", required, placeholder='Enter your last name')
             .form-group
-              input.form-control(type='text', name="username", placeholder='Enter your username')
+              input.form-control(type='text', name="username", pattern="\\w+", required, placeholder='Enter your username')
             .form-group
-              input.form-control(type='text', name="email", placeholder='email@domain.com')
+              input.form-control(type='text', name="email", required, placeholder='email@domain.com')
             .form-group
-              input.form-control(type='password', name="password", id="password", placeholder='Password')
+              input.form-control(type='password', name="password", id="password", placeholder='Password', pattern='(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}', title="Password must contain at least 6 characters, including UPPER/lowercase and numbers" \
+                onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');")
             .form-group
               button.btn.btn-primary(type='submit', id="submit") Register
