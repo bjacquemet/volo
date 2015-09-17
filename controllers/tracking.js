@@ -51,100 +51,9 @@ function getHoursPerMonth (university, callback) {
   })
 }
 
-exports.getHoursPerStudent = function (req, res) {
-  getStudentsOfUniversity(req.params.university, function (err, students) {
-    var start = new Date(2015, 1, 1);
-    Activity.aggregate(
-    [{
-      $match:
-      {
-        volunteer: {$in: students},
-        validated: 'accepted',
-        start_date: {$gte: start}
-      }
-    },
-    {
-      $group: {
-        _id: {volunteer: "$volunteer", month: {$month: "$start_date"}, year: {$year: "$start_date"}},
-        sum_hours: {$sum: "$hours"}
-      }
-    },
-    {
-      $sort: {
-        "_id.volunteer": 1,
-        "_id.year": 1,
-        "_id.month": 1
-      }
-    }
-    ],
-    function (err, activities) {
-      if (err) console.log(err);
-      else {
-        var old_student = '',
-            old_month,
-            old_year,
-            i = 1,
-            act_length = activities.length,
-            perStudent = {},
-            mo_hours = [],
-            final_activity = [];
-        activities.forEach(function (activity) {
-          if ((old_student) && (old_student == activity._id.volunteer.toString()))
-          {
-            console.log("old_stu"+old_student+'dent');
-            // if (((activity._id.month == old_month +1) && (old_year == activity._id.year)) || ((activity._id.month == 1) && (old_year < activity._id.year)))
-            // {
-            //   mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            // }
-            // else if ((activity._id.month != old_month +1) && (old_year == activity._id.year))
-            // {
-            //   mo_hours.push({month:old_month+1, year:activity._id.year, hours: 0});
-            // }
-            mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            if (i == act_length) 
-            {
-              perStudent.activities = mo_hours;
-              final_activity.push(perStudent);
-              console.log('final');
-            }
-          }
-          else {
-            console.log('else');
-            console.log(perStudent);
-            if(Object.keys(perStudent).length > 0 || i == act_length)
-            {
-              console.log('perStudent');
-              console.log(perStudent);
-              perStudent.activities = mo_hours;
-              final_activity.push(perStudent);
-              console.log('final');
-              console.log(final_activity);
-            }
-            perStudent = {};
-            mo_hours = [];
-            perStudent.volunteer = activity._id.volunteer;
-            console.log('perStudent volunteer');
-            console.log(perStudent);
-            mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            console.log(mo_hours);
-          }
-          old_student = activity._id.volunteer;
-          old_month = activity._id.month;
-          old_year = activity._id.year;
-          i++;
-        })
-        Volunteer.populate(final_activity, {path: 'volunteer', select: 'first_name last_name'}, function (err, activities) {
-          res.send(activities);
-        })
-      }
-    }
-    )  
-  })
-}
-
-function getHoursPerStudents (university, callback) {
+function getHoursPerStudent (university, callback) {
   getStudentsOfUniversity(university, function (err, students) {
-    var start = new Date(2015, 1, 1);
+    var start = new Date(2015, 9, 1);
     Activity.aggregate(
     [{
       $match:
@@ -217,6 +126,12 @@ function getHoursPerStudents (university, callback) {
             console.log('perStudent volunteer');
             console.log(perStudent);
             mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
+            if (i == act_length) 
+            {
+              perStudent.activities = mo_hours;
+              final_activity.push(perStudent);
+              console.log('final');
+            }
             console.log(mo_hours);
           }
           old_student = activity._id.volunteer;
@@ -236,7 +151,7 @@ function getHoursPerStudents (university, callback) {
 }
 
 function getHoursPerDiscipline (university, callback) {
-  var start = new Date(1900, 1, 1);
+  var start = new Date(2015, 9, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find disciplines and foreach discipline, list of students
     Volunteer.aggregate([
@@ -435,7 +350,7 @@ exports.all = function (req, res) {
   if (req.params.university)
   {
     var university = req.params.university;
-    getHoursPerStudents(university, function (err, perMonth) {
+    getHoursPerStudent(university, function (err, perMonth) {
       if (err) console.log(err);
       else {
         getHoursPerDiscipline(university, function (err, perDiscipline) {

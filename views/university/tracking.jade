@@ -19,7 +19,7 @@ block content
               .panel-heading
                 h3.panel-title
                   a(data-toggle="collapse", data-parent="#accordion", href="#collapse-month") By Month
-              .panel-collapse.collapse.in#collapse-month
+              .panel-collapse.collapse#collapse-month
                 .panel-body.table-responsive
                   table.col-md-12.table.table-bordered.table-hover
                     tr
@@ -45,15 +45,16 @@ block content
                                   td 0 hour
                                   span(style="display:none")= n++
                                   //- input(type="hidden" value="n++")
-                                td #{plurialize_hour(activity.hours)} 
+                                td #{plurialize_hour(activity.hours)}
                                 //- td 0 hour
                               - var month = activity.month;
+
 
             .panel.panel-default
               .panel-heading
                 h3.panel-title
                   a(href="#collapse-discipline", data-toggle="collapse", data-parent="#accordion") By Discipline
-              .panel-collapse.collapse#collapse-discipline
+              .panel-collapse.collapse.in#collapse-discipline
                 .panel-body.table-responsive
                   table.col-md-12.table.table-bordered.table-hover
                     tr
@@ -65,8 +66,23 @@ block content
                     each discipline in perDiscipline
                       tr 
                         td #{discipline.discipline}
-                        each hour in discipline.hours
-                          td #{hour.sum_hours}
+                        each hour, i in discipline.hours
+                          -if (i<4)
+                            -if (hour._id.month >= 9 && hour._id.month <= 12)
+                              -if (hour._id.month == 9)
+                                td #{plurialize_hour(hour.sum_hours)}
+                              -else if ((hour._id.month > 9) && (hour._id.month == month +1))
+                                td #{plurialize_hour(hour.sum_hours)}
+                              -else
+                                -var n=1
+                                while n < (hour._id.month - month)
+                                  td 0 hour
+                                  span= n++
+                                  //- input(type="hidden" value="n++")
+                                td #{plurialize_hour(hour.sum_hours)}
+                                //- td 0 hour
+                              - var month = hour._id.month;
+
                     tr
                       td Law
                       td 10 hours
