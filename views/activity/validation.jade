@@ -55,9 +55,9 @@ block content
             .col-md-12.break
             each activity in activities
               .col-md-12.col-sm-12.col-xs-12.validation_pending
-                .col-md-1.col-sm-1.col-xs-3.user-md
+                .col-md-1.col-sm-1.col-xs-12.user-md.text-center
                   img(src="/volunteer/photo/#{activity.volunteer._id}")
-                .col-md-8.col-sm-8.col-xs-9
+                .col-md-8.col-sm-8.col-xs-12
                   p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
                   - if (activity.volunteer.position == 'student' && activity.volunteer.university)
                     p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
@@ -74,10 +74,10 @@ block content
                     p Skills acquired: 
                       each skill, i in activity.skills
                         em
-                        if (i == 0)
-                          span #{skill.name}
-                        else
-                          span , #{skill.name}
+                          if (i == 0)
+                            span #{skill.name}
+                          else
+                            span , #{skill.name}
                 .col-md-3.col-sm-3.col-xs-12.text-center
                   a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}" data-referee="#{activity.referee.name}") Accept
                   a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}",) Decline

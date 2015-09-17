@@ -109,7 +109,7 @@ exports.listActivitiesForAdmin = function (req, res) {
   Activity.aggregate([
     {
       $group: {
-        _id: "$start_date",
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated_at" }},
         activities: {$push: "$$ROOT"}
       }
     },
@@ -126,8 +126,13 @@ exports.listActivitiesForAdmin = function (req, res) {
           Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
             Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {
               Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
-                Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activity) {
-                  res.send(full_activity);
+                Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
+                  // res.send(full_activities);
+                  res.render('activity/adminList',
+                    { title: 'Activities pending validation', 
+                      user: req.user, 
+                      activities: full_activities 
+                  });
                 })
               })
             })

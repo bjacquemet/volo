@@ -15,7 +15,7 @@ var Activity = new Schema({
     skills: [{type: Schema.Types.ObjectId, ref: "Skill"}],
     notes: String,
     referee:{name: String, phone_number: String, email: String},
-    updated_at: Date,
+    updated_at: {type: Date, default: Date.now()},
     created_at: {type: Date, default: Date.now()}
 });
 

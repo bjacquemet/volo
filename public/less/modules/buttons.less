@@ -65,7 +65,16 @@
 // Alternate buttons
 // --------------------------------------------------
 // button-variant params: @color; @background; @hover-background; @active-background; @disabled-background: @gray-light
-.first-btn { margin-bottom: 10px;}
+.first-btn { 
+  @media screen {
+    @media (min-width:@screen-sm-min) {
+      margin-bottom: 10px;
+    }
+    @media (max-width:@screen-sm-max) {
+      margin-right: 5px;
+    }
+  }
+}
 
 .btn-default {
   .button-variant(@brand-secondary, white, @brand-secondary, @brand-secondary);
