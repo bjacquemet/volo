@@ -141,7 +141,6 @@ exports.listActivitiesForAdmin = function (req, res) {
           }],
           function (err, all_activities) {
             count = all_activities.length;
-            console.log(count);
             Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
               Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
                 Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {

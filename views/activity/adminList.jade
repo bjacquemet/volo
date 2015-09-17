@@ -41,7 +41,8 @@ block content
               br
             .col-md-12.break
             each activity_date in activities
-              h3 #{activity_date._id}
+              .col-md-12.col-sm-12.col-xs-12.no-gutter
+                h3.space #{format_date(activity_date._id)}
               each activity in activity_date.activities
                 .col-md-12.col-sm-12.col-xs-12.validation_pending
                   .col-md-1.col-sm-1.col-xs-12.user-md.text-center
