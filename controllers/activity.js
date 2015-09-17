@@ -185,6 +185,19 @@ exports.listActivitiesForAdmin = function (req, res) {
   )
 }
 
+exports.validateActivitiesByAdmin = function (req, res) {
+  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
+    Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+      if (err) console.log(err);
+      else {
+        res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 
+        user: req.user, 
+        activities: full_activities });
+      }
+    });
+  });
+};
+
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
   ValidationPending.find({referee_email: req.query.email, token: req.query.token}, function (err, validationOK) {
     if (err) console.log(err);
