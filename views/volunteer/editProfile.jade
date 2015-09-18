@@ -398,6 +398,9 @@ block content
             if($.trim(value) == '') {
                 return "This field can't be empty required";
             }
+        },
+        success: function(response, newValue) {
+          if(response.status == 'error') return response.msg;
         }
         });
       $('#phone').editable({
