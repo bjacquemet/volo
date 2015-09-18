@@ -72,8 +72,8 @@ router.get('/u_profile', function(req, res, next) {
 });
 
 // volunteers page
-router.get('/volunteers', function(req, res, next) {
-  res.render('volunteers', { title: 'Volunteer public profile', user: req.user });
+router.get('/students', function(req, res, next) {
+  res.render('students', { title: 'Volunteer public profile', user: req.user });
 });
 
 // volunteer result page
