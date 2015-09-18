@@ -27,6 +27,9 @@ h3.underlined{
 h3, h4 {
   font-weight: 300;
   margin: 13px 0px;
+  &.space{
+    margin-top: 30px;
+  }
 }
 
 h5 {
@@ -86,9 +89,10 @@ a {
   p {
     font-size: @font-size-base * 1.1;
     line-height: @line-height-base * 1.1;
+    margin-top: -5px;
   }
   img {
-    border: 5px solid @volo-green;
+    // border: 5px solid @volo-green;
     .rounded(3px);
   }
 }
@@ -306,12 +310,13 @@ h1.logo {
   padding-bottom: 30px;
   margin-top: 0px;
   &:nth-of-type(odd) {
-    background-color: fade(@brand-primary, 15%);
+    background-color: fade(@brand-secondary, 5%);
   }
   a {
     margin-top: 10px;
   }
   .volunteer_name {
+    padding-top: 10px;
     @media screen {
       @media (max-width:@screen-xs-max) {
         text-align: center;
@@ -320,18 +325,52 @@ h1.logo {
   }
 }
 
+.hiw {
+  .col-md-6 {
+    margin-top: 25px;
+  }
+  .col-md-10 {
+    margin-top:0px;
+  }
+  h3{
+    margin-top:30px;
+    border-bottom: 2px dotted #a2ff00;
+  }
+  h4 {
+    margin-top: 0px;
+    font-size: @font-size-h4 *0.9;
+  }
+}
+
 // to be removed (after experience validation done)
 .colored {
-  background-color: fade(@brand-primary, 15%);
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin-top: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: fade(@brand-secondary, 5%);
+  h3 {
+    margin-top:30px;
+    margin-bottom: 50px;
+    border-bottom: 2px dotted #a2ff00;
+  }
+  .no_line {
+  margin: 0px;
+  border-bottom: none;
+}
 }
 
 // to be removed (after experience validation done)
 .not_colored {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  h3 {
+    margin-top:30px;
+    margin-bottom: 50px;
+    border-bottom: 2px dotted #a2ff00;
+  }
+  .no_line {
+  margin-top: 0px;
+  border-bottom: none;
+  }
 }
 
 .user-md {

@@ -1,0 +1,81 @@
+extends ../layout
+
+block content
+  -function format_date(date){
+  - var newDate = new Date(date);
+  - var y = newDate.getFullYear();
+  - var month = new Array(); 
+  - month[0] = '01';
+  - month[1] = '02';
+  - month[2] = '03';
+  - month[3] = '04';
+  - month[4] = '05';
+  - month[5] = '06';
+  - month[6] = '07';
+  - month[7] = '08';
+  - month[8] = '09';
+  - month[9] = '10';
+  - month[10] = '11';
+  - month[11] = '12'; 
+  - var m = month[newDate.getMonth()];
+  - var d = newDate.getDate();
+  - if (d <10) d= '0'+d;
+  - return d+'/'+m+'/'+y;
+  -}
+  -function plurialize(number){
+  -if (number == 1) return number + ' hour'
+  -else return number + ' hours'
+  -}
+
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-offset-1.col-xs-12.content
+        .col-md-12.col-sm-12.col-xs-12
+          if (activities.length == 0)
+            h4.col-md-12.text-center 
+              |No activity to show
+          else
+            h3 Activity list
+            p
+              |Here is a list of activities, order by date of creation/modification.
+              br
+            .col-md-12.break
+            each activity_date in activities
+              .col-md-12.col-sm-12.col-xs-12.no-gutter
+                h3.space #{format_date(activity_date._id)}
+              each activity in activity_date.activities
+                .col-md-12.col-sm-12.col-xs-12.validation_pending
+                  .col-md-1.col-sm-1.col-xs-12.user-md.text-center
+                    img(src="/volunteer/photo/#{activity.volunteer._id}")
+                  .col-md-7.col-sm-7.col-xs-12
+                    p.volunteer_name Volunteer: #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
+                    - if (activity.volunteer.position == 'student' && activity.volunteer.university)
+                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
+                    - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
+                      p <em>#{capitalize(activity.volunteer.position)}</em>
+                    - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
+                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
+                    - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
+                      p <em>#{capitalize(activity.volunteer.position)}</em>
+                    - else
+                      p <em>#{activity.volunteer.position}</em>
+                    p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                    - if (activity.skills.length > 0)
+                      p Skills acquired: 
+                        each skill, i in activity.skills
+                          em
+                            if (i == 0)
+                              span #{skill.name}
+                            else
+                              span , #{skill.name}
+                    p Status of his activity is <em>#{activity.validated}</em>
+                  .col-md-4.col-sm-4.col-xs-12
+                    p.volunteer_name.text-left Referee: #{activity.referee.name}
+                    em
+                      a(href="mailto:#{activity.referee.email}") #{activity.referee.email} 
+                    p Tel: <em>#{activity.referee.phone_number}</em>
+                
+            .col-md-12.col-sm-12.col-xs-12.text-center
+              if (pages > 1)
+                  ul.pagination
+                    != createPagination(pages, page)

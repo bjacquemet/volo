@@ -122,7 +122,6 @@ function sendEmail (ToBeValidated) {
     });
 
     // console.log("send email to " + r_email + ' about ' + v_name + ' with skills ' + skills.join(', ') + ' and other activities ' + count);
-
   })
 }
 

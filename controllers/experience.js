@@ -2,7 +2,6 @@ var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 var ValidationPending = require('../models/validation_pending');
 var crypto = require('crypto');
-var async = require('async');
 
 function getVolunteerExperiences (volunteer_id, callback) {
   var query = {}

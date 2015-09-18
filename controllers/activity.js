@@ -3,10 +3,12 @@ var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
+var Recommendation = require('../models/recommendation');
 var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var async = require('async');
+var nodemailer = require('nodemailer');
 
 
 function getVolunteerSkills (volunteer_id, callback) {
@@ -103,6 +105,99 @@ exports.allPending = function (req, res) {
     });
 };
 
+exports.listActivitiesForAdmin = function (req, res) {
+  var perPage = 2, 
+      page = req.query.page > 0 ? req.query.page : 0,
+      count,
+      skip = perPage * page;
+  Activity.aggregate([
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated_at" }},
+        activities: {$push: "$$ROOT"}
+      }
+    },
+    {
+      $sort: {
+        "_id": -1
+      }
+    },
+    {
+      $skip: skip
+    },
+    {
+      $limit: perPage
+    }
+    ], 
+    function (err, activities) {
+      if (err) console.log(err);
+      else {
+        Activity.aggregate([
+          {
+            $group: {
+              _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated_at" }},
+              activities: {$push: "$$ROOT"}
+            }
+          }],
+          function (err, all_activities) {
+            count = all_activities.length;
+            Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
+              Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
+                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {
+                  Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
+                    Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
+                      // res.send(full_activities);
+                      res.locals.createPagination = function (pages, page) {
+                        var url = require('url')
+                          , qs = require('querystring')
+                          , params = qs.parse(url.parse(req.url).query)
+                          , str = ''
+                        params.page = 0
+                        var clas = page == 0 ? "active" : "no"
+                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">First</a></li>'
+                        for (var p = 1; p < pages; p++) {
+                          params.page = p
+                          clas = page == p ? "active" : "no"
+                          str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">'+ p +'</a></li>'
+                        }
+                        params.page = --p
+                        clas = page == params.page ? "active" : "no"
+                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">Last</a></li>'
+
+                        return str
+                      };
+                      res.render('activity/adminList',
+                        { title: 'Activities pending validation', 
+                          user: req.user, 
+                          activities: full_activities,
+                          page: page,
+                          pages: count / perPage
+                      });
+                    })
+                  })
+                })
+              })
+            })
+          }
+        );
+      }
+    }
+  )
+}
+
+exports.validateActivitiesByAdmin = function (req, res) {
+  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
+    Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+      if (err) console.log(err);
+      else {
+        res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 
+        user: req.user, 
+        activities: full_activities });
+      }
+    });
+  });
+};
+
 exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
   ValidationPending.find({referee_email: req.query.email, token: req.query.token}, function (err, validationOK) {
     if (err) console.log(err);
@@ -132,21 +227,78 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
 exports.getVolunteerSkills = getVolunteerSkills;
 
 exports.accept = function (req, res) {
-  console.log(req.body.activityId);
   Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "accepted"}, function (err, activity) {
     if (err) res.send(err);
     else {
-      res.sendStatus(201);
+      if (req.body.recommendation) {
+        var recommendation_json = {
+          activity: req.body.activityId,
+          referee_name: req.body.referee,
+          recommendation: req.body.recommendation
+        }
+        var newReco = Recommendation(recommendation_json);
+        newReco.save(function (err, recom) {
+          if (err) console.log(err);
+          else {
+            Experience.findByIdAndUpdate(activity.experience, {$inc:{recommendation_number: 1}}, function (err, experience) {
+              if (err) console.log(err);
+              else res.sendStatus(201);
+            })
+          }
+        })
+      }
+      else res.sendStatus(201);
     }
   });
 }
 
+function sendEmailIfDeclined (activityId) {
+  Activity.findById(activityId).populate('role skills volunteer').exec(function (err, activity) {
+    var skills= [];
+    activity.skills.forEach(function (skill) {
+      skills.push(skill.name);
+    });
+    var smtpTransport = nodemailer.createTransport({
+      host: 'smtp.mailgun.org',
+      service: "Mailgun",
+      auth: {
+        user: "postmaster@mg.volo.org.uk",
+        pass: "18682498971f9e94b4c22b6433284351"
+      }
+    });
+
+    var mailOptions = {
+      to: "baptiste.jacquemet@gmail.com",
+      from: 'VOLO <password@volo.org.uk>',
+      subject: "Activity declined",
+      text: 'Hi Melissa!'+ '\n\n' +
+        'The following activity has been declined:' + '\n'+
+        "Volunteer: " + activity.volunteer.first_name + ' ' + activity.volunteer.last_name + '\n' +
+        "You can see his profile here: http://localhost:3000/volunteer/" + activity.volunteer._id + '\n\n' +
+        "ACTIVITY: " + '\n' +
+        "Role: " + activity.role.name + '\n' +
+        "Skills: " + skills.join(', ')+ '\n' +
+        "Start date: " + activity.start_date + '\n' +
+        "End date: " + activity.end_date + '\n' +
+        "Number of hours: " + activity.hours + ' hours' + '\n' +
+        "Referee name: " + activity.referee.name+ '\n' +
+        "Referee phone number: " + activity.referee.phone_number+ '\n' +
+        "Referee email: " + activity.referee.email+ '\n' +
+        "Status: " + activity.validated+ '\n' +
+        "Decline reason: " + activity.decline_reason+ '\n\n' +
+        "Have a great day"         
+    };
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) console.log(err);
+    })
+  })
+}
+
 exports.decline = function (req, res) {
-  console.log(req.body.activityId);
-  console.log(req.body.declineReason);
   Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason}, function (err, activity) {
     if (err) res.send(err);
     else {
+      sendEmailIfDeclined(req.body.activityId);
       res.sendStatus(201);
     }
   });

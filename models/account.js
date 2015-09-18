@@ -11,9 +11,22 @@ var Account = new Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     usertype: [String],
-    last_sign_in: Date
+    last_sign_in: Date,
+    updated_at: Date,
+    created_at: {type: Date, default: Date.now()}
     // Means that user can have multiple types
     // if simple usertype: String
+});
+
+Account.pre('update', function(next) {
+  console.log('------------->>>>>> update updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
+});
+Account.pre('findOneAndUpdate', function(next) {
+  console.log('------------->>>>>> findandupdate updated_at')
+  this.update({},{ $set: { updated_at: new Date() } });
+  next();
 });
 
 Account.plugin(passportLocalMongoose);

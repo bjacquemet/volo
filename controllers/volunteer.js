@@ -1,8 +1,10 @@
 var Volunteer = require('../models/volunteer');
+var Account = require('../models/account');
 var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
+var RecommendationController = require('../controllers/recommendation');
 var fs = require('fs');
 
 function getProfileByAccountId (volunteer_account_id, callback) {
@@ -100,12 +102,14 @@ exports.getProfile = function (req, res, next) {
     ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
       if (err) console.log(err);
       else {
-        console.log(skills);
-        res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
-          user: req.user, 
-          volunteer: volunteer, 
-          experiences: experiences,
-          volunteer_skills: skills });
+        RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+          res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+            user: req.user, 
+            volunteer: volunteer, 
+            experiences: experiences,
+            volunteer_skills: skills,
+            recommendations: reco });
+        })
       }
     });
   });
@@ -202,7 +206,6 @@ exports.newProfile = function(req, res){
 exports.updateProfile = function (req, res) {
   var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
   var field = req.body.pk;
-  console.log(field);
   var value = req.body.value;
   var json;
   if (fields.indexOf(field) > -1)
@@ -255,21 +258,45 @@ exports.updateProfile = function (req, res) {
       default:
         break;
     }
-    volunteer.update(json, { upsert : true }, function(err) {
-      if (err) {
-         throw err;
-         return console.log(err);
-      }
-      else {
-        console.log('Successfully updated: ' + volunteer);
-        res.sendStatus(200);
-      }
-    })
+    if (field == 'email') {
+      Account.findByIdAndUpdate(req.user._id, {email: value}, function (err, account) {
+        if (err) {
+          console.log(err);
+          res.status(400);
+          res.send('Sorry, this email is already taken.');
+        }
+        else
+        {
+          volunteer.update(json, { upsert : true }, function(err) {
+            if (err) {
+              res.status(400);
+              res.send('Sorry, this email is already taken.');
+            }
+            else {
+              console.log('Successfully updated: ' + volunteer);
+              res.sendStatus(200);
+            }
+          })
+        }
+      })
+    }
+    else
+    {
+      volunteer.update(json, { upsert : true }, function(err) {
+        if (err) {
+           res.send({status: 400, msg: err});
+        }
+        else {
+          console.log('Successfully updated: ' + volunteer);
+          res.sendStatus(200);
+        }
+      })
+    }
   });
   } 
   else {
     console.log("Field doesn't exist");
-    res.send({status: "error", msg: "Field doesn't exist"});
+    res.send({status: 400, msg: "Field doesn't exist"});
     // res.end("Field doesn't exist");
   }
 };
