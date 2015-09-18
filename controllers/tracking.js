@@ -1,5 +1,6 @@
 var Activity = require('../models/activity');
 var Volunteer = require('../models/volunteer');
+var Account = require('../models/account');
 
 function getStudentsOfUniversity (university, callback) {
   Volunteer.find({position: "student", university: university}, {select: '_id'}, function (err, students) {
@@ -93,52 +94,30 @@ function getHoursPerStudent (university, callback) {
         activities.forEach(function (activity) {
           if ((old_student) && (old_student == activity._id.volunteer.toString()))
           {
-            console.log("old_stu"+old_student+'dent');
-            // if (((activity._id.month == old_month +1) && (old_year == activity._id.year)) || ((activity._id.month == 1) && (old_year < activity._id.year)))
-            // {
-            //   mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            // }
-            // else if ((activity._id.month != old_month +1) && (old_year == activity._id.year))
-            // {
-            //   mo_hours.push({month:old_month+1, year:activity._id.year, hours: 0});
-            // }
             mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
             if (i == act_length) 
             {
               perStudent.activities = mo_hours;
               final_activity.push(perStudent);
-              console.log('final');
             }
           }
           else {
-            console.log('else');
-            console.log(perStudent);
             if(Object.keys(perStudent).length > 0 || i == act_length)
             {
-              console.log('perStudent');
-              console.log(perStudent);
               perStudent.activities = mo_hours;
               final_activity.push(perStudent);
-              console.log('final');
-              console.log(final_activity);
             }
             perStudent = {};
             mo_hours = [];
             perStudent.volunteer = activity._id.volunteer;
-            console.log('perStudent volunteer');
-            console.log(perStudent);
             mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
             if (i == act_length) 
             {
               perStudent.activities = mo_hours;
               final_activity.push(perStudent);
-              console.log('final');
             }
-            console.log(mo_hours);
           }
           old_student = activity._id.volunteer;
-          old_month = activity._id.month;
-          old_year = activity._id.year;
           i++;
         })
         Volunteer.populate(final_activity, {path: 'volunteer', select: 'first_name last_name'}, function (err, activities) {
@@ -348,6 +327,33 @@ function getHoursPerGraduate (university, callback) {
   })
 }
 
+function getHoursPerActiveStatus (university, callback) {
+  // getStudentsOfUniversity(university, function (err, students) {
+  //   var students_array = [],
+  //       student_length = students.length,
+  //       i=1,
+  //       today = new Date.now(),
+  //       status = '';
+  //   students.forEach(function (student) {
+  //     Account.findOne({_id: student.account_id}, function (err, account) {
+  //       Volunteer.populate(student, {path: 'volunteer', select: "first_name last_name"}, function (err, student) {
+  //         if (err) console.log(err);
+  //         else {
+  //           status = ((today - account.last_sign_in) > 30) ? 'Non-active': 'Active';
+  //           students_array.push({student: {first_name: student.first_name, last_name: student.last_name},
+  //                               status:status
+  //                               });
+  //           if (i==student_length){
+  //             callback(null, students_array)
+  //           }
+  //           i++;
+  //         }
+  //       })
+  //     }) 
+  //   })
+  // })
+}
+
 exports.all = function (req, res) {
   if (req.params.university)
   {
@@ -355,6 +361,7 @@ exports.all = function (req, res) {
     getHoursPerStudent(university, function (err, perMonth) {
       if (err) console.log(err);
       else {
+        console.log(perMonth);
         getHoursPerDiscipline(university, function (err, perDiscipline) {
           if (err) console.log(err);
           else {
@@ -366,19 +373,25 @@ exports.all = function (req, res) {
                   if (err) console.log(err);
                   else
                   {
-                    res.render('university/tracking', {
-                      title: 'University Tracking: ' + university,
-                      user: req.user,
-                      perMonth: perMonth, 
-                      perDiscipline: perDiscipline, 
-                      perGraduationYear: perGraduationYear,
-                      perGraduate: perGraduate
-                    });
-                    // res.send({perMonth: perMonth, 
-                    //           perDiscipline: perDiscipline, 
-                    //           perGraduationYear: perGraduationYear,
-                    //           perGraduate: perGraduate
-                    //         });
+                    getHoursPerActiveStatus(university, function (err, perStatus) {
+                      if (err) console.log(err);
+                      else {
+                        res.render('university/tracking', {
+                          title: 'University Tracking: ' + university,
+                          user: req.user,
+                          perMonth: perMonth, 
+                          perDiscipline: perDiscipline, 
+                          perGraduationYear: perGraduationYear,
+                          perGraduate: perGraduate, 
+                          perStatus: perStatus
+                        });
+                        // res.send({perMonth: perMonth, 
+                        //           perDiscipline: perDiscipline, 
+                        //           perGraduationYear: perGraduationYear,
+                        //           perGraduate: perGraduate
+                        //         });
+                      }
+                    })
                   }
                 })
               }

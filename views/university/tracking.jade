@@ -189,12 +189,7 @@ block content
                     tr
                       th Student
                       th Status
-                    tr
-                      td John Doe
-                      td Active
-                    tr
-                      td James Smith
-                      td Non-active
-                    tr 
-                      td Jack John
-                      td Active
+                    each status in perStatus
+                      tr
+                        td #{status.student.first_name} #{status.student.last_name} 
+                        td #{status.status}
