@@ -53,7 +53,7 @@ function getHoursPerMonth (university, callback) {
 
 function getHoursPerStudent (university, callback) {
   getStudentsOfUniversity(university, function (err, students) {
-    var start = new Date(2015, 9, 1);
+    var start = new Date(2015, 8, 1);
     Activity.aggregate(
     [{
       $match:
@@ -80,6 +80,8 @@ function getHoursPerStudent (university, callback) {
     function (err, activities) {
       if (err) callback(err, null);
       else {
+        console.log("acti");
+        console.log(activities);
         var old_student = '',
             old_month,
             old_year,
@@ -151,7 +153,7 @@ function getHoursPerStudent (university, callback) {
 }
 
 function getHoursPerDiscipline (university, callback) {
-  var start = new Date(2015, 9, 1);
+  var start = new Date(2015, 8, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find disciplines and foreach discipline, list of students
     Volunteer.aggregate([
@@ -216,7 +218,7 @@ function getHoursPerDiscipline (university, callback) {
 }
 
 function getHoursPerGraduationYear (university, callback) {
-  var start = new Date(1900, 1, 1);
+  var start = new Date(2015, 8, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find graduation_years and foreach graduation_year, list of students
     Volunteer.aggregate([
@@ -282,7 +284,7 @@ function getHoursPerGraduationYear (university, callback) {
 
 function getHoursPerGraduate (university, callback) {
   // undergraduate vs postgraduate
-  var start = new Date(1900, 1, 1);
+  var start = new Date(2015, 8, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find graduate type and foreach graduate type, list of students
     Volunteer.aggregate([
