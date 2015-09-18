@@ -328,30 +328,33 @@ function getHoursPerGraduate (university, callback) {
 }
 
 function getHoursPerActiveStatus (university, callback) {
-  // getStudentsOfUniversity(university, function (err, students) {
-  //   var students_array = [],
-  //       student_length = students.length,
-  //       i=1,
-  //       today = new Date.now(),
-  //       status = '';
-  //   students.forEach(function (student) {
-  //     Account.findOne({_id: student.account_id}, function (err, account) {
-  //       Volunteer.populate(student, {path: 'volunteer', select: "first_name last_name"}, function (err, student) {
-  //         if (err) console.log(err);
-  //         else {
-  //           status = ((today - account.last_sign_in) > 30) ? 'Non-active': 'Active';
-  //           students_array.push({student: {first_name: student.first_name, last_name: student.last_name},
-  //                               status:status
-  //                               });
-  //           if (i==student_length){
-  //             callback(null, students_array)
-  //           }
-  //           i++;
-  //         }
-  //       })
-  //     }) 
-  //   })
-  // })
+  getStudentsOfUniversity(university, function (err, students) {
+    var students_array = [],
+        student_length = students.length,
+        i=1,
+        today = Date.now(),
+        status = '',
+        last_sign_in;
+    students.forEach(function (student) {
+      Volunteer.findById(student, "first_name last_name account_id", function (err, student) {
+        Account.findById(student.account_id, function (err, account) {
+          if (err) console.log(err);
+          else {
+            last_sign_in = new Date(account.last_sign_in);
+            // 2629746000 = 1 month in milliseconds
+            status = ((today - last_sign_in) > 2629746000) ? 'Non-active': 'Active';
+            students_array.push({student: {first_name: student.first_name, last_name: student.last_name},
+                                status:status
+                                });
+            if (i==student_length){
+              callback(null, students_array)
+            }
+            i++;
+          }
+        })
+      }) 
+    })
+  })
 }
 
 exports.all = function (req, res) {
@@ -361,7 +364,6 @@ exports.all = function (req, res) {
     getHoursPerStudent(university, function (err, perMonth) {
       if (err) console.log(err);
       else {
-        console.log(perMonth);
         getHoursPerDiscipline(university, function (err, perDiscipline) {
           if (err) console.log(err);
           else {

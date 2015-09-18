@@ -11,7 +11,7 @@ var Account = new Schema({
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     usertype: [String],
-    last_sign_in: Date
+    last_sign_in: {type: Date, default: Date.now()}
     // Means that user can have multiple types
     // if simple usertype: String
 });
