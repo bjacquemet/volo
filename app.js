@@ -22,6 +22,7 @@ var roles = require('./routes/role');
 var nonprofits = require('./routes/nonprofit');
 var experiences = require('./routes/experience');
 var activities = require('./routes/activity');
+var universities = require('./routes/university')
 
 var app = express();
 
@@ -70,6 +71,7 @@ app.use('/role', roles);
 app.use('/nonprofit', nonprofits);
 app.use('/experience', experiences);
 app.use('/activity', activities);
+app.use('/university', universities);
 
 // Passport config
 var Account = require('./models/account');
