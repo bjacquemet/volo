@@ -197,59 +197,7 @@ block content
 
             .col-md-12.XP_form 
               h3 Add an experience to your volunteer profile
-              form(action="/experience/new", method="POST")
-                h4 Nonprofit
-                .form-group.col-md-12.no-gutter
-                  input(type="hidden", name="volunteer", value="#{volunteer._id}")
-                  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="nonprofit") Nonprofit name *
-                  select.col-md-12.col-sm-12.col-xs-12(id="nonprofit", name="nonprofit", class="select2-single", required)
-                  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="description") Description of your experience
-                  textarea.col-md-12.col-sm-12.col-xs-12(name="description", rows="2")
-
-                h4 Activity
-                .form-group.col-md-12.no-gutter
-                  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
-                  select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
-                  .col-md-12.col-sm-12.col-xs-12.no-gutter
-                    .col-md-6.col-sm-6.col-xs-12.no-gutter
-                      label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
-                      select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
-
-                    .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                      label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
-                      input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", required)
-
-                  label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
-                  .col-md-12.col-sm-12.col-xs-12.no-gutter
-                    .col-md-6.col-sm-6.col-xs-12.no-gutter
-                      span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
-                      input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
-                    .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                      span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
-                      input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
-
-                h4 Referee
-                p 
-                  |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
-                  |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                .form-group.col-md-12.no-gutter
-                  .col-md-6.col-sm-6.col-xs-12.no-gutter
-                    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_name") Referee name *
-                    input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", required)
-                  .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_phone") Referee phone number *
-                    input.col-md-12.col-sm-12.col-xs-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
-
-                  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_email") Referee email *
-                  input.col-md-12.col-sm-12.col-xs-12(name="referee_email", type="email", required)
-
-                h4 Personal Notes
-                .form-group.col-md-12.no-gutter
-                  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="notes") You can write personal notes - they won't be public.
-                  textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
-
-                .form-group.col-md-12.text-center
-                  input(type="submit", value="Save this experience", class="btn btn-primary")
+              include ./_formXP.jade
             
             .col-md-12
               each experience in experiences
@@ -296,54 +244,7 @@ block content
                   .col-md-6.activity
                     .col-md-12.grey_background.add_activity.text-center
                       span.add_new.col-md-12.col-sm-12.col-xs-12 Add new activity
-                      form(action="/activity/new", method="POST", class="activity_form col-md-12 height-0")
-                        input(type="hidden", name="experience", value="#{experience._id}")
-                        input(type="hidden", name="volunteer", value="#{volunteer._id}")
-                        h3 Add new activity
-                        h4 Activity
-                        .form-group.col-md-12.no-gutter
-                          label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
-                          select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
-                          .col-md-12.col-sm-12.col-xs-12.no-gutter
-                            .col-md-6.col-sm-6.col-xs-12.no-gutter
-                              label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
-                              select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
-
-                            .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                              label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
-                              input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", required)
-
-                          label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
-                          .col-md-12.col-sm-12.col-xs-12.no-gutter
-                            .col-md-6.col-sm-6.col-xs-12.no-gutter
-                              span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
-                              input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
-                            .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                              span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
-                              input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
-
-                        h4 Referee
-                        p 
-                          |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
-                          |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-                        .form-group.col-md-12.no-gutter
-                          .col-md-6.col-sm-6.col-xs-12.no-gutter
-                            label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_name") Referee name *
-                            input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", required)
-                          .col-md-6.col-sm-6.col-xs-12.no-gutter_r
-                            label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_phone") Referee phone number *
-                            input.col-md-12.col-sm-12.col-xs-12.bfh-phone(name="referee_phone", required, type="text", data-format="+44 - dddddddddd")
-
-                          label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_email") Referee email *
-                          input.col-md-12.col-sm-12.col-xs-12(name="referee_email", type="email", required)
-
-                        h4 Personal Notes
-                        .form-group.col-md-12.no-gutter
-                          label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="notes") You can write personal notes - they won't be public.
-                          textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
-
-                        .form-group.col-md-12.text-center
-                          input(type="submit", value="Add activity", class="btn btn-primary sharp")
+                      include ./_formActivity.jade
               
             .col-md-12.add
               a(href="#", id="addXP")
@@ -393,6 +294,19 @@ block content
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
             p Add a new Nonprofit
+          .modal-body
+            p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information.
+            form(id="nonprofitForm", action="/nonprofit/new", method="post")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", placeholder="Nonprofit name")
+              input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="submit", value="Add new nonprofit", name="submit", class="btn btn-primary modal-submit")
+
+    .modal.fade#editActivityModal(tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Edit an activity
           .modal-body
             p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information.
             form(id="nonprofitForm", action="/nonprofit/new", method="post")
@@ -569,6 +483,7 @@ block content
       });
 
       function showActivity (element) {
+      console.log(element);
       $(element).find(".add_new").hide().addClass('hide_it');
       $(element).find(".activity_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
           $('html, body').animate({
@@ -668,6 +583,14 @@ block content
         $('html, body').animate({
           scrollTop: $(".recommendation").offset().top
         }, "slow");
-      }) 
+      })
+
+      var today = new Date(); 
+      var year = today.getFullYear()
+      var month = today.getMonth()+1;
+      if (month <10) month = '0'+month;
+      var day = today.getDate()+1;
+
+      $('input[type="date"]').attr("max", year+"-"+month+'-'+day).attr('min', '2010-01-01');
 
     });

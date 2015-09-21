@@ -475,7 +475,7 @@ h1.logo {
     }
   }
   .grey_background {
-    background-color: @volo-light-gray;
+    background-color: fade(@brand-secondary, 5%);
     padding-top: 10px;
     padding-bottom: 10px;
     min-height: 140px;
@@ -506,10 +506,10 @@ h1.logo {
         }
       }
       &:hover {
-        background-color: @volo-gray;
+        background-color: fade(@brand-secondary, 20%);
       }
       &.no-hover:hover {
-        background-color: @volo-light-gray;
+        background-color: fade(@brand-secondary, 5%);
         cursor: auto;
       }
     }

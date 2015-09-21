@@ -1,0 +1,50 @@
+form(action="/activity/new", method="POST", class="activity_form col-md-12 height-0")
+  input(type="hidden", name="experience", value="#{experience._id}")
+  input(type="hidden", name="volunteer", value="#{volunteer._id}")
+  h3 Add new activity
+  h4 Activity
+  .form-group.col-md-12.no-gutter
+    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
+    select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
+    .col-md-12.col-sm-12.col-xs-12.no-gutter
+      .col-md-6.col-sm-6.col-xs-12.no-gutter
+        label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
+        select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
+
+      .col-md-6.col-sm-6.col-xs-12.no-gutter_r
+        label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
+        input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", min="1", required)
+
+    label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
+    .col-md-12.col-sm-12.col-xs-12.no-gutter
+      .col-md-6.col-sm-6.col-xs-12.no-gutter
+        span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
+        input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
+      .col-md-6.col-sm-6.col-xs-12.no-gutter_r
+        span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
+        input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
+
+  h4 Referee
+  p 
+    |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
+    |This person should be aged 18 or over, and you must ask their permission before giving us their details.
+    em The name of the referee will appear on your recommendation if he decides to make you one.
+  .form-group.col-md-12.no-gutter
+    .col-md-6.col-sm-6.col-xs-12.no-gutter
+      label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_name") Referee name *
+      input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", pattern="\\w{3,}", required, title="Please enter the real name of the referee, this name will appear on your recommendation if he decides to make you one" \
+      onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');")
+    .col-md-6.col-sm-6.col-xs-12.no-gutter_r
+      label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_phone") Referee phone number *
+      input.col-md-12.col-sm-12.col-xs-12.bfh-phone(name="referee_phone", required, type="text", pattern=".{12,}", data-format="+44 - dddddddddd")
+
+    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_email") Referee email *
+    input.col-md-12.col-sm-12.col-xs-12(name="referee_email", type="email", required)
+
+  h4 Personal Notes
+  .form-group.col-md-12.no-gutter
+    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="notes") You can write personal notes - they won't be public.
+    textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+
+  .form-group.col-md-12.text-center
+    input(type="submit", value="Add activity", class="btn btn-primary sharp")
