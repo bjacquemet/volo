@@ -80,12 +80,11 @@ exports.getEditProfile = function(req, res, next) {
   getProfileByAccountId(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
-    console.log("OK");
     ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
       if (err) console.log(err);
       else 
       {
-        RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+        RecommendationController.getRecofromVolunteerId(volunteer._id, function (err, reco) {
           console.log(skills);
           console.log(reco);
           res.render('volunteer/editProfile', { title: 'Volunteer private profile', 

@@ -16,6 +16,7 @@ block content
   -function color_opacity(size){
   -var opacity = size/100;
   -if(opacity >= 1) opacity = 1;
+  -if(opacity <= 0.1) opacity = 0.1;
   -return opacity
   -}
   -function plurialize_reco(number){
@@ -172,6 +173,10 @@ block content
                 - else
                   a(href="#", data-value="", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
 
+            .col-md-12.col-xs-12.col-sm-12.info.text-right
+              em
+                a(href="/volunteer/#{volunteer._id}") See your public profile
+
       .row.row-centered
         .col-md-12
           .col-md-12.content.skills
@@ -182,7 +187,6 @@ block content
                   .col-md-12.no-gutter_l.barContainer
                     .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
                       span #{skill._id.name}
-                    span #{skill.sum_hours} hours
 
       .row.row-centered
         .col-md-12
@@ -346,8 +350,8 @@ block content
 
       -if (recommendations.recommendations.length > 0)
         .row.row-centered
-          .col-md-10.col-md-offset-1.content.recommendation
-            .col-md-12
+          .col-md-12
+            .col-md-12.content.recommendation
               .col-md-12
                 h2 Recommendations
 

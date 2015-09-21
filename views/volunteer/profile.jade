@@ -30,6 +30,7 @@ block content
   -function color_opacity(size){
   -var opacity = size/100;
   -if(opacity >= 1) opacity = 1;
+  -if(opacity <= 0.1) opacity = 0.1;
   -return opacity
   -}
   -function plurialize_reco(number){
