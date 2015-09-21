@@ -502,6 +502,16 @@ exports.new = function(req,res, next) {
   });
 }
 
+exports.get = function (req, res) {
+  Activity.findOne({_id: req.params.id}).populate("role skills").exec(function (err, activity) {
+    if (err) res.send(err);
+    else {
+      console.log(activity);
+      res.send(activity);
+    }
+  })
+}
+
 exports.getByVolunteerId = function(req,res) {
     Activity.find({volunteer: req.params.id}).populate('role skills').exec(function(err,activities) {
       if(err) res.send(err);

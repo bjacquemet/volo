@@ -18,6 +18,8 @@ router.get("/volunteer/:id", ActivityController.getByVolunteerId);
 
 router.get("/skills/:id", ActivityController.getVolunteerSkills);
 
+router.get("/get/:id", ActivityController.get)
+
 router.post("/new", ensureAuthenticated, ActivityController.new);
 
 router.get('/validation', ActivityController.ActivityToBeValidatedByRefereeEmail)

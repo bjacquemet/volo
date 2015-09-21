@@ -1,0 +1,14 @@
+label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
+select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
+
+label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
+select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
+
+label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
+input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", min="1", required)
+
+label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
+span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
+input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
+span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
+input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")

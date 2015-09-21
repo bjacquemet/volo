@@ -209,7 +209,7 @@ block content
                 each activity, i in experience.activities
                   if (i%2==0) 
                     != "<div class='row'>"
-                      .col-md-6.activity
+                      .col-md-6.activity(data-id="#{activity._id}")
                         .col-md-12.grey_background
                           p Role: <em>#{activity.role.name}</em>
                           p Skills: <em>
@@ -241,7 +241,7 @@ block content
                     != "</div>"
                 
                 .row
-                  .col-md-6.activity
+                  .col-md-6
                     .col-md-12.grey_background.add_activity.text-center
                       span.add_new.col-md-12.col-sm-12.col-xs-12 Add new activity
                       include ./_formActivity.jade
@@ -303,20 +303,48 @@ block content
 
     .modal.fade#editActivityModal(tabindex='-1')
       .modal-dialog
-        .modal-content
+        .modal-content.col-md-12
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
             p Edit an activity
-          .modal-body
-            p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information.
-            form(id="nonprofitForm", action="/nonprofit/new", method="post")
-              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", placeholder="Nonprofit name")
-              input(type="hidden", name="suggested_by_volunteer", value="true")
-              input(type="submit", value="Add new nonprofit", name="submit", class="btn btn-primary modal-submit")
+          .modal-body.col-md-12
+            include ./_activityModal.jade
+            
 
   script.
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
+  
+    $('.activity:not()').on('click', function () {
+      console.log('yo');
+      $.ajax({
+        dataType: "json",
+        url: '/activity/get/' + $(this).data("id"),
+        success: function(data){
+        $('#editActivityModal').modal('toggle');
+        $(".skills_list").select2({
+          placeholder: "Select up to 3 skills",
+          maximumSelectionLength: 3,
+          language: {
+            maximumSelected: function () {
+              return 'Sorry, you can only select up to 3 skills';
+            }
+          }
+        });
+        $(".role").select2({
+          placeholder: "Select a role",
+        });
+        $('#editActivityModal #role').val(data.role._id);
+        //- $('#editActivityModal #skills').select2('data', data.skills);
+        $('#editActivityModal input[name=hours]').val(data.hours);
+        $('#editActivityModal input[name=s_date]').val(data.start_date);
+        $('#editActivityModal input[name=e_date]').val(data.end_date);
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    })
       
       //- Editable set up
       $('#first_name').editable({emptytext: 'First Name'});
