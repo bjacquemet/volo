@@ -209,7 +209,7 @@ block content
                 each activity, i in experience.activities
                   if (i%2==0) 
                     != "<div class='row'>"
-                      .col-md-6.activity(data-id="#{activity._id}")
+                      .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
                         .col-md-12.grey_background
                           p Role: <em>#{activity.role.name}</em>
                           p Skills: <em>
@@ -226,7 +226,7 @@ block content
                       != "</div>"
 
                   else
-                    .col-md-6.activity
+                    .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
                       .col-md-12.grey_background
                         p Role: <em>#{activity.role.name}</em>
                         p Skills: <em>
@@ -314,36 +314,57 @@ block content
   script.
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
-  
-    $('.activity:not()').on('click', function () {
-      console.log('yo');
-      $.ajax({
-        dataType: "json",
-        url: '/activity/get/' + $(this).data("id"),
-        success: function(data){
-        $('#editActivityModal').modal('toggle');
-        $(".skills_list").select2({
-          placeholder: "Select up to 3 skills",
-          maximumSelectionLength: 3,
-          language: {
-            maximumSelected: function () {
-              return 'Sorry, you can only select up to 3 skills';
-            }
-          }
-        });
-        $(".role").select2({
-          placeholder: "Select a role",
-        });
-        $('#editActivityModal #role').val(data.role._id);
-        //- $('#editActivityModal #skills').select2('data', data.skills);
-        $('#editActivityModal input[name=hours]').val(data.hours);
-        $('#editActivityModal input[name=s_date]').val(data.start_date);
-        $('#editActivityModal input[name=e_date]').val(data.end_date);
-        },
-        error: function(err) {
-          console.log(err);
-        }
+      $("#editActivityModal").on('hide.bs.modal', function () {
+        $("#editActivityModal .skills_list").select2('close');
+        $("#editActivityModal .role").select2('close');
       });
+  
+    $('.activity').on('click', function () {
+      if ($(this).data("validated") == "pending")
+        {
+          $.ajax({
+            dataType: "json",
+            url: '/activity/get/' + $(this).data("id"),
+            success: function(data){
+            $('#editActivityModal').modal('toggle');
+            $("#editActivityModal").on('shown.bs.modal', function () {
+              $(".skills_list").select2({
+                placeholder: "Select up to 3 skills",
+                maximumSelectionLength: 3,
+                language: {
+                  maximumSelected: function () {
+                    return 'Sorry, you can only select up to 3 skills';
+                  }
+                }
+              });
+              $(".role").select2({
+                placeholder: "Select a role",
+              });
+              var newDate = new Date(data.start_date);
+              var y = newDate.getFullYear();
+              var m = newDate.getMonth() + 1;
+              var d = newDate.getDate();
+              $('#editActivityModal input[name=s_date]').val(y+'-'+m+'-'+d);
+              if (data.end_date)
+                {
+                var endDate = new Date(data.end_date);
+                var y_e = endDate.getFullYear();
+                var m_e = endDate.getMonth() + 1;
+                var d_e = endDate.getDate();
+                $('#editActivityModal input[name=e_date]').val(y_e+'-'+m_e+'-'+d_e);
+                }
+              $('#editActivityModal .role').select2('val', data.role._id);
+              $('#editActivityModal .skills_list').select2('val', data.skills_list);
+              $('#editActivityModal input[name=hours]').val(data.hours);
+              console.log(data.skills_list);
+              $('#editActivityModal input[name=notes]').val(data.skills_list);
+            });
+            },
+            error: function(err) {
+              console.log(err);
+            }
+          });
+        }
     })
       
       //- Editable set up

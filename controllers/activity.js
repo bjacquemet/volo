@@ -506,6 +506,14 @@ exports.get = function (req, res) {
   Activity.findOne({_id: req.params.id}).populate("role skills").exec(function (err, activity) {
     if (err) res.send(err);
     else {
+      var skill_array = [];
+      activity.skills.forEach(function (skill) {
+        console.log(skill._id);
+        skill_array.push(skill._id);
+      })
+      activity = JSON.stringify(activity);
+      activity = JSON.parse(activity);
+      activity.skills_list = skill_array;
       console.log(activity);
       res.send(activity);
     }
