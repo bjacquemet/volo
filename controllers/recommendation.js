@@ -18,6 +18,7 @@ exports.getRecofromVolunteerId = function (volunteerId, callback) {
     var recommendations = [];
     var act_length = activities.length,
         i = 1;
+    if (activities.length == 0) callback(null, {recommendations: []});
     activities.forEach(function (activity) {
       Recommendation.findOne({activity: activity._id}).populate('activity').exec(function (err, reco) {
         if (err) console.log(err);

@@ -177,16 +177,17 @@ block content
               em
                 a(href="/volunteer/#{volunteer._id}") See your public profile
 
-      .row.row-centered
-        .col-md-12
-          .col-md-12.content.skills
-            .col-md-12
-              h2 Skills
-              each skills in volunteer_skills
-                each skill in skills
-                  .col-md-12.no-gutter_l.barContainer
-                    .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
-                      span #{skill._id.name}
+      -if (volunteer_skills.skills.length > 0)
+        .row.row-centered
+          .col-md-12
+            .col-md-12.content.skills
+              .col-md-12
+                h2 Skills
+                each skills in volunteer_skills
+                  each skill in skills
+                    .col-md-12.no-gutter_l.barContainer
+                      .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
+                        span #{skill._id.name}
 
       .row.row-centered
         .col-md-12

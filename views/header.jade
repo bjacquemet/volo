@@ -40,17 +40,7 @@ body
                       span.caret
                     ul.dropdown-menu
                       li
-                        if (user.usertype[0] == "volunteer")
-                          a(href="/volunteer/edit") Volunteer Profile
-                      li
-                        if (user.usertype[1] == "nonprofit")
-                          a(href="/n_profile") Nonprofit Profile
-                        if (user.usertype[1] == "corporate")
-                          a(href="/c_profile") Company Profile
-                        if (user.usertype[1] == "university")
-                          a(href="/u_profile") Company Profile
-                      li
-                        a(href="#") Opportunities
+                        a(href="/volunteer/edit") Volunteer Profile
                       li
                         a(href="/logout") Logout
             

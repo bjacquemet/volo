@@ -108,7 +108,7 @@ exports.getProfile = function (req, res, next) {
       if (err) console.log(err);
       else {
         RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
-          res.render('volunteer/profile', { title: 'Volunteer profile of ' + volunteer.first_name + ' ' + volunteer.last_name, 
+          res.render('volunteer/profile', { title: volunteer.first_name + ' ' + volunteer.last_name + '\'s VOLO profile', 
             user: req.user, 
             volunteer: volunteer, 
             experiences: experiences,

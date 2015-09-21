@@ -51,10 +51,10 @@ block content
                 - else if (volunteer.gender == 'female')
                   img(src="/images/female.svg", class="sex")
               p
-                  -var hours = 0;
-                  each experience in experiences
-                    - hours += experience.totalHours
-                  p Accumulated hours: <em>#{hours}</em>
+                -var hours = 0;
+                each experience in experiences
+                  - hours += experience.totalHours
+                p Accumulated hours: <em>#{hours}</em>
 
           .col-md-5.info
             - if (volunteer.position == 'student' && volunteer.university)
@@ -65,7 +65,7 @@ block content
               p Current position: <em>#{capitalize(volunteer.position)} at #{volunteer.company}</em>
             - else if (volunteer.position == 'employed' && !volunteer.company)
               p Current position: <em>#{capitalize(volunteer.position)}</em>
-            - else
+            - else if (volunteer.position)
               p Current position: <em>#{volunteer.position}</em>
             - if (volunteer.graduate && volunteer.discipline && volunteer.graduation_year) 
               p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.discipline}</em>, graduating in <em>#{volunteer.graduation_year}</em>
@@ -94,35 +94,36 @@ block content
                   .col-md-12.no-gutter_l.barContainer
                     .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
                       span #{skill._id.name}
-            
-    div.row.row-centered
-      div.col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content.XP
-        .col-md-12.col-xs-12.col-sm-12
+    
+    if (experiences.length > 0)       
+      .row.row-centered
+        .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content.XP
           .col-md-12.col-xs-12.col-sm-12
-            h2 Experiences
+            .col-md-12.col-xs-12.col-sm-12
+              h2 Experiences
 
-            each experience, i in experiences
-              -if (experience.totalHours > 0)
-                .col-md-9.col-xs-12.col-sm-12.no-gutter_l
-                  p.charity_name #{experience.nonprofit.name}
-                  p #{experience.start_date}
-                  p #{experience.description}
-                  p <em>#{experience.totalHours}</em> accumulated hours
-                  - if (experience.skills_list.length > 0)
-                    p Skills acquired: 
-                      each skill, i in experience.skills_list
-                        em
-                          if (i == 0)
-                            span #{skill.name}
-                          else
-                            span , #{skill.name}
-                  - if (experience.recommendation_number > 0)
-                      p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
-                .col-md-2.col-md-offset-1
-                  img(src="/images/img_placeholder.png")
-  
-                - if (!(i == experience.length-1))
-                  .separator.col-md-2.col-md-offset-5
+              each experience, i in experiences
+                -if (experience.totalHours > 0)
+                  .col-md-9.col-xs-12.col-sm-12.no-gutter_l
+                    p.charity_name #{experience.nonprofit.name}
+                    p #{experience.start_date}
+                    p #{experience.description}
+                    p <em>#{experience.totalHours}</em> accumulated hours
+                    - if (experience.skills_list.length > 0)
+                      p Skills acquired: 
+                        each skill, i in experience.skills_list
+                          em
+                            if (i == 0)
+                              span #{skill.name}
+                            else
+                              span , #{skill.name}
+                    - if (experience.recommendation_number > 0)
+                        p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
+                  .col-md-2.col-md-offset-1
+                    img(src="/images/img_placeholder.png")
+    
+                  - if (!(i == experience.length-1))
+                    .separator.col-md-2.col-md-offset-5
           
     -if (recommendations.recommendations.length > 0)
       div.row.row-centered
