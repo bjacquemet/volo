@@ -11,8 +11,6 @@ var path = require('path');
 var templatesDir = path.resolve(__dirname, 'templates', 'emails');
 var async = require('async');
 
-var now = Date.now();
-
 function getActi () {
   var uristring =
   process.env.MONGOLAB_URI ||
@@ -53,24 +51,33 @@ function getActi () {
     }
     ],
     function (err, pendings) {
+      console.log("pendings");
       console.log(pendings);
-      Activity.populate(pendings, {path:'activities'}, function (err, activities) {
-        Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skilled_pendings) {
-               if (err) console.log(err);
-               Role.populate(skilled_pendings, {path: 'activities.role', select: "name"}, function (err, skilled_roled_pendings) {
+      if (pendings.length > 0 ) {
+        Activity.populate(pendings, {path:'activities'}, function (err, activities) {
+          Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skilled_pendings) {
                  if (err) console.log(err);
-                 Volunteer.populate(skilled_roled_pendings, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, full_pendings) {
+                 Role.populate(skilled_pendings, {path: 'activities.role', select: "name"}, function (err, skilled_roled_pendings) {
                    if (err) console.log(err);
-                   else {
-                     // console.log(JSON.stringify(full_pendings));
-                     // mongoose.connection.close();
-                     // process.exit();
-                     sendEmail(full_pendings);
-                   }
-                 }); 
-               });
-            });
-      });
+                   Volunteer.populate(skilled_roled_pendings, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, full_pendings) {
+                     if (err) console.log(err);
+                     else {
+                       // console.log(JSON.stringify(full_pendings));
+                       // mongoose.connection.close();
+                       // process.exit();
+                       sendEmail(full_pendings);
+                     }
+                   }); 
+                 });
+              });
+        });
+      }
+      else
+      {
+        console.log('nothing to change');
+        mongoose.connection.close();
+        process.exit();
+      }
     }
   );
 }
@@ -87,7 +94,8 @@ function sendEmail (ToBeValidated) {
       start_date,
       hours,
       count,
-      token;
+      token,
+      activities_to_remove;
 
   var smtpTransport = nodemailer.createTransport({
     // host: 'smtp.mailgun.org',
@@ -109,12 +117,17 @@ function sendEmail (ToBeValidated) {
     hours = pendings.activities[0].hours;
     count = pendings.count - 1;
     token = pendings._id.token;
-    skills_array = [];
+    skills_array = [],
+    activities_to_remove = [];
 
     pendings.activities[0].skills.forEach(function (skill) {
       skills_array.push(skill.name);
     });
     skills = skills_array.join(', ');
+    for (var j=0;j<pendings.activities.length;j++)
+    {
+      activities_to_remove.push(pendings.activities[j]._id)
+    }
 
     locals = {
       referee: {name: r_name, email: r_email},
@@ -123,7 +136,8 @@ function sendEmail (ToBeValidated) {
       hours: hours,
       count: count,
       skills: skills,
-      url: 'http://localhost:3000/activity/validation/?email='+r_email+ '&token=' + token
+      url: 'http://localhost:3000/activity/validation/?email='+r_email+ '&token=' + token,
+      activities_to_remove: activities_to_remove
     };
     locals_array.push(locals);
   });
@@ -152,14 +166,19 @@ function sendEmail (ToBeValidated) {
                 } else {
                   console.log(responseStatus);
                   i++;
-                  if (tbv_length == i){
-                    mongoose.connection.close();
-                    process.exit();
+                  console.log("activities_to_remove");
+                  console.log(activities_to_remove);
+                  locals.activities_to_remove.forEach(function (activity) {
+                    console.log("removing + " + activity);
+                    if (tbv_length == i){
+                      removeFromList(activity, true);
+                    }
+                    else removeFromList(activity);
+                  })
                   }
                   // mongoose.connection.close();
                   // process.exit();
-                }
-              });
+                });
             }
           });
         }
@@ -205,13 +224,19 @@ function sendEmail (ToBeValidated) {
     // console.log("send email to " + r_email + ' about ' + v_name + ' with skills ' + skills.join(', ') + ' and other activities ' + count);
 }
 
-function removeFromList (id, callback) {
-  ValidationPending.findOneAndUpdate({activities: {$elemMatch: { activity:  }}}, {"activities.$.sent": true}, function (err, validation) {
+function removeFromList (id, last) {
+  ValidationPending.findOneAndUpdate({
+    activities: {$elemMatch: { activity: id}}}, {"activities.$.sent": true}, function (err, validation) {
     if (err) console.log(err);
     else {
-      callback()
-      // mongoose.connection.close();
-      // process.exit();
+      console.log(validation);
+      console.log('changed');
+      if (last) 
+      {
+        console.log("last");
+        mongoose.connection.close();
+        process.exit();
+      }
     }
   });
 }

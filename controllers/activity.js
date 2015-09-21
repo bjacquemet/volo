@@ -204,10 +204,13 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
     else {
       if (validationOK.length > 0) 
       {
-        Activity.find({'referee.email': validationOK.referee_email, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
+        console.log('looking for activities');
+        console.log(validationOK);
+        Activity.find({'referee.email': validationOK[0].referee_email, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
           Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
             if (err) console.log(err);
             else {
+              console.log(full_activities);
               res.render('activity/validation', { title: 'Activities pending validation', 
               user: req.user, 
               activities: full_activities });

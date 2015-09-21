@@ -24,8 +24,8 @@
 -else return number + ' hours'
 -}
 -function plurialize_activities(number){
--if (number == 1) return number + ' other new activity'
--else return number + ' other new activities'
+-if (number == 1) return number + ' other new activity';
+-else return number + ' other new activities';
 -}
 doctype transitional
 html(xmlns='http://www.w3.org/1999/xhtml')
@@ -72,7 +72,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                           p 
                             |Other volunteers have been adding activities with your nonprofit.
                             br
-                            |On our website, you will also be able to validate #{count}.
+                            |On our website, you will also be able to validate #{plurialize_activities(count)}.
                     tr
                       td(align='center', valign='top')
                         p Please, if you have any doubt, don't hesitate to <a href="mailto:mellisa@volo.org.uk">contact us</a>!
