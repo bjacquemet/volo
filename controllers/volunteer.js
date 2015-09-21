@@ -80,16 +80,21 @@ exports.getEditProfile = function(req, res, next) {
   getProfileByAccountId(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
+    console.log("OK");
     ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
       if (err) console.log(err);
       else 
       {
-        console.log(skills);
-        res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
-        user: req.user, 
-        volunteer: volunteer, 
-        experiences: experiences,
-        volunteer_skills: skills });
+        RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+          console.log(skills);
+          console.log(reco);
+          res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
+          user: req.user, 
+          volunteer: volunteer, 
+          experiences: experiences,
+          volunteer_skills: skills,
+          recommendations: reco });
+        });
       }
     });
   });
@@ -99,6 +104,7 @@ exports.getProfile = function (req, res, next) {
   getProfileById(req.params.id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
+    console.log(complete_profile.experiences);
     ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
       if (err) console.log(err);
       else {

@@ -9,14 +9,18 @@ block content
   - return y+'/'+m+'/'+d;
   -}
   -function bar_size(size){
-  -var barSize = Math.round(size*1.5);
-  -if(barSize >= 100) barSize = 80;
+  -var barSize = Math.round(size/4);
+  -if(barSize >= 400) barSize = 100;
   -return barSize + '%'
   -}
   -function color_opacity(size){
-  -var opacity = size/100*1.5;
+  -var opacity = size/100;
   -if(opacity >= 1) opacity = 1;
   -return opacity
+  -}
+  -function plurialize_reco(number){
+  -if (number == 1) return number + ' recommendation'
+  -else return number + ' recommendations'
   -}
   link(href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css", rel="stylesheet")
   link(href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css", rel="stylesheet")
@@ -175,7 +179,7 @@ block content
               h2 Skills
               each skills in volunteer_skills
                 each skill in skills
-                  .col-md-12.no-gutter_l
+                  .col-md-12.no-gutter_l.barContainer
                     .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
                       span #{skill._id.name}
                     span #{skill.sum_hours} hours
@@ -246,6 +250,8 @@ block content
               each experience in experiences
                 p.charity_name #{experience.nonprofit.name}
                 p #{experience.description}
+                - if (experience.recommendation_number > 0)
+                    p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
                 h5 Activities
                 each activity, i in experience.activities
                   if (i%2==0) 
@@ -337,8 +343,22 @@ block content
             .col-md-12.add
               a(href="#", id="addXP")
                 p.text-center Add an experience
+
+      -if (recommendations.recommendations.length > 0)
+        .row.row-centered
+          .col-md-10.col-md-offset-1.content.recommendation
+            .col-md-12
+              .col-md-12
+                h2 Recommendations
+
+                each recommendation in recommendations.recommendations
+                  .col-md-12.col-sm-12.col-xs-12.no-gutter
+                    p.manager_name #{recommendation.recommendation.referee_name} from #{recommendation.nonprofit} 
+                    p #{recommendation.recommendation.recommendation}
+                  .col-md-2.break
+
     .col-md-3.col-md-push-1
-      div.row.row-centered
+      .row.row-centered
         .col-md-12.content
           .col-md-12
             h2 Goals
@@ -636,6 +656,13 @@ block content
           }
         });
         return false;
-      });    
+      });   
+
+      $('.reco').on("click", function(e){
+        e.preventDefault();
+        $('html, body').animate({
+          scrollTop: $(".recommendation").offset().top
+        }, "slow");
+      }) 
 
     });

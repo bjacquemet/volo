@@ -23,12 +23,12 @@ block content
   - return d+'/'+m+'/'+y;
   -}
   -function bar_size(size){
-  -var barSize = Math.round(size*1.5);
-  -if(barSize >= 100) barSize = 80;
+  -var barSize = Math.round(size/4);
+  -if(barSize >= 400) barSize = 100;
   -return barSize + '%'
   -}
   -function color_opacity(size){
-  -var opacity = size/100*1.5;
+  -var opacity = size/100;
   -if(opacity >= 1) opacity = 1;
   -return opacity
   -}
@@ -36,7 +36,6 @@ block content
   -if (number == 1) return number + ' recommendation'
   -else return number + ' recommendations'
   -}
-
 
   div.container-fluid.profile_container
     div.row.row-centered
@@ -53,8 +52,7 @@ block content
               p
                   -var hours = 0;
                   each experience in experiences
-                    each activity, i in experience.activities
-                      - hours += activity.hours
+                    - hours += experience.totalHours
                   p Accumulated hours: <em>#{hours}</em>
 
           .col-md-5.info
@@ -83,17 +81,18 @@ block content
             - else if (!volunteer.graduate && volunteer.discipline && volunteer.graduation_year)
               p Studying in <em>#{volunteer.discipline}</em>, graduating in <em>#{volunteer.graduation_year}</em>
     
-    div.row.row-centered
-      div.col-md-10.col-md-offset-1.content.skills
-        .col-md-12
+
+    -if (volunteer_skills.skills.length > 0)
+      div.row.row-centered
+        div.col-md-10.col-md-offset-1.content.skills
           .col-md-12
-            h2 Skills
-            each skills in volunteer_skills
-              each skill in skills
-                .col-md-12.no-gutter_l
-                  .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
-                    span #{skill._id.name}
-                  span #{skill.sum_hours} hours
+            .col-md-12
+              h2 Skills
+              each skills in volunteer_skills
+                each skill in skills
+                  .col-md-12.no-gutter_l.barContainer
+                    .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
+                      span #{skill._id.name}
             
     div.row.row-centered
       div.col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content.XP
@@ -102,44 +101,46 @@ block content
             h2 Experiences
 
             each experience, i in experiences
-              .col-md-9.col-xs-12.col-sm-12.no-gutter_l
-                p.charity_name #{experience.nonprofit.name}
-                p #{experience.start_date}
-                p #{experience.description}
-                p <em>#{experience.totalHours}</em> accumulated hours
-                - if (experience.skills_list.length > 0)
-                  p Skills acquired: 
-                    each skill, i in experience.skills_list
-                      em
-                      if (i == 0)
-                        span #{skill.name}
-                      else
-                        span , #{skill.name}
-                - if (experience.recommendation_number > 0)
-                    p <u><a href="#" id="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
-              .col-md-2.col-md-offset-1
-                img(src="/images/img_placeholder.png")
-
-              - if (!(i == experience.length-1))
-                .separator.col-md-2.col-md-offset-5
+              -if (experience.totalHours > 0)
+                .col-md-9.col-xs-12.col-sm-12.no-gutter_l
+                  p.charity_name #{experience.nonprofit.name}
+                  p #{experience.start_date}
+                  p #{experience.description}
+                  p <em>#{experience.totalHours}</em> accumulated hours
+                  - if (experience.skills_list.length > 0)
+                    p Skills acquired: 
+                      each skill, i in experience.skills_list
+                        em
+                          if (i == 0)
+                            span #{skill.name}
+                          else
+                            span , #{skill.name}
+                  - if (experience.recommendation_number > 0)
+                      p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
+                .col-md-2.col-md-offset-1
+                  img(src="/images/img_placeholder.png")
+  
+                - if (!(i == experience.length-1))
+                  .separator.col-md-2.col-md-offset-5
           
-
-    div.row.row-centered
-      div.col-md-10.col-md-offset-1.content.recommendation
-        .col-md-12
+    -if (recommendations.recommendations.length > 0)
+      div.row.row-centered
+        div.col-md-10.col-md-offset-1.content.recommendation
           .col-md-12
-            h2 Recommendations
+            .col-md-12
+              h2 Recommendations
 
-            each recommendation in recommendations.recommendations
-              .col-md-12.col-sm-12.col-xs-12.no-gutter
-                p.manager_name #{recommendation.recommendation.referee_name} from #{recommendation.nonprofit} 
-                p #{recommendation.recommendation.recommendation}
-              .col-md-2.break
+              each recommendation in recommendations.recommendations
+                .col-md-12.col-sm-12.col-xs-12.no-gutter
+                  p.manager_name #{recommendation.recommendation.referee_name} from #{recommendation.nonprofit} 
+                  p #{recommendation.recommendation.recommendation}
+                .col-md-2.break
 
 
   script.
     $(document).ready(function() {
-      $('#reco').on("click", function(){
+      $('.reco').on("click", function(e){
+        e.preventDefault();
         $('html, body').animate({
           scrollTop: $(".recommendation").offset().top
         }, "slow");

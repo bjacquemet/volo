@@ -38,10 +38,13 @@ function getVolunteerExperiences (volunteer_id, callback) {
                   var hours = 0,
                       skills_list = [];
                   experience.activities.forEach(function(activity) {
-                    hours += activity.hours;
-                    activity.skills.forEach(function(skill) {
-                      if (skills_list.indexOf(skill) < 0 ) skills_list.push(skill);
-                    });
+                    if (activity.validated == 'accepted')
+                    {
+                      hours += activity.hours;
+                      activity.skills.forEach(function(skill) {
+                        if (skills_list.indexOf(skill) < 0 ) skills_list.push(skill);
+                      });
+                    }
                   });
                   // reformat the json
                   experience = JSON.stringify(experience);

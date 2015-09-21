@@ -19,7 +19,8 @@ function getVolunteerSkills (volunteer_id, callback) {
       [{
         $match:
         {
-          volunteer: volunteer_id
+          volunteer: volunteer_id,
+          validated: 'accepted'
         }
       }
       ,{
