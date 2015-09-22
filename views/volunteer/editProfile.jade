@@ -67,111 +67,111 @@ block content
                 p Change photo
             .col-md-7
               h3
-                a(href="#", id="first_name", data-type="text", data-pk="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
+                a(href="#", id="first_name", data-type="text", data-pk="#{volunteer._id}", data-id="first_name", data-placeholder="First Name", data-url="/volunteer/update", data-title="Enter first name") #{volunteer.first_name}
                 | 
-                a(href="#", id="last_name", data-type="text", data-pk="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
+                a(href="#", id="last_name", data-type="text", data-pk="#{volunteer._id}", data-id="last_name", data-placeholder="Last Name", data-url="/volunteer/update", data-title="Enter last name") #{volunteer.last_name}
               - if (volunteer.gender)
-                a(href="#", data-value="#{volunteer.gender}", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
+                a(href="#", data-value="#{volunteer.gender}", id="gender", data-type="select", data-pk="#{volunteer._id}", data-id="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
               - else
-                a(href="#", id="gender", data-type="select", data-pk="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
+                a(href="#", id="gender", data-type="select", data-pk="#{volunteer._id}", data-id="gender", data-placeholder="Gender", data-url="/volunteer/update", data-title="Enter gender")  
               p 
                 - if (volunteer.birthdate)
-                  a(href="#", data-value="#{format_date(volunteer.birthdate)}" id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
+                  a(href="#", data-value="#{format_date(volunteer.birthdate)}" id="birthdate", data-type="combodate", data-pk="#{volunteer._id}", data-id="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
                 - else
-                  a(href="#", id="birthdate", data-type="combodate", data-pk="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
+                  a(href="#", id="birthdate", data-type="combodate", data-pk="#{volunteer._id}", data-id="birthdate", data-url="/volunteer/update", data-title="Enter your birth date")
             .col-md-12.col-xs-12.col-sm-12
             .col-md-6.col-sm-6.col-xs-12.info
               h4 Contacts
               p 
                 - if (volunteer.email)
-                  a(href="#", data-value="#{volunteer.email}", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
+                  a(href="#", data-value="#{volunteer.email}", id="email", data-type="email", data-pk="#{volunteer._id}", data-id="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
                 - else
-                  a(href="#", data-value="", id="email", data-type="email", data-pk="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
+                  a(href="#", data-value="", id="email", data-type="email", data-pk="#{volunteer._id}", data-id="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
               p 
                 - if (volunteer.phone)
-                  a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                  a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
                 - else
-                  a(href="#", data-value="", id="phone", data-type="text", data-pk="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                  a(href="#", data-value="", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
             .col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-12.info
               h4 &nbsp;
               p 
                 - if (volunteer.postcode)
-                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="text", data-pk="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="text", data-pk="#{volunteer._id}", data-id="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
                 - else
-                  a(href="#", id="postcode", data-type="text", data-pk="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
+                  a(href="#", id="postcode", data-type="text", data-pk="#{volunteer._id}", data-id="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
             .col-md-12.col-xs-12.col-sm-12.info
               h4 Position
               p 
                 - if (volunteer.position)
-                  a(href="#", data-value="#{volunteer.position}", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
+                  a(href="#", data-value="#{volunteer.position}", id="position", data-type="select", data-pk="#{volunteer._id}", data-id="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)  
                 - else
-                  a(href="#", data-value="", id="position", data-type="select", data-pk="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)   
+                  a(href="#", data-value="", id="position", data-type="select", data-pk="#{volunteer._id}", data-id="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)   
                 - if (volunteer.position == 'student' && volunteer.university)
                   |&nbsp;at 
-                  a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
                   p 
                   - if (volunteer.graduate && volunteer.discipline)
-                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else if (volunteer.graduate && !volunteer.discipline)
-                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else if (!volunteer.graduate && volunteer.discipline)
-                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else
-                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - if (volunteer.graduation_year)
                     |&nbsp;in 
-                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="#{volunteer._id}", data-id="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
                   - else
                     |&nbsp;in 
-                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="#{volunteer._id}", data-id="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
                 - else if (volunteer.position == 'student' && !volunteer.university)
                   |&nbsp;at 
-                  a(href="#", data-value="", id="university", data-type="select", data-pk="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", data-value="", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
                   p 
                   - if (volunteer.graduate && volunteer.discipline)
-                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else if (volunteer.graduate && !volunteer.discipline)
-                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else if (!volunteer.graduate && volunteer.discipline)
-                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="#{volunteer.discipline}", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - else
-                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
+                    a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
                     |&nbsp;in 
-                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
+                    a(href="#", data-value="", id="discipline", data-type="text", data-pk="#{volunteer._id}", data-id="discipline", data-placeholder="Discipline", data-url="/volunteer/update", data-title="Enter Discipline")   
                   - if (volunteer.graduation_year)
                     |&nbsp;graduating in  
-                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                    a(href="#", data-value="#{volunteer.graduation_year}", id="graduation_year", data-type="number", data-min="2014", data-max="2020", data-pk="#{volunteer._id}", data-id="graduation_year", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
                   - else
                     |&nbsp;graduating in 
-                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
+                    a(href="#", data-value="", id="graduation_year", data-type="number", data-pk="#{volunteer._id}", data-id="graduation_year", data-min="2014", data-max="2020", data-placeholder="Graduation Year", data-url="/volunteer/update", data-title="Enter graduation year")
 
                 - if (volunteer.position == 'employed' && volunteer.company)
                   |&nbsp;at 
-                  a(href="#", data-value="#{volunteer.company}", id="company", data-type="text", data-pk="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
+                  a(href="#", data-value="#{volunteer.company}", id="company", data-type="text", data-pk="#{volunteer._id}", data-id="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
                 - else if (volunteer.position == 'employed' && !volunteer.company)
                   |&nbsp;at 
-                  a(href="#", data-value="", id="company", data-type="text", data-pk="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
+                  a(href="#", data-value="", id="company", data-type="text", data-pk="#{volunteer._id}", data-id="company", data-placeholder="Company", data-url="/volunteer/update", data-title="Enter Company")  
             .col-md-12.col-xs-12.col-sm-12.info
               h4 About me
               p
                 - if (volunteer.about)
-                  a(href="#", data-value="#{volunteer.about}", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
+                  a(href="#", data-value="#{volunteer.about}", id="about", data-type="textarea", data-pk="#{volunteer._id}", data-id="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
                 - else
-                  a(href="#", data-value="", id="about", data-type="textarea", data-pk="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
+                  a(href="#", data-value="", id="about", data-type="textarea", data-pk="#{volunteer._id}", data-id="about", data-placeholder="About me", data-url="/volunteer/update", data-title="About yourself")  
 
             .col-md-12.col-xs-12.col-sm-12.info.text-right
               em
@@ -202,7 +202,8 @@ block content
             .col-md-12
               each experience in experiences
                 p.charity_name #{experience.nonprofit.name}
-                p #{experience.description}
+                p 
+                  a(href="#", data-value="#{experience.description}", id="description", data-type="textarea", data-pk="#{experience._id}", data-id="description", data-placeholder="Description", data-url="/experience/update", data-title="Enter Experience Description")
                 - if (experience.recommendation_number > 0)
                     p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
                 h5 Activities
@@ -532,6 +533,14 @@ block content
               {value:"City University", text:"City University"}
             ]
       });
+
+      $('#description').editable({emptytext: 'Describe your Experience'});
+      $('#description').on('shown', function(e, editable){
+          $('.editable-container').css("width", "90%");
+          $('.form-group').css("width", "90%");
+          $('.editable-input').css("width", "90%");
+          $('textarea').css("width", "100%");
+          });
       
       // Preload external data function for skills + role
       function loadExternalData(listName, id) {

@@ -210,12 +210,12 @@ exports.newProfile = function(req, res){
 
 exports.updateProfile = function (req, res) {
   var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
-  var field = req.body.pk;
+  var field = req.body.name;
   var value = req.body.value;
   var json;
   if (fields.indexOf(field) > -1)
   {
-    Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
+    Volunteer.findOne({_id: req.body.pk}, function(err, volunteer){
     switch (field)
     {
       case 'first_name':
@@ -301,7 +301,8 @@ exports.updateProfile = function (req, res) {
   } 
   else {
     console.log("Field doesn't exist");
-    res.send({status: 400, msg: "Field doesn't exist"});
+    res.status(400)
+    res.send("Field doesn't exist");
     // res.end("Field doesn't exist");
   }
 };

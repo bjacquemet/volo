@@ -20,7 +20,7 @@ block content
   - var m = month[newDate.getMonth()];
   - var d = newDate.getDate();
   - if (d <10) d= '0'+d;
-  - return d+'/'+m+'/'+y;
+  - return m+'/'+d+'/'+y;
   -}
   -function plurialize(number){
   -if (number == 1) return number + ' hour'
@@ -69,7 +69,7 @@ block content
                     p <em>#{capitalize(activity.volunteer.position)}</em>
                   - else
                     p <em>#{activity.volunteer.position}</em>
-                  p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                  p Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
                   - if (activity.skills.length > 0)
                     p Skills acquired: 
                       each skill, i in activity.skills

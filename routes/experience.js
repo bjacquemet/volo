@@ -8,4 +8,6 @@ router.get("/volunteer/:id", ExperienceController.getByVolunteerIdParam);
 
 router.post("/new", ExperienceController.new);
 
+router.post("/update", ExperienceController.update);
+
 module.exports = router;

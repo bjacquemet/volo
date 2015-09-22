@@ -186,6 +186,28 @@ exports.new = function(req,res) {
   })
 };
 
+exports.update = function (req, res) {
+  var field = req.body.name;
+  var value = req.body.value;
+  var json;
+  if (field == 'description')
+  {
+    Experience.findByIdAndUpdate({_id: req.body.pk}, {description: req.body.value}, function (err, xp) {
+      if (err) {
+        res.status(400);
+        res.send(err);
+      }
+      else res.sendStatus(200);
+    })
+  }
+  else
+  {
+    console.log("Field doesn't exist");
+    res.status(400)
+    res.send("Field doesn't exist");
+  }
+}
+
 exports.getByVolunteerIdParam = function(req,res) {
   getVolunteerExperiences(req.params.id, function(response) {
     res.send(response.experiences);
