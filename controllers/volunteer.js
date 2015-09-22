@@ -6,6 +6,10 @@ var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
 var RecommendationController = require('../controllers/recommendation');
 var fs = require('fs');
+// or more concisely
+var sys = require('sys')
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 function getProfileByAccountId (volunteer_account_id, callback) {
   Volunteer.findOne({account_id: volunteer_account_id}).exec(function (err, volunteer) {
@@ -48,15 +52,20 @@ exports.list = function(req, res) {
 exports.getPhotoByVolunteerId = function(req,res) {
     Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
       res.set("Content-Type", volunteer.photo.contentType);
-      res.send(volunteer.photo.data);
+      if (volunteer.photo.cropedPath) res.send(fs.readFileSync(volunteer.photo.cropedPath));
+      else {
+        res.send(fs.readFileSync('public/'+volunteer.photo.originalPath));
+      }
+      // res.send(volunteer.photo.data);
     });
 };
 
 exports.postPhoto = function(req,res) {
   if(typeof(req.files.userPhoto.path) != 'undefined') {
     console.log(req.files);
+    exec("node node_modules/quickthumb/bin/make-thumb.js " + req.files.userPhoto.path + ' ' + 'public/crop/' + ' 400x400', puts);
     Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
-      var json = {photo: {data: fs.readFileSync(req.files.userPhoto.path), contentType: req.files.userPhoto.mimetype, path: req.files.userPhoto.path.substring(6)}};
+      var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:'public/crop/'+req.files.userPhoto.name, originalPath: req.files.userPhoto.path.substring(6), name: req.files.userPhoto.name}};
       volunteer.update(json, { upsert : true }, function(err) {
         if (err) {
            throw err;
@@ -71,8 +80,7 @@ exports.postPhoto = function(req,res) {
   }
   else
     {
-      console.log("error");
-      console.log(req.files);
+      res.send(400);
     }
 };
 

@@ -770,7 +770,7 @@ block content
           success: function(response) {
             console.log(response);
             //remove public from path
-            var $newFile = response.substring(6);
+            var $newFile = "/"+response+'?dim=400x400';
             $('#uploadModal').modal('toggle');
             $(".user-bg img").attr('src',$newFile);
           }

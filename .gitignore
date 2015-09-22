@@ -1,4 +1,6 @@
 public/uploads
+public/uploads/.cache
+public/crop
 node_modules
 npm-debug.log
 

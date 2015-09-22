@@ -11,6 +11,7 @@ var flash = require('express-flash');
 var bcrypt = require('bcrypt-nodejs');
 var multer = require('multer');
 var compression = require('compression');
+var qt = require('quickthumb');
 var done = false;
 
 var Volunteer = require('./models/volunteer');
@@ -61,6 +62,7 @@ app.use(passport.session());
 app.use(compression());
 var maxAge = 31536000000;
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: maxAge}));
+app.use('/public/uploads/', qt.static(__dirname + '/public/uploads/'));
 app.use(flash());
 
 //  Load routes

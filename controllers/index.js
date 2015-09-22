@@ -28,7 +28,7 @@ exports.register = function(req, res) {
               account_id: account._id,
               first_name: req.body.first_name,
               last_name: req.body.last_name,
-              photo: {data: fs.readFileSync('./public/images/placeholder.png'), contentType: 'image/png', path: 'images/placeholder.png'},
+              photo: {contentType: 'image/png', originalPath: 'images/placeholder.png', cropedPath: 'images/placeholder.png',  name: 'placeholder.png'},
               email: req.body.email
             });
             newVolunteer.save(function(err) {
