@@ -3,26 +3,44 @@ var Nonprofit = require('../models/nonprofit');
 exports.list = function(req,res) {
     Nonprofit.find({}).select('_id name suggested_by_volunteer').exec(function(err,nonprofits) {
       console.log(nonprofits);
-      nonprofits.push({ _id: 0,
-                        name: 'Other'});
+      nonprofits.push({ _id: 0, name: 'Other'});
       res.send(nonprofits);
     });
 };
 
-// todo: add a created_by = volunteer._id
 exports.new =function(req,res) {
-  if (!req.body.name || !req.body.suggested_by_volunteer) {
-    res.send(400);
+  if (!req.body.name || !req.body.suggested_by_volunteer || !req.body.created_by ) {
+    res.status(400);
+    res.send('Field(s) missing');
   }
-  var name = req.body.name;
-  var sbv = req.body.suggested_by_volunteer;
-  var newNonprofit = Nonprofit(
+  else
   {
-    name: name, 
-    suggested_by_volunteer: sbv
-  });
-  newNonprofit.save(function (err) {
-    if (err) res.sendStatus(400);
-    else res.sendStatus(201);  
-  })
+    var name = req.body.name;
+    if (Object.prototype.toString.call(name) === '[object Array]')
+    {
+      var name_is_array = true;
+      name = name[0];
+    }
+    var sbv = req.body.suggested_by_volunteer;
+    var created_by = req.body.created_by;
+    var newNonprofit = Nonprofit(
+    {
+      name: name, 
+      suggested_by_volunteer: sbv,
+      created_by: created_by
+    });
+    newNonprofit.save(function (err) {
+      if (err) {
+        res.status(400);
+        res.send('This nonprofit already exists.');
+      }
+      else {
+        if (name_is_array)
+        {
+          res.status(201).send('Only ' + name + ' has been created. Only one nonprofit can be added at a time');
+        }
+        else res.sendStatus(201); 
+      }
+    })
+  }
 };

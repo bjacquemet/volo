@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Nonprofit = new Schema({
-    name: String,
+    name: {type: String, unique:true},
     // logo: { data: Buffer, contentType: String, path: String },
     // header_image: { data: Buffer, contentType: String, path: String },
     // tagline: String,
@@ -15,6 +15,7 @@ var Nonprofit = new Schema({
     // registered: Boolean,
     // team_member: [{type: Schema.Types.ObjectId, ref: 'Volunteer'}],
     // main: {type: Schema.Types.ObjectId, ref: 'Volunteer'},
+    created_by: {type: Schema.Types.ObjectId, ref: "Volunteer", required:true },
     suggested_by_volunteer: Boolean,
     updated_at: Date,
     created_at: {type: Date, default: Date.now()}

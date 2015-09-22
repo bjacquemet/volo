@@ -11,10 +11,12 @@ form(action="/experience/new", method="POST")
   .form-group.col-md-12.no-gutter
     label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
     select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
+    a(href="#", class="little", data-toggle="modal", data-target="#roleModal") Add a new role
     .col-md-12.col-sm-12.col-xs-12.no-gutter
       .col-md-6.col-sm-6.col-xs-12.no-gutter
         label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
         select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
+        a(href="#", class="little", data-toggle="modal", data-target="#skillModal") Add a new skill
 
       .col-md-6.col-sm-6.col-xs-12.no-gutter_r
         label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours

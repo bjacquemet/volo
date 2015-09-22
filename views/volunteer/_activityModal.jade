@@ -4,28 +4,22 @@ form(action="/activity/update", method="POST", class="col-md-12 col-sm-12 col-xs
   .form-group.col-md-12.no-gutter
     label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
     select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
-    //- span.role_data
-    //-   em
+    a(href="#", class="little", data-toggle="modal", data-target="#roleModal") Add a new role
 
     label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
     select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
-    //- span.skills_data
-    //-   em
+    a(href="#", class="little", data-toggle="modal", data-target="#skillModal") Add a new skill
 
     label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
     input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", min="1", required)
-    //- span.hours_data
-    //-   em
+
 
     label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
     span.col-md-6.col-sm-6.col-xs-12.date_label.no-gutter From *: 
     span.col-md-6.col-sm-6.col-xs-12.date_label.no-gutter To: 
-    //- span.s_date_data
-    //-   em
+
     .col-md-6.col-sm-6.col-xs-12.no-gutter_l
       input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
-    //- span.e_date_data
-    //-   em
     .col-md-6.col-sm-6.col-xs-12.no-gutter
       input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
 

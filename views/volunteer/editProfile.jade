@@ -216,7 +216,7 @@ block content
                           p Skills: <em>
                             each skill, i in activity.skills
                               if (i == 0)
-                                span #{skill.name} 
+                                span #{skill.name}
                               else
                                 span , #{skill.name}
                             </em>
@@ -296,11 +296,40 @@ block content
             button(type="button" class="close" data-dismiss="modal") &times;
             p Add a new Nonprofit
           .modal-body
-            p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information.
+            p If you are not finding the nonprofit you volunteered with, please just add its name here. We'll review this information. <br/>
             form(id="nonprofitForm", action="/nonprofit/new", method="post")
-              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", placeholder="Nonprofit name")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", autofocus, placeholder="Nonprofit name", required)
               input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="hidden", name="created_by", value="#{volunteer._id}")
               input(type="submit", value="Add new nonprofit", name="submit", class="btn btn-primary modal-submit")
+
+    .modal.fade#skillModal(tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Add a new Skill
+          .modal-body
+            p If you are not finding the skill you want, you can add it's name here. We'll review this information. <br/>
+            form(id="skillForm", action="/skill/new", method="post")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", autofocus, placeholder="Skill name", required)
+              input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="hidden", name="created_by", value="#{volunteer._id}")
+              input(type="submit", value="Add new skill", name="submit", class="btn btn-primary modal-submit")
+
+    .modal.fade#roleModal(tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Add a new Role
+          .modal-body
+            p If you are not finding the role you want, you can add it's name here. We'll review this information. <br/>
+            form(id="roleForm", action="/role/new", method="post")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", autofocus, placeholder="Role name", required)
+              input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="hidden", name="created_by", value="#{volunteer._id}")
+              input(type="submit", value="Add new role", name="submit", class="btn btn-primary modal-submit")
 
     .modal.fade#editActivityModal(tabindex='-1')
       .modal-dialog
@@ -580,6 +609,7 @@ block content
           placeholder: "Select a role",
         });
 
+        // Nonprofit modal
         $("#nonprofit").select2({
           placeholder: "Select a nonprofit",
         }).on('change', function(e){
@@ -593,7 +623,11 @@ block content
           event.preventDefault();
           $(this).ajaxSubmit({
             error: function(xhr) {
-              console.log(xhr);
+            console.log(xhr);
+              $('#nonprofitModal .modal-body').prepend('<div class="alert alert-danger"> \
+                <div>'+ xhr.responseText + '</div> \
+                <div>Sorry, you can\'t add this nonprofit. Please, contact us if you think you should.</div> \
+                </div>');
             },
             success: function(response) {
               loadExternalData('nonprofit', "#nonprofit");
@@ -612,27 +646,63 @@ block content
           });
         }
       });
+      
+      //- Skill Form
+      $('#skillForm').submit(function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+          console.log(xhr);
+            $('#skillModal .modal-body').prepend('<div class="alert alert-danger"> \
+              <div>'+ xhr.responseText + '</div> \
+              <div>Sorry, you can\'t add this skill. Please, contact us if you think you should.</div> \
+              </div>');
+          },
+          success: function(response) {
+            loadExternalData('skill', ".skills_list");
+            $('#skillModal').modal('toggle');
+          }
+        });
+      });
+
+      //- Role Form
+      $('#roleForm').submit(function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+          console.log(xhr);
+            $('#roleModal .modal-body').prepend('<div class="alert alert-danger"> \
+              <div>'+ xhr.responseText + '</div> \
+              <div>Sorry, you can\'t add this role. Please, contact us if you think you should.</div> \
+              </div>');
+          },
+          success: function(response) {
+            loadExternalData('role', ".role");
+            $('#roleModal').modal('toggle');
+          }
+        });
+      });
 
       function showActivity (element) {
-      console.log(element);
-      $(element).find(".add_new").hide().addClass('hide_it');
-      $(element).find(".activity_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
-          $('html, body').animate({
-            scrollTop: $(element).find(".activity_form").offset().top
-          }, "slow");
-          $(".skills_list").select2({
-            placeholder: "Select up to 3 skills",
-            maximumSelectionLength: 3,
-            language: {
-              maximumSelected: function () {
-                return 'Sorry, you can only select up to 3 skills';
+        console.log(element);
+        $(element).find(".add_new").hide().addClass('hide_it');
+        $(element).find(".activity_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
+            $('html, body').animate({
+              scrollTop: $(element).find(".activity_form").offset().top
+            }, "slow");
+            $(".skills_list").select2({
+              placeholder: "Select up to 3 skills",
+              maximumSelectionLength: 3,
+              language: {
+                maximumSelected: function () {
+                  return 'Sorry, you can only select up to 3 skills';
+                }
               }
-            }
+            });
+            $(".role").select2({
+              placeholder: "Select a role",
+            });
           });
-          $(".role").select2({
-            placeholder: "Select a role",
-          });
-        });
       }
 
       $(".add_new").on('click', function(e){
@@ -724,5 +794,12 @@ block content
 
       $('input[name="s_date"]').attr("max", year+"-"+month+'-'+day).attr('min', '2010-01-01');
       $('input[name="e_date"]').attr("max", year+"-"+month+'-'+day);
+      
+      $('.little').on('click', function () {
+        if ($('#editActivityModal').hasClass('in') == true)
+          {
+            $('#editActivityModal').modal('hide');
+          }
+      })
 
     });
