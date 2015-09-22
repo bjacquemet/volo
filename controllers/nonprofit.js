@@ -11,21 +11,18 @@ exports.list = function(req,res) {
 
 // todo: add a created_by = volunteer._id
 exports.new =function(req,res) {
-  console.log(req.body);
+  if (!req.body.name || !req.body.suggested_by_volunteer) {
+    res.send(400);
+  }
   var name = req.body.name;
   var sbv = req.body.suggested_by_volunteer;
-  // if (Object.prototype.toString.call(name) === '[object Array]')
-  // {
-  //   var name_is_array = true;
-  //   name = name[0];
-  // }
   var newNonprofit = Nonprofit(
   {
     name: name, 
     suggested_by_volunteer: sbv
   });
   newNonprofit.save(function (err) {
-    if (err) throw err;
+    if (err) res.sendStatus(400);
     else res.sendStatus(201);  
   })
 };
