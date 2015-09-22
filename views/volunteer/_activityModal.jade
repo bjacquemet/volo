@@ -1,20 +1,43 @@
-h4 Activity
-.form-group.col-md-12.no-gutter
-  label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
-  select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
+h4(style="margin-top:0px;") Activity
+form(action="/activity/update", method="POST", class="col-md-12 col-sm-12 col-xs-12 editForm no-gutter")
+  input(type="hidden", name="activity")
+  .form-group.col-md-12.no-gutter
+    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="role") Role
+    select.col-md-12.col-sm-12.col-xs-12(id="role", class="select2-single role", name="role", required)
+    //- span.role_data
+    //-   em
 
-  label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
-  select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
+    label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="skills") Skills developed
+    select.col-md-12.col-sm-12.col-xs-12(id="skills", name='skills', class="skills_list select2-multiple", multiple, required)
+    //- span.skills_data
+    //-   em
 
-  label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
-  input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", min="1", required)
+    label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="hours") Number of hours
+    input.col-md-12.col-sm-12.col-xs-12(name="hours", type="number", min="1", required)
+    //- span.hours_data
+    //-   em
 
-  label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
-  span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter From *: 
-  input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
-  span.col-md-12.col-sm-12.col-xs-12.date_label.no-gutter To: 
-  input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
+    label.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter(for="s_date") Dates
+    span.col-md-6.col-sm-6.col-xs-12.date_label.no-gutter From *: 
+    span.col-md-6.col-sm-6.col-xs-12.date_label.no-gutter To: 
+    //- span.s_date_data
+    //-   em
+    .col-md-6.col-sm-6.col-xs-12.no-gutter_l
+      input.col-md-12.col-sm-12.col-xs-12(name="s_date", type="date", required)
+    //- span.e_date_data
+    //-   em
+    .col-md-6.col-sm-6.col-xs-12.no-gutter
+      input.col-md-12.col-sm-12.col-xs-12(name="e_date", type="date")
 
-h4 Personal Notes
-.form-group.col-md-12.no-gutter
-  textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+  h4 Referee
+  .form-group.col-md-12.no-gutter
+    p.col-md-12.col-xs-12.col-sm-12.no-gutter.referee_name
+    p.col-md-12.col-xs-12.col-sm-12.no-gutter.referee_email
+    p.col-md-12.col-xs-12.col-sm-12.no-gutter.referee_phone
+
+  h4 Personal Notes
+  .form-group.col-md-12.no-gutter
+    textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+  
+  .form-group.col-md-12.no-gutter.text-center
+    input(type="submit", value="Update", name="submit", class="btn btn-primary modal-submit")

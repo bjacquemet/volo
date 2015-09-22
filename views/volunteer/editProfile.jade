@@ -232,7 +232,7 @@ block content
                         p Skills: <em>
                           each skill, i in activity.skills
                             if (i == 0)
-                              span #{skill.name} 
+                              span #{skill.name}
                             else
                               span , #{skill.name}
                           </em>
@@ -307,17 +307,43 @@ block content
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
             p Edit an activity
-          .modal-body.col-md-12
+          .modal-body.col-md-12.col-sm-12.col-xs-12
             include ./_activityModal.jade
+
+    .modal.fade#checkActivityModal(tabindex='-1')
+      .modal-dialog
+        .modal-content.col-md-12
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Activity Details
+          .modal-body.col-md-12.col-sm-12.col-xs-12
+            include ./_activityDetailsModal.jade
             
 
   script.
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
       $("#editActivityModal").on('hide.bs.modal', function () {
-        $("#editActivityModal .skills_list").select2('close');
-        $("#editActivityModal .role").select2('close');
+        if ($("#editActivityModal .skills_list").data('select2'))
+          {
+            $("#editActivityModal .skills_list").select2('close');
+            $("#editActivityModal .role").select2('close');
+          }
       });
+
+    $('.editForm').submit(function(event) {
+      console.log('submiting');
+      event.preventDefault();
+      $(this).ajaxSubmit({
+        error: function(xhr) {
+          console.log(xhr);
+        },
+        success: function(response) {
+        console.log(response);
+          location.reload();
+        }
+      });
+    });
   
     $('.activity').on('click', function () {
       if ($(this).data("validated") == "pending")
@@ -343,21 +369,28 @@ block content
               var newDate = new Date(data.start_date);
               var y = newDate.getFullYear();
               var m = newDate.getMonth() + 1;
+              if (m <10) m = '0'+m;
               var d = newDate.getDate();
+              if (d <10) d = '0'+d;
               $('#editActivityModal input[name=s_date]').val(y+'-'+m+'-'+d);
               if (data.end_date)
                 {
                 var endDate = new Date(data.end_date);
                 var y_e = endDate.getFullYear();
                 var m_e = endDate.getMonth() + 1;
+                if (m_e <10) m_e = '0'+m_e;
                 var d_e = endDate.getDate();
+                if (d_e <10) d_e = '0'+d_e;
                 $('#editActivityModal input[name=e_date]').val(y_e+'-'+m_e+'-'+d_e);
                 }
+              $('#editActivityModal input[name=activity]').val(data._id);
               $('#editActivityModal .role').select2('val', data.role._id);
               $('#editActivityModal .skills_list').select2('val', data.skills_list);
               $('#editActivityModal input[name=hours]').val(data.hours);
-              console.log(data.skills_list);
-              $('#editActivityModal input[name=notes]').val(data.skills_list);
+              $('#editActivityModal textarea[name=notes]').val(data.notes);
+              $('#editActivityModal p.referee_name').text(data.referee.name);
+              $('#editActivityModal p.referee_email').text(data.referee.email);
+              $('#editActivityModal p.referee_phone').text(data.referee.phone_number);
             });
             },
             error: function(err) {
@@ -365,6 +398,46 @@ block content
             }
           });
         }
+        else
+          {
+            $.ajax({
+              dataType: "json",
+              url: '/activity/get/' + $(this).data("id"),
+              success: function(data){
+              $('#checkActivityModal').modal('toggle');
+              $("#checkActivityModal").on('shown.bs.modal', function () {
+                var newDate = new Date(data.start_date);
+                var y = newDate.getFullYear();
+                var m = newDate.getMonth() + 1;
+                if (m <10) m = '0'+m;
+                var d = newDate.getDate();
+                if (d <10) d = '0'+d;
+                $('#checkActivityModal p.s_date_data em').text(m+'/'+d+'/'+y);
+                if (data.end_date)
+                  {
+                  var endDate = new Date(data.end_date);
+                  var y_e = endDate.getFullYear();
+                  var m_e = endDate.getMonth() + 1;
+                  if (m_e <10) m_e = '0'+m_e;
+                  var d_e = endDate.getDate();
+                  if (d_e <10) d_e = '0'+d_e;
+                  $('#checkActivityModal p.e_date_data em').text(m_e+'/'+d_e+'/'+y_e);
+                  }
+                $('#checkActivityModal input[name=activity]').val(data._id);
+                $('#checkActivityModal p.role_data em').text(data.role.name);
+                $('#checkActivityModal p.skills_data em').text(data.skills_list_name.join(', '));
+                $('#checkActivityModal p.hours_data em').text(data.hours);
+                $('#checkActivityModal textarea[name=notes]').val(data.notes);
+                $('#checkActivityModal p.referee_name').text(data.referee.name);
+                $('#checkActivityModal p.referee_email').text(data.referee.email);
+                $('#checkActivityModal p.referee_phone').text(data.referee.phone_number);
+              });
+              },
+              error: function(err) {
+                console.log(err);
+              }
+            });
+          }
     })
       
       //- Editable set up
@@ -594,7 +667,6 @@ block content
         });
       });
 
-
       // Validate photo form
       $('#uploadForm').validate({
           rules: {
@@ -639,7 +711,9 @@ block content
       var month = today.getMonth()+1;
       if (month <10) month = '0'+month;
       var day = today.getDate()+1;
+      if (day <10) day = '0'+day;
 
-      $('input[type="date"]').attr("max", year+"-"+month+'-'+day).attr('min', '2010-01-01');
+      $('input[name="s_date"]').attr("max", year+"-"+month+'-'+day).attr('min', '2010-01-01');
+      $('input[name="e_date"]').attr("max", year+"-"+month+'-'+day);
 
     });

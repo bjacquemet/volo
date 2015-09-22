@@ -480,6 +480,7 @@ h1.logo {
     padding-bottom: 10px;
     min-height: 140px;
     position: relative;
+    cursor: pointer;
     .transition(all .25s);
     p.validation{
       position: absolute;
@@ -524,6 +525,14 @@ h1.logo {
   p {
     font-size: @font-size-base *0.9;
     margin-bottom: 5px !important;
+  }
+}
+.editForm label {margin-bottom: 0px;margin-top: 5px;font-size: @font-size-base * 0.9;}
+#checkActivityModal p {margin-top: 5px;margin-bottom: 5px;}
+#checkActivityModal, #editActivityModal {
+  h4 {
+    margin-bottom: 2px;
+    margin-top: 5px;
   }
 }
 .activity_form {

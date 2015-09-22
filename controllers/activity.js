@@ -502,19 +502,67 @@ exports.new = function(req,res, next) {
   });
 }
 
+exports.update_notes = function (req, res) {
+  var notes = req.body.notes,
+      activity = req.body.activity;
+  var json = {notes: notes};
+  console.log(json);
+  console.log(activity);
+  Activity.findByIdAndUpdate(activity, json, function (err, activity) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  })
+}
+
+exports.update = function (req, res) {
+  var role = req.body.role,
+      skills = req.body.skills,
+      hours = req.body.hours,
+      start_date = req.body.s_date,
+      end_date = req.body.e_date,
+      notes = req.body.notes,
+      activity = req.body.activity;
+  var json = {
+    role: role,
+    skills: skills,
+    start_date: start_date,
+    hours: hours,
+    notes: notes
+  };
+  console.log(json);
+  console.log(activity);
+  if (end_date != '') activity_json[end_date] = end_date;
+  Activity.findByIdAndUpdate(activity, json, function (err, activity) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  })
+}
+
 exports.get = function (req, res) {
   Activity.findOne({_id: req.params.id}).populate("role skills").exec(function (err, activity) {
     if (err) res.send(err);
     else {
-      var skill_array = [];
+      var skill_id_array = [],
+          skill_name_array = [];
       activity.skills.forEach(function (skill) {
         console.log(skill._id);
-        skill_array.push(skill._id);
+        skill_id_array.push(skill._id);
+        skill_name_array.push(skill.name);
       })
       activity = JSON.stringify(activity);
       activity = JSON.parse(activity);
-      activity.skills_list = skill_array;
-      console.log(activity);
+      activity.skills_list = skill_id_array;
+      activity.skills_list_name = skill_name_array;
       res.send(activity);
     }
   })

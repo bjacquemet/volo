@@ -1,0 +1,30 @@
+h4.col-md-12.col-xs-12.col-sm-12.no-gutter(style="margin-top:0px;") Activity
+.col-md-12.col-sm-12.col-xs-12.no-gutter
+  p.role_data.col-md-12.col-sm-12.col-xs-12.no-gutter Role: 
+    em
+
+  p.skills_data.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter Skills developed: 
+    em
+
+  p.hours_data.col-md-12.col-sm-12.col-xs-12.text-left.no-gutter Number of hours: 
+    em
+
+  p.s_date_data.col-md-12.col-sm-12.col-xs-12.no-gutter From:  
+    em
+  p.e_date_data.col-md-12.col-sm-12.col-xs-12.no-gutter To: 
+    em
+
+h4.col-md-12.col-xs-12.col-sm-12.no-gutter Referee
+.col-md-12.col-xs-12.col-sm-12.no-gutter
+  p.referee_name
+  p.referee_email
+  p.referee_phone
+
+h4.col-md-12.col-xs-12.col-sm-12.no-gutter Personal Notes
+form(action="/activity/update_notes", method="POST", class="col-md-12 col-sm-12 col-xs-12 editForm no-gutter")
+  .form-group.col-md-12.no-gutter
+    input(type="hidden", name="activity")
+    textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+
+  .form-group.col-md-12.no-gutter.text-center
+    input(type="submit", value="Update", name="submit", class="btn btn-primary modal-submit")

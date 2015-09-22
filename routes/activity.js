@@ -30,6 +30,10 @@ router.post("/accept", ActivityController.accept);
 
 router.post("/decline", ActivityController.decline);
 
+router.post("/update", ActivityController.update);
+
+router.post("/update_notes", ActivityController.update_notes);
+
 router.get("/admin/list", ensureAdmin, ActivityController.listActivitiesForAdmin);
 
 router.get("/admin/validation", ensureAdmin, ActivityController.validateActivitiesByAdmin);
