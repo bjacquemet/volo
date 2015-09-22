@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  if messages.error
+      .alert.alert-danger
+        div= messages.error
+    if messages.info
+      .alert.alert-info
+        div= messages.info
+    if messages.success
+      .alert.alert-success
+        div= messages.success
+  .container-fluid
+    .row.row-centered
+     .col-md-10.col-md-offset-1.content
+        .col-md-12
+          h3 Forgot Your Username?
+          h4= info
+          p We will shortly send you an email to this email address with your username.
+          br
+          form(role="form", method='POST', class="col-md-5 no-gutter col-sm-12 col-xs-12")
+            .form-group
+              input.form-control(type='text', name='email', placeholder="Email" autofocus)
+            button.btn.btn-primary(type='submit') Get my Username
+            br
+            br

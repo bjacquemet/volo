@@ -11,6 +11,7 @@ function ensureAuthenticated(req, res, next) {
 router.post('/register', IndexController.register);
 router.post('/login', IndexController.login);
 router.post('/forgot', IndexController.forgot);
+router.post('/forgot_username', IndexController.forgot_username);
 router.post('/reset/:token', IndexController.updatePassword);
 
 router.get('/', function(req, res, next) {
@@ -32,9 +33,12 @@ router.get('/logout', function(req, res) {
 
 router.get('/reset/:token', IndexController.resetPasswordView);
 
-// Forgot password - To be done
 router.get('/forgot', function(req, res) {
   res.render('forgot', {title: "Forgot your password?", user: req.user})
+});
+
+router.get('/forgot_username', function(req, res) {
+  res.render('forgot_username', {title: "Forgot your username?", user: req.user})
 });
 
 ///////////////////////////////////////////////////////////

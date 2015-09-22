@@ -57,6 +57,47 @@ exports.login = function (req, res)
   });
 }
 
+exports.forgot_username = function (req, res, next) {
+  async.waterfall([
+    function (done) {
+      Account.findOne({email: req.body.email}, function (err, user) {
+        if (!user) {
+          req.flash('error', 'No account with this email ('+ req.body.email +') address exists.');
+          return res.redirect('/forgot_username');
+        }
+        done(err, user);
+      })
+    },
+    function(user, done) {
+      console.log(user);
+      var smtpTransport = nodemailer.createTransport({
+        host: 'smtp.mailgun.org',
+        service: "Mailgun",
+        auth: {
+          user: "postmaster@mg.volo.org.uk",
+          pass: "18682498971f9e94b4c22b6433284351"
+        }
+      });
+      var mailOptions = {
+        to: user.email,
+        from: 'VOLO <password@volo.org.uk>',
+        subject: "VOLO: Here is your username",
+        text: 'Your are receiving this email because you have requested to receive your username.' + '\n\n' +
+          'Here is your username : ' + user.username,
+        html: 'Your are receiving this email because you have requested to receive your username.' + '\n\n' +
+          'Here is your username : <b>' + user.username +'</b>'
+
+      };
+      smtpTransport.sendMail(mailOptions, function (err) {
+        req.flash('info', 'An email has been sent to ' + user.email + ' with further instructions.');
+        done(err, 'done');
+      })
+    }
+  ], function (err) {
+    if (err) return next(err);
+    res.redirect('/forgot_username');
+  });
+}
 
 exports.forgot = function (req, res, next) {
   async.waterfall([
@@ -86,8 +127,8 @@ exports.forgot = function (req, res, next) {
         host: 'smtp.mailgun.org',
         service: "Mailgun",
         auth: {
-          user: "postmaster@sandbox58067a7e1e8447b980854930b974d10b.mailgun.org",
-          pass: "ca8c5477f73b7d3360ce90e739615054"
+          user: "postmaster@mg.volo.org.uk",
+          pass: "18682498971f9e94b4c22b6433284351"
         }
       });
 
@@ -156,8 +197,8 @@ exports.updatePassword = function (req, res) {
         host: 'smtp.mailgun.org',
         service: "Mailgun",
         auth: {
-          user: "postmaster@sandbox58067a7e1e8447b980854930b974d10b.mailgun.org",
-          pass: "ca8c5477f73b7d3360ce90e739615054"
+          user: "postmaster@mg.volo.org.uk",
+          pass: "18682498971f9e94b4c22b6433284351"
         }
       });
       var mailOptions = {

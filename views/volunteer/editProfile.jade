@@ -203,7 +203,7 @@ block content
               each experience in experiences
                 p.charity_name #{experience.nonprofit.name}
                 p 
-                  a(href="#", data-value="#{experience.description}", id="description", data-type="textarea", data-pk="#{experience._id}", data-id="description", data-placeholder="Description", data-url="/experience/update", data-title="Enter Experience Description")
+                  a.xp_description(href="#", data-value="#{experience.description}", id="description", data-type="textarea", data-pk="#{experience._id}", data-id="description", data-placeholder="Description", data-url="/experience/update", data-title="Enter Experience Description")
                 - if (experience.recommendation_number > 0)
                     p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
                 h5 Activities
@@ -534,8 +534,8 @@ block content
             ]
       });
 
-      $('#description').editable({emptytext: 'Describe your Experience'});
-      $('#description').on('shown', function(e, editable){
+      $('.xp_description').editable({emptytext: 'Describe your Experience'});
+      $('.xp_description').on('shown', function(e, editable){
           $('.editable-container').css("width", "90%");
           $('.form-group').css("width", "90%");
           $('.editable-input').css("width", "90%");
