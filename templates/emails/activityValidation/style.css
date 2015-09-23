@@ -8,7 +8,10 @@ td {
   font-size: 16px;
   text-align: left;
 }
-
+a, a:visited, a:active, a:hover {
+  color:#a2ff00;
+  font-weight: 800;
+}
 body {
   -webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:none;
@@ -21,7 +24,12 @@ body {
 }
 .logo {
   text-align: center;
-  padding-left: 30px;
+}
+
+.logo h4 {
+  text-align: center;
+  color: white;
+  font-size: 20px;
 }
 
 .force-full-width {
@@ -31,7 +39,7 @@ body {
 .colored {
   background-color: #eeeeee;
   padding: 10px;
-  display: inline-block;
+  display: block;
 }
 
 .btn-primary {
