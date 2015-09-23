@@ -1,6 +1,19 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  //- h1= message
+  //- h2= error.status
+  //- pre #{error.stack}
+  div.container-fluid
+    div.row.row-centered
+      div.col-md-10.col-md-push-1.col-xs-12.col-sm-12.no-gutter_l.content
+        .col-md-12.col-sm-12.col-xs-12.text-center.error
+          img(src="/images/volo.png")
+          h3 Whoops! It seems that this page doesn't exist or an error occured.
+          p 
+            |If you think we should fix an error, or if you want to 
+            |share your feedback, don't hesitate to  
+            a(href="mailto:feedback@volo.org.uk") send us an email
+
+
+
