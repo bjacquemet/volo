@@ -5,6 +5,9 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var fs = require('fs');
+var emailTemplates = require('email-templates');
+var path = require('path');
+var templatesDir = path.resolve(__dirname, '../templates', 'emails');
 
 exports.register = function(req, res) {
     if (req.body.usertype != 'volunteer')
@@ -24,25 +27,72 @@ exports.register = function(req, res) {
         }
         passport.authenticate('local')(req, res, function () {
           // If volunteer, create volunteer account
-            var newVolunteer = Volunteer({
+            var json_volunteer = {
               account_id: account._id,
               first_name: req.body.first_name,
               last_name: req.body.last_name,
               photo: {contentType: 'image/png', originalPath: 'public/images/placeholder.png', cropedPath: 'public/images/placeholder.png',  name: 'placeholder.png'},
               email: req.body.email
-            });
+            };
+            var newVolunteer = Volunteer(json_volunteer);
             newVolunteer.save(function(err) {
               if(err) throw err;
               console.log('Volunteer created');
-              if (req.body.usertype == "volunteer") res.redirect('/volunteer/edit');
-              else if (req.body.usertype == "corporate") res.redirect('/corporates');
-              else if (req.body.usertype == "nonprofit") res.redirect('/nonprofits');
-              else if (req.body.usertype == "university") res.redirect('/universities');
-              else res.redirect('/');
+              welcome(json_volunteer, function () {
+                res.redirect('/volunteer/edit');
+              })
             });
         });
     });
 };
+
+function welcome (volunteer, callback)
+{
+  var smtpTransport = nodemailer.createTransport({
+      // host: 'smtp.mailgun.org',
+      // service: "Mailgun",
+      // auth: {
+      //   user: "postmaster@mg.volo.org.uk",
+      //   pass: "18682498971f9e94b4c22b6433284351"
+      // }
+      host: '127.0.0.1',
+      port: 1025
+    });
+
+  locals = {
+    email: volunteer.email,
+    name: volunteer.first_name + ' ' + volunteer.last_name,
+    url: 'http://localhost:3000/volunteer/edit'
+  };
+  // to do change url
+  emailTemplates(templatesDir, function(err, template) {
+    if (err) {
+       console.log(err);
+    } 
+    else {
+    template('welcome', locals, function(err, html, text) {
+      if (err) {
+        console.log(err);
+      } else {
+        smtpTransport.sendMail({
+          from: 'VOLO <welcome@volo.org.uk>',
+          to: locals.name + "<" + locals.email + ">",
+          subject: 'Welcome to VOLO',
+          html: html,
+          text: text
+        }, function(err, responseStatus) {
+          if (err) {
+            console.log(err);
+          } 
+          else {
+            callback();
+          }
+        });
+      }
+    });
+  }
+})
+}
 
 exports.login = function (req, res) 
   {

@@ -17,7 +17,7 @@ block content
           h3 Login
           if (info != '')
             .alert.alert-danger
-              div=info
+              div= info
           form(role='form', action="/login", method="post", class="col-md-7 no-gutter col-sm-12 col-xs-12")
             .form-group.col-md-8.col-sm-8.col-xs-12.no-gutter
               input.form-control(type='text', name="username", placeholder='Username')

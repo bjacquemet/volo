@@ -1,0 +1,73 @@
+-function format_date(date){
+- var newDate = new Date(date);
+- var y = newDate.getFullYear();
+- var month = new Array(); 
+- month[0] = '01';
+- month[1] = '02';
+- month[2] = '03';
+- month[3] = '04';
+- month[4] = '05';
+- month[5] = '06';
+- month[6] = '07';
+- month[7] = '08';
+- month[8] = '09';
+- month[9] = '10';
+- month[10] = '11';
+- month[11] = '12'; 
+- var m = month[newDate.getMonth()];
+- var d = newDate.getDate();
+- if (d <10) d= '0'+d;
+- return d+'/'+m+'/'+y;
+-}
+-function plurialize(number){
+-if (number == 1) return number + ' hour'
+-else return number + ' hours'
+-}
+-function plurialize_activities(number){
+-if (number == 1) return number + ' other new activity';
+-else return number + ' other new activities';
+-}
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Activity Validation
+  body
+    table(align='center', cellpadding='0', cellspacing='0', width='100%', height='100%')
+      tr
+        td(align='center', valign='top', style='background-color:#ffffff', width='100%')
+          center
+            table.w320(cellspacing='0', cellpadding='0', width='600')
+              tr
+                td(align='center', valign='top')
+                  table.force-full-width(cellspacing='0', cellpadding='0')
+                    tr
+                      td.logo(style="background-color:black")
+                        br
+                        a(href='#')
+                          img(src='http://sociallift.herokuapp.com/images/volo_logo.png', alt='Logo')
+                        h4 Social Responsibility is EVERYONE’s responsibility
+              tr
+                td(align='center', valign='top')
+                  table.force-full-width(cellspacing='0', cellpadding='0')
+                    tr
+                      td
+                        br
+                    tr
+                      td
+                        h4 Hello #{name},
+                        p Welcome and thanks for joining <a href="http://volo.org.uk">VOLO</a>.
+                        p We are looking forward to making great things with you.
+                    tr
+                      td(align="center", style="text-align:center") 
+                        a.btn-primary(href="#{url}") VOLUNTEER WITH VOLO
+
+                    tr
+                      td(align='center', valign='top')
+                        p 
+                        br
+                        |Please, if you have any question or feedback, don't hesitate to <a href="mailto:mellisa@volo.org.uk">contact us</a>!
+                        h4 We greatly appreciate your help in making the volunteering community grow together.
+                        p <i>The VOLO team</i>
+

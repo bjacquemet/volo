@@ -15,16 +15,16 @@ block content
       div.col-md-10.col-md-offset-1.content
         .col-md-12
           h3 Create your account with VOLO
-          if (info != '')
+          if (info && info != '')
             .alert.alert-danger
-              div=info
+              div= info
           form(role='form', action="/register",method="post", class="col-md-7 no-gutter")
             .form-group
               input(type="hidden", value="volunteer", name="usertype")
             .form-group
-              input.form-control(type='text', name="first_name", pattern="\\w+", required, placeholder='Enter your first name')
+              input.form-control(type='text', name="first_name", pattern="[a-zA-Z ]+", required, placeholder='Enter your first name')
             .form-group
-              input.form-control(type='text', name="last_name", pattern="\\w+", required, placeholder='Enter your last name')
+              input.form-control(type='text', name="last_name", pattern="[a-zA-Z ]+", required, placeholder='Enter your last name')
             .form-group
               input.form-control(type='text', name="username", pattern="\\w+", required, placeholder='Enter your username')
             .form-group
