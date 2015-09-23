@@ -41,6 +41,11 @@ body
                     ul.dropdown-menu
                       li
                         a(href="/volunteer/edit") Volunteer Profile
+                      if (user.usertype[1] && user.usertype[1] == 'admin')
+                        li
+                          a(href="/activity/admin/list") List of activities
+                        li
+                          a(href="/activity/admin/validation") Validation of activities
                       li
                         a(href="/logout") Logout
             

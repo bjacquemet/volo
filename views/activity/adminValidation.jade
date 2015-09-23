@@ -41,10 +41,9 @@ block content
           else
             h3 Volunteering experience validation
             p
-              |Here is the list of experiences volunteers have had with your nonprofit.
+              |Hi Admin,
               br
-              |Please, we'd appreciate if you could take the time to accept these experiences if they are correct 
-              |or decline them if they did not happen.
+              |Here is the list of experiences that volunteers have declared they had a signed document to attests their experience.
             .col-md-12.break
             each activity in activities
               .col-md-12.col-sm-12.col-xs-12.validation_pending
@@ -62,7 +61,9 @@ block content
                     p <em>#{capitalize(activity.volunteer.position)}</em>
                   - else
                     p <em>#{activity.volunteer.position}</em>
-                  p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                  p 
+                    |Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em> as 
+                    em #{activity.role.name}
                   - if (activity.skills.length > 0)
                     p Skills acquired: 
                       each skill, i in activity.skills

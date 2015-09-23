@@ -48,7 +48,8 @@ block content
                   .col-md-1.col-sm-1.col-xs-12.user-md.text-center
                     img(src="/volunteer/photo/#{activity.volunteer._id}")
                   .col-md-7.col-sm-7.col-xs-12
-                    p.volunteer_name Volunteer: #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
+                    a(href="/volunteer/#{activity.volunteer._id}")
+                      p.volunteer_name Volunteer: #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
                     - if (activity.volunteer.position == 'student' && activity.volunteer.university)
                       p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
                     - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
@@ -59,7 +60,7 @@ block content
                       p <em>#{capitalize(activity.volunteer.position)}</em>
                     - else
                       p <em>#{activity.volunteer.position}</em>
-                    p He volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                    p Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
                     - if (activity.skills.length > 0)
                       p Skills acquired: 
                         each skill, i in activity.skills
@@ -74,6 +75,8 @@ block content
                     em
                       a(href="mailto:#{activity.referee.email}") #{activity.referee.email} 
                     p Tel: <em>#{activity.referee.phone_number}</em>
+                    p Validated via email: <em>#{activity.validated_via_email}</em>
+
                 
             .col-md-12.col-sm-12.col-xs-12.text-center
               if (pages > 1)

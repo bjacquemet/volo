@@ -69,7 +69,10 @@ block content
                     p <em>#{capitalize(activity.volunteer.position)}</em>
                   - else
                     p <em>#{activity.volunteer.position}</em>
-                  p Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em>
+                  p 
+                    |Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em> as 
+                    em #{activity.role.name}
+
                   - if (activity.skills.length > 0)
                     p Skills acquired: 
                       each skill, i in activity.skills

@@ -420,7 +420,8 @@ block content
               $('#editActivityModal textarea[name=notes]').val(data.notes);
               $('#editActivityModal p.referee_name').text(data.referee.name);
               $('#editActivityModal p.referee_email').text(data.referee.email);
-              $('#editActivityModal p.referee_phone').text(data.referee.phone_number);
+              $('#editActivityModal p.referee_info').text(data.referee.email + ' - ' + data.referee.phone_number);
+              if (data.validated_via_email) $('#editActivityModal p.referee_info').append("<br/><em>To be validated via email</em>");
             });
             },
             error: function(err) {
@@ -459,8 +460,8 @@ block content
                 $('#checkActivityModal p.hours_data em').text(data.hours);
                 $('#checkActivityModal textarea[name=notes]').val(data.notes);
                 $('#checkActivityModal p.referee_name').text(data.referee.name);
-                $('#checkActivityModal p.referee_email').text(data.referee.email);
-                $('#checkActivityModal p.referee_phone').text(data.referee.phone_number);
+                $('#checkActivityModal p.referee_info').text(data.referee.email + ' - ' + data.referee.phone_number);
+                if (data.validated_via_email) $('#checkActivityModal p.referee_info').append("<br/><em>To be validated via email</em>");
               });
               },
               error: function(err) {

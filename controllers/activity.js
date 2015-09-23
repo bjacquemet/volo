@@ -415,6 +415,7 @@ exports.new = function(req,res, next) {
       referee_name = req.body.referee_name,
       referee_email = req.body.referee_email,
       referee_phone = req.body.referee_phone,
+      validated_via_email = req.body.validated_via_email || false,
       notes = req.body.notes;
 
   var activity_json = {
@@ -426,6 +427,7 @@ exports.new = function(req,res, next) {
     hours: hours,
     validated: 'pending',
     notes: notes,
+    validated_via_email: validated_via_email,
     referee:
     {
       name: referee_name,
@@ -451,7 +453,7 @@ exports.new = function(req,res, next) {
                   name: referee_name,
                   phone_number: referee_phone
                 },
-                validated_via_email: false,
+                validated_via_email: validated_via_email,
                 sent: false
               };
               ValidationPending.findByIdAndUpdate(validation._id, { $push: {activities: validation_pending}}, function (err, validation_added) {
@@ -478,7 +480,7 @@ exports.new = function(req,res, next) {
                         name: referee_name,
                         phone_number: referee_phone
                       },
-                      validated_via_email: false,
+                      validated_via_email: validated_via_email,
                       sent: false
                     }]
                   };
