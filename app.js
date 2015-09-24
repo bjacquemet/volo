@@ -13,8 +13,7 @@ var multer = require('multer');
 var compression = require('compression');
 var qt = require('quickthumb');
 var done = false;
-
-var Volunteer = require('./models/volunteer');
+var config = require('./config');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -76,27 +75,18 @@ app.use('/activity', activities);
 app.use('/university', universities);
 
 // Passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+var Volunteer = require('./models/volunteer');
+passport.use(new LocalStrategy(Volunteer.authenticate()));
+passport.serializeUser(Volunteer.serializeUser());
+passport.deserializeUser(Volunteer.deserializeUser());
 
 
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost/socialLift';
-
-// The http server will listen to an appropriate port, or default to
-// port 5000.
-var theport = process.env.PORT || 3000;
-
-mongoose.connect(uristring, function (err, res) {
+mongoose.connect(config.mongo_uri, function (err, res) {
   if (err) {
-  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
   } else {
-  console.log ('Succeeded connected to: ' + uristring);
-  console.log ('Running on port: ' + theport);
+  console.log ('Succeeded connected to: ' + config.mongo_uri);
+  console.log ('Running on port: ' + config.theport);
   }
 });
 

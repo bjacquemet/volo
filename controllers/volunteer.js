@@ -1,31 +1,13 @@
 var Volunteer = require('../models/volunteer');
-var Account = require('../models/account');
 var Experience = require('../models/experience');
 var Skill = require('../models/skill');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
 var RecommendationController = require('../controllers/recommendation');
 var fs = require('fs');
-// or more concisely
 var sys = require('sys')
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
-
-function getProfileByAccountId (volunteer_account_id, callback) {
-  Volunteer.findOne({account_id: volunteer_account_id}).exec(function (err, volunteer) {
-      if (err || !volunteer) {
-        console.log(err);
-      }
-      else {
-        ExperienceController.getByVolunteerId(volunteer._id, function(response) {
-          callback({
-            experiences: response.experiences,
-            volunteer: volunteer
-          });
-        });
-      }
-    });
-};
 
 function getProfileById (volunteer_id, callback) {
   Volunteer.findById(volunteer_id, function (err, volunteer) {
@@ -54,7 +36,7 @@ exports.getPhotoByVolunteerId = function(req,res) {
       res.set("Content-Type", volunteer.photo.contentType);
       if (volunteer.photo.cropedPath) res.send(fs.readFileSync(volunteer.photo.cropedPath));
       else {
-        res.send(fs.readFileSync('public/'+volunteer.photo.originalPath));
+        res.send(fs.readFileSync(volunteer.photo.originalPath));
       }
       // res.send(volunteer.photo.data);
     });
@@ -64,8 +46,8 @@ exports.postPhoto = function(req,res) {
   if(typeof(req.files.userPhoto.path) != 'undefined') {
     console.log(req.files);
     exec("node node_modules/quickthumb/bin/make-thumb.js " + req.files.userPhoto.path + ' ' + 'public/crop/' + ' 400x400', puts);
-    Volunteer.findOne({account_id: req.user._id}, function(err, volunteer){
-      var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:'public/crop/'+req.files.userPhoto.name, originalPath: req.files.userPhoto.path.substring(6), name: req.files.userPhoto.name}};
+    Volunteer.findOne({_id: req.user._id}, function(err, volunteer){
+      var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:'public/crop/'+req.files.userPhoto.name, originalPath: req.files.userPhoto.path, name: req.files.userPhoto.name}};
       volunteer.update(json, { upsert : true }, function(err) {
         if (err) {
            throw err;
@@ -85,7 +67,7 @@ exports.postPhoto = function(req,res) {
 };
 
 exports.getEditProfile = function(req, res, next) {
-  getProfileByAccountId(req.user._id, function (complete_profile){
+  getProfileById(req.user._id, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
     ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
@@ -199,23 +181,6 @@ exports.searchProfile = function (req, res) {
   }
 }
 
-exports.newProfile = function(req, res){
-  var newVolunteer = Volunteer({
-    account_id: req.user._id,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.user.email,
-    gender: req.body.gender
-  })
-
-  newVolunteer.save(function(err) {
-    if(err) throw err;
-    console.log('Volunteer created');
-    res.redirect('/volunteer/edit');
-  });
-};
-
-
 exports.updateProfile = function (req, res) {
   var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
   var field = req.body.name;
@@ -272,24 +237,15 @@ exports.updateProfile = function (req, res) {
         break;
     }
     if (field == 'email') {
-      Account.findByIdAndUpdate(req.user._id, {email: value}, function (err, account) {
+      Volunteer.findByIdAndUpdate(req.user._id, {email: value}, function (err, volunteer) {
         if (err) {
           console.log(err);
           res.status(400);
           res.send('Sorry, this email is already taken.');
         }
-        else
-        {
-          volunteer.update(json, { upsert : true }, function(err) {
-            if (err) {
-              res.status(400);
-              res.send('Sorry, this email is already taken.');
-            }
-            else {
-              console.log('Successfully updated: ' + volunteer);
-              res.sendStatus(200);
-            }
-          })
+        else {
+          console.log('Successfully updated: ' + volunteer);
+          res.sendStatus(200);
         }
       })
     }

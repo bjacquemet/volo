@@ -1,6 +1,5 @@
 var Activity = require('../models/activity');
 var Volunteer = require('../models/volunteer');
-var Account = require('../models/account');
 
 function getStudentsOfUniversity (university, callback) {
   Volunteer.find({position: "student", university: university}, {select: '_id'}, function (err, students) {
@@ -81,8 +80,6 @@ function getHoursPerStudent (university, callback) {
     function (err, activities) {
       if (err) callback(err, null);
       else {
-        console.log("acti");
-        console.log(activities);
         var old_student = '',
             old_month,
             old_year,
@@ -102,7 +99,7 @@ function getHoursPerStudent (university, callback) {
             }
           }
           else {
-            if(Object.keys(perStudent).length > 0 || i == act_length)
+            if(Object.keys(perStudent).length > 0 && i == act_length)
             {
               perStudent.activities = mo_hours;
               final_activity.push(perStudent);
@@ -336,22 +333,19 @@ function getHoursPerActiveStatus (university, callback) {
         status = '',
         last_sign_in;
     students.forEach(function (student) {
-      Volunteer.findById(student, "first_name last_name account_id", function (err, student) {
-        Account.findById(student.account_id, function (err, account) {
-          if (err) console.log(err);
-          else {
-            last_sign_in = new Date(account.last_sign_in);
-            // 2629746000 = 1 month in milliseconds
-            status = ((today - last_sign_in) > 2629746000) ? 'Non-active': 'Active';
-            students_array.push({student: {first_name: student.first_name, last_name: student.last_name},
-                                status:status
-                                });
-            if (i==student_length){
-              callback(null, students_array)
-            }
-            i++;
+      Volunteer.findById(student, "first_name last_name last_sign_in", function (err, student) {
+        if (err) console.log(err);
+        else {
+          last_sign_in = new Date(student.last_sign_in);
+          // 2629746000 = 1 month in milliseconds
+          status = ((today - last_sign_in) > 2629746000) ? 'Non-active': 'Active';
+          students_array.push({student: {first_name: student.first_name, last_name: student.last_name},
+                              status:status});
+          if (i==student_length){
+            callback(null, students_array)
           }
-        })
+          i++;
+        }
       }) 
     })
   })
@@ -378,6 +372,7 @@ exports.all = function (req, res) {
                     getHoursPerActiveStatus(university, function (err, perStatus) {
                       if (err) console.log(err);
                       else {
+                        console.log(perMonth);
                         res.render('university/tracking', {
                           title: 'University Tracking: ' + university,
                           user: req.user,

@@ -2,6 +2,8 @@ var Experience = require('../models/experience');
 var Activity = require('../models/activity');
 var ValidationPending = require('../models/validation_pending');
 var crypto = require('crypto');
+var async = require('async');
+
 
 function getVolunteerExperiences (volunteer_id, callback) {
   var query = {}
@@ -88,6 +90,7 @@ exports.new = function(req,res) {
       referee_name = req.body.referee_name,
       referee_email = req.body.referee_email,
       referee_phone = req.body.referee_phone,
+      validated_via_email = req.body.validated_via_email || false,
       notes = req.body.notes;
   var newExperience = Experience(
   {
@@ -107,6 +110,7 @@ exports.new = function(req,res) {
         start_date: start_date,
         hours: hours,
         validated: 'pending',
+        validated_via_email: validated_via_email,
         notes: notes,
         referee:
         {
@@ -134,7 +138,7 @@ exports.new = function(req,res) {
                       name: referee_name,
                       phone_number: referee_phone
                     },
-                    validated_via_email: false,
+                    validated_via_email: validated_via_email,
                     sent: false
                   };
                   ValidationPending.findByIdAndUpdate(validation._id, { $push: {activities: validation_pending}}, function (err, validation_added) {

@@ -58,7 +58,8 @@ block content
                 .col-md-1.col-sm-1.col-xs-12.user-md.text-center
                   img(src="/volunteer/photo/#{activity.volunteer._id}")
                 .col-md-8.col-sm-8.col-xs-12
-                  p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
+                  a(href="/volunteer/#{activity.volunteer._id}", target="_blank")
+                    p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
                   - if (activity.volunteer.position == 'student' && activity.volunteer.university)
                     p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
                   - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)

@@ -206,7 +206,7 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
       if (validationOK.length > 0) 
       {
         console.log(validationOK);
-        Activity.find({'referee.email': validationOK[0].referee_email, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
+        Activity.find({'referee.email': validationOK[0].referee_email, validated: "pending", validated_via_email:false}).populate('volunteer role').exec(function (err, activities) {
           Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
             if (err) console.log(err);
             else {
@@ -417,6 +417,7 @@ exports.new = function(req,res, next) {
       referee_phone = req.body.referee_phone,
       validated_via_email = req.body.validated_via_email || false,
       notes = req.body.notes;
+  console.log(validated_via_email);
 
   var activity_json = {
     experience: e_id,

@@ -1,5 +1,4 @@
 var passport = require('passport');
-var Account = require('../models/account');
 var Volunteer = require('../models/volunteer');
 var async = require('async');
 var crypto = require('crypto');
@@ -10,40 +9,35 @@ var path = require('path');
 var templatesDir = path.resolve(__dirname, '../templates', 'emails');
 
 exports.register = function(req, res) {
-    if (req.body.usertype != 'volunteer')
-    {
-      var usertype = ['volunteer', req.body.usertype];
+  if (req.body.usertype != 'volunteer')
+  {
+    var usertype = ['volunteer', req.body.usertype];
+  }
+  else var usertype = ['volunteer']; 
+  Volunteer.register(new Volunteer(
+    { 
+      username : req.body.username, 
+      email: req.body.email, 
+      usertype : usertype,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      photo: {contentType: 'image/png', 
+              originalPath: 'public/images/placeholder.png', 
+              cropedPath: 'public/images/placeholder.png', 
+              name: 'placeholder.png'}
+    }), 
+    req.body.password, function(err, volunteer) {
+      if (err) {
+        return res.render("register", {info: err});
+      }
+      passport.authenticate('local')(req, res, function () {
+            console.log('Volunteer created');
+            // welcome(json_volunteer, function () {
+            res.redirect('/volunteer/edit');
+            // })
+          });
     }
-    else var usertype = ['volunteer']; 
-    Account.register(new Account(
-      { 
-        username : req.body.username, 
-        email: req.body.email, 
-        usertype : usertype
-      }), 
-      req.body.password, function(err, account) {
-        if (err) {
-          return res.render("register", {info: err});
-        }
-        passport.authenticate('local')(req, res, function () {
-          // If volunteer, create volunteer account
-            var json_volunteer = {
-              account_id: account._id,
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
-              photo: {contentType: 'image/png', originalPath: 'public/images/placeholder.png', cropedPath: 'public/images/placeholder.png',  name: 'placeholder.png'},
-              email: req.body.email
-            };
-            var newVolunteer = Volunteer(json_volunteer);
-            newVolunteer.save(function(err) {
-              if(err) throw err;
-              console.log('Volunteer created');
-              welcome(json_volunteer, function () {
-                res.redirect('/volunteer/edit');
-              })
-            });
-        });
-    });
+  );
 };
 
 function welcome (volunteer, callback)
@@ -100,7 +94,7 @@ exports.login = function (req, res)
     { failureRedirect: '/login',
       failureFlash: true 
     })(req, res, function () {
-      Account.findOneAndUpdate({username: req.user.username}, {last_sign_in: Date.now()}, {upsert: true, 'new': true}, function(err, account){
+      Volunteer.findOneAndUpdate({username: req.user.username}, {last_sign_in: Date.now()}, {upsert: true, 'new': true}, function(err, volunteer){
         if (err) console.log(err);
         else res.redirect('/volunteer/edit');
       });
@@ -110,7 +104,7 @@ exports.login = function (req, res)
 exports.forgot_username = function (req, res, next) {
   async.waterfall([
     function (done) {
-      Account.findOne({email: req.body.email}, function (err, user) {
+      Volunteer.findOne({email: req.body.email}, function (err, user) {
         if (!user) {
           req.flash('error', 'No account with this email ('+ req.body.email +') address exists.');
           return res.redirect('/forgot_username');
@@ -158,7 +152,7 @@ exports.forgot = function (req, res, next) {
       });
     },
     function (token, done) {
-      Account.findOne({email: req.body.email}, function (err, user) {
+      Volunteer.findOne({email: req.body.email}, function (err, user) {
         if (!user) {
           req.flash('error', 'No account with this email ('+ req.body.email +') address exists.');
           return res.redirect('/forgot');
@@ -203,7 +197,7 @@ exports.forgot = function (req, res, next) {
 }
 
 exports.resetPasswordView = function (req, res) {
-  Account.findOne({
+  Volunteer.findOne({
     resetPasswordToken: req.params.token, 
     resetPasswordExpires: { $gt: Date.now() }
   }, function (err, user) {
@@ -220,7 +214,7 @@ exports.resetPasswordView = function (req, res) {
 exports.updatePassword = function (req, res) {
   async.waterfall([
     function (done) {
-      Account.findOne({
+      Volunteer.findOne({
           resetPasswordToken: req.params.token, 
           resetPasswordExpires: { $gt: Date.now() }
         }, function (err, user) {
@@ -228,8 +222,6 @@ exports.updatePassword = function (req, res) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('back');
           }
-
-
           user.setPassword(req.body.password, function (err, user){
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
