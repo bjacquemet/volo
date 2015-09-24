@@ -15,7 +15,7 @@ function getActi () {
   var uristring =
   process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
-  'mongodb://localhost/socialLift';
+  'mongodb://localhost/volo';
   var theport = process.env.PORT || 3000;
 
   mongoose.connect(uristring, function (err, res) {

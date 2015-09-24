@@ -14,8 +14,6 @@ var compression = require('compression');
 var qt = require('quickthumb');
 var done = false;
 
-var Volunteer = require('./models/volunteer');
-
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
 var skills = require('./routes/skill');
@@ -76,16 +74,16 @@ app.use('/activity', activities);
 app.use('/university', universities);
 
 // Passport config
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+var Volunteer = require('./models/volunteer');
+passport.use(new LocalStrategy(Volunteer.authenticate()));
+passport.serializeUser(Volunteer.serializeUser());
+passport.deserializeUser(Volunteer.deserializeUser());
 
 
 var uristring =
 process.env.MONGOLAB_URI ||
 process.env.MONGOHQ_URL ||
-'mongodb://localhost/socialLift';
+'mongodb://localhost/volo';
 
 // The http server will listen to an appropriate port, or default to
 // port 5000.

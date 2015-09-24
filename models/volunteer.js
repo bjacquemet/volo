@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var mongoosastic = require('mongoosastic')
+var passportLocalMongoose = require('passport-local-mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 
 var Volunteer = new Schema({
-    account_id: {type: Schema.Types.ObjectId, ref: 'Account'},
+    username: {type: String, required: true, unique: true},
+    password: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+    usertype: [String],
+    last_sign_in: Date,
     first_name: {type: String, es_indexed:true},
     last_name: {type: String, es_indexed:true},
     email: {type: String, unique: true},
@@ -26,7 +32,6 @@ var Volunteer = new Schema({
     created_at: {type: Date, default: Date.now()}
 });
 
-
 Volunteer.pre('update', function(next) {
   console.log('------------->>>>>> update updated_at')
   this.update({},{ $set: { updated_at: new Date() } });
@@ -37,5 +42,8 @@ Volunteer.pre('findOneAndUpdate', function(next) {
   this.update({},{ $set: { updated_at: new Date() } });
   next();
 });
+
+Volunteer.plugin(passportLocalMongoose);
+Volunteer.plugin(uniqueValidator, { message: 'The {PATH} already exists. Please check your email address.' });
 
 module.exports = mongoose.model('Volunteer', Volunteer);
