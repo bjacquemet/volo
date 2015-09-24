@@ -132,7 +132,7 @@ function sendEmail (ToBeValidated) {
       hours: hours,
       count: count,
       skills: skills,
-      url: 'http://localhost:3000/activity/validation/?email='+r_email+ '&token=' + token,
+      url: config.url + '/activity/validation/?email='+r_email+ '&token=' + token,
       activities_to_remove: activities_to_remove
     };
     locals_array.push(locals);

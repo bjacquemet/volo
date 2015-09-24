@@ -44,7 +44,9 @@ onFileUploadComplete: function (file) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// GZIP CONTENT
+app.use(compression());
+
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -58,9 +60,8 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(compression());
 var maxAge = 31536000000;
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: maxAge}));
+app.use(express.static(path.join(__dirname, 'public'), {maxAge: maxAge, etag: true}));
 app.use('/public/uploads/', qt.static(__dirname + '/public/uploads/'));
 app.use(flash());
 

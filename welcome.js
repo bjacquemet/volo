@@ -4,14 +4,13 @@ var emailTemplates = require('email-templates');
 var path = require('path');
 var nodemailer = require('nodemailer');
 var templatesDir = path.resolve(__dirname, 'templates', 'emails');
+var config = require('./config');
 
 // get parameters from process
 
 function get_params () {
-  process.argv.forEach(function(val, index, array) {
-    console.log(index + ': ' + val);
-    console.log(array[2]);
-  });
+  var locals = process.argv.slice(2);
+  console.log(locals);
   // sendEmail(locals);
 }
 
@@ -33,7 +32,7 @@ function sendEmail (volunteer)
   locals = {
     email: volunteer.email,
     name: volunteer.first_name + ' ' + volunteer.last_name,
-    url: 'http://localhost:3000/volunteer/edit'
+    url: config.url + '/volunteer/edit'
   };
   // to do change url
   emailTemplates(templatesDir, function(err, template) {
