@@ -1,33 +1,9 @@
 extends ../layout
-
-block content
-  -function format_date(date){
-  - var newDate = new Date(date);
-  - var y = newDate.getFullYear();
-  - var m = newDate.getMonth() + 1;
-  - var d = newDate.getDate();
-  - return y+'/'+m+'/'+d;
-  -}
-  -function bar_size(size){
-  -var barSize = Math.round(size/4);
-  -if(barSize >= 400) barSize = 100;
-  -return barSize + '%'
-  -}
-  -function color_opacity(size){
-  -var opacity = size/100;
-  -if(opacity >= 1) opacity = 1;
-  -if(opacity <= 0.1) opacity = 0.1;
-  -return opacity
-  -}
-  -function plurialize_reco(number){
-  -if (number == 1) return number + ' recommendation'
-  -else return number + ' recommendations'
-  -}
+append head-css
   link(href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css", rel="stylesheet")
   link(href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css", rel="stylesheet")
-  //- link(rel="stylesheet", href="/stylesheets/select2-bootstrap.min.css")
   link(href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css", rel="stylesheet")
-
+append head-js
   //- inline editing
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
   //- input mask for phone number
@@ -52,6 +28,30 @@ block content
   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js")
     //- necesary to validate extension file
   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/additional-methods.min.js")
+
+block content
+  -function format_date(date){
+  - var newDate = new Date(date);
+  - var y = newDate.getFullYear();
+  - var m = newDate.getMonth() + 1;
+  - var d = newDate.getDate();
+  - return y+'/'+m+'/'+d;
+  -}
+  -function bar_size(size){
+  -var barSize = Math.round(size/4);
+  -if(barSize >= 400) barSize = 100;
+  -return barSize + '%'
+  -}
+  -function color_opacity(size){
+  -var opacity = size/100;
+  -if(opacity >= 1) opacity = 1;
+  -if(opacity <= 0.1) opacity = 0.1;
+  -return opacity
+  -}
+  -function plurialize_reco(number){
+  -if (number == 1) return number + ' recommendation'
+  -else return number + ' recommendations'
+  -}
 
   .container-fluid.profile_container
     .col-md-7.col-md-push-1.col-xs-12.col-sm-12.no-gutter_l

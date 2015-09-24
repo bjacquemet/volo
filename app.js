@@ -14,6 +14,7 @@ var compression = require('compression');
 var qt = require('quickthumb');
 var done = false;
 var config = require('./config');
+// var connect_cache = require('connect-cache');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -43,6 +44,11 @@ onFileUploadComplete: function (file) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+// app.use(
+// connect_cache({rules: [{regex: /.*/, ttl: 60000}]})
+// );
+
 
 // GZIP CONTENT
 app.use(compression());

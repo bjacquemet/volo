@@ -12,7 +12,7 @@ var data_w = [
   highlight: "rgba(240, 240, 240, 0.6)",
   label: "hours remaining"
 }
-]
+];
 var data_m = [
 {
   value: 4,
@@ -26,7 +26,7 @@ var data_m = [
   highlight: "rgba(240, 240, 240, 0.6)",
   label: "hours remaining"
 }
-]
+];
 var global=
 {
   labels: [""],
@@ -55,5 +55,5 @@ window.onload = function()
     scaleStartValue: 0, 
     tooltipTemplate: "<%= value %> hours"
 });
-  }
+  };
 });
