@@ -13,6 +13,7 @@ var multer = require('multer');
 var compression = require('compression');
 var qt = require('quickthumb');
 var done = false;
+var config = require('./config');
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -80,21 +81,12 @@ passport.serializeUser(Volunteer.serializeUser());
 passport.deserializeUser(Volunteer.deserializeUser());
 
 
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost/volo';
-
-// The http server will listen to an appropriate port, or default to
-// port 5000.
-var theport = process.env.PORT || 3000;
-
-mongoose.connect(uristring, function (err, res) {
+mongoose.connect(config.mongo_uri, function (err, res) {
   if (err) {
-  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
   } else {
-  console.log ('Succeeded connected to: ' + uristring);
-  console.log ('Running on port: ' + theport);
+  console.log ('Succeeded connected to: ' + config.mongo_uri);
+  console.log ('Running on port: ' + config.theport);
   }
 });
 

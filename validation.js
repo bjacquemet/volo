@@ -10,20 +10,16 @@ var emailTemplates = require('email-templates');
 var path = require('path');
 var templatesDir = path.resolve(__dirname, 'templates', 'emails');
 var async = require('async');
+var config = require('./config');
 
 function getActi () {
-  var uristring =
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/volo';
-  var theport = process.env.PORT || 3000;
 
-  mongoose.connect(uristring, function (err, res) {
+  mongoose.connect(config.mongo_uri, function (err, res) {
     if (err) {
-    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+    console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
     } else {
-    console.log ('Succeeded connected to: ' + uristring);
-    console.log ('Running on port: ' + theport);
+    console.log ('Succeeded connected to: ' + config.mongo_uri);
+    console.log ('Running on port: ' + config.theport);
     }
   });
 
