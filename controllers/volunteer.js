@@ -9,22 +9,6 @@ var sys = require('sys')
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
-function getProfileByAccountId (volunteer_account_id, callback) {
-  Volunteer.findOne({account_id: volunteer_account_id}).exec(function (err, volunteer) {
-      if (err || !volunteer) {
-        console.log(err);
-      }
-      else {
-        ExperienceController.getByVolunteerId(volunteer._id, function(response) {
-          callback({
-            experiences: response.experiences,
-            volunteer: volunteer
-          });
-        });
-      }
-    });
-};
-
 function getProfileById (volunteer_id, callback) {
   Volunteer.findById(volunteer_id, function (err, volunteer) {
       if (err || !volunteer) {
