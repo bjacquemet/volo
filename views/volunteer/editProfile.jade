@@ -6,8 +6,7 @@ append head-css
 append head-js
   //- inline editing
   script(src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js")
-  //- input mask for phone number
-  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.min.js")
+  
   //- combodate
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js")
 
@@ -90,9 +89,9 @@ block content
                   a(href="#", data-value="", id="email", data-type="email", data-pk="#{volunteer._id}", data-id="email", data-placeholder="Email", data-url="/volunteer/update", data-title="Enter email address")
               p 
                 - if (volunteer.phone)
-                  a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                  a(href="#", data-value="#{volunteer.phone}", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-title="Enter phone number")  
                 - else
-                  a(href="#", data-value="", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-format="+44 - dddddddddd", data-title="Enter phone number")  
+                  a(href="#", data-value="", id="phone", data-type="text", data-pk="#{volunteer._id}", data-id="phone", data-placeholder="Phone Number", data-url="/volunteer/update", data-title="Enter phone number")  
             .col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-12.info
               h4 &nbsp;
               p 
@@ -485,7 +484,6 @@ block content
       $('#graduation_year').editable({emptytext: 'Graduation year'});
       $('#discipline').editable({emptytext: 'Discipline'});
       $('#email').editable({
-        value: email,
         emptytext: 'Email',
         validate: function(value) {
             if($.trim(value) == '') {
@@ -498,15 +496,14 @@ block content
         });
       $('#phone').editable({
         emptytext: 'Phone Number', 
-        value: phone,
+        validate: function (value) {
+          if (/^[0-9 \-()+]{3,20}$|(^$)/i.test(value) == false) {
+            return  'Please enter a valide phone number';
+          }
+        },
         success: function(response, newValue) {
           if (response.status == 'error') return response.msg;
         }
-      });
-      $('#phone').on('shown', function(e, editable) {
-      if (editable) {
-         $(this).data('editable').input.$input.inputmask('+44 999-999-9999');
-      }
       });
       $('#company').editable({emptytext: 'Company'});
       $('#about').editable({emptytext: 'About Me'});

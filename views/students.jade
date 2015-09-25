@@ -76,27 +76,3 @@ block content
 
         .col-md-12.col-sm-12.col-xs-12.break
 
-
-        //- script.
-        //-   $(document).ready(function() {
-        //-     $.ajax({
-        //-       dataType: "json",
-        //-       url: '/volunteer/list',
-        //-       success: function(data){
-        //-         $.each(data, function(){
-        //-           var v_url = '/volunteer/'+ this._id;
-        //-           var v_first_name = this.first_name;
-        //-           var v_photo = '/volunteer/photo/'+ this._id;
-        //-           $('.volunteer_list').append(
-        //-             '<div class="col-md-4 col-sm-4 col-xs-6"> \
-        //-             <div class="text-center v_story no-gutter">\
-        //-             <a style="display:block" href="'+ v_url +'"><img style="display:block" src="'+ v_photo +'"/>\
-        //-             <p style="display:block" class="volunteer_name">'+ v_first_name +' </p></a></div></div>')
-        //-         });
-        //-       },
-        //-       error: function(err) {
-        //-         console.log(err);
-        //-       }
-        //-     });
-        //-   });
-

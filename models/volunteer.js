@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
+var random = require('mongoose-random');
 
 var Volunteer = new Schema({
     username: {type: String, required: true, unique: true},
@@ -44,6 +45,13 @@ Volunteer.pre('findOneAndUpdate', function(next) {
 });
 
 Volunteer.plugin(passportLocalMongoose);
+Volunteer.plugin(random, { path: 'r' });
 Volunteer.plugin(uniqueValidator, { message: 'The {PATH} already exists. Please check your email address.' });
 
-module.exports = mongoose.model('Volunteer', Volunteer);
+var VolunteerModel = mongoose.model('Volunteer', Volunteer);
+
+VolunteerModel.syncRandom(function (err, result) {
+  console.log(result.updated);
+});
+
+module.exports = VolunteerModel

@@ -76,3 +76,40 @@ block content
         .col-md-12.col-sm-12.col-xs-12.text-center
           a(href="/register", class="btn sharp btn-lg btn-primary big-btn") Volunteer with volo
         .col-md-12.col-sm-12.col-xs-12.break
+      
+    .row.row-centered.not_colored
+      .col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
+        .col-md-12.col-sm-12.col-xs-12
+          h3.text-center.col-md-4.col-md-offset-4 They are volunteering
+          p.col-md-10.col-md-offset-1.col-sm-12.col-xs-12.text-center Check out the VOLO Volunteers that are already making a difference: 
+
+          .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.volunteer_list
+
+
+    
+    script.
+      $(document).ready(function() {
+        $.ajax({
+          dataType: "json",
+          url: '/volunteer/list',
+          success: function(data){
+            $.each(data, function(){
+              var v_url = '/volunteer/'+ this._id;
+              var v_first_name = this.first_name;
+              var v_id = '/volunteer/photo/'+this._id;
+              $('.volunteer_list').append(
+                '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
+                  <div class="col-md-12 col-sm-12 col-xs-12 text-center user-bg"> \
+                    <img src="' + v_id + '"/ alt=""> \
+                      <a href="'+v_url +'"> \
+                        <p class="volunteer_name">'+ v_first_name +'</p> \
+                      </a> \
+                  </div> \
+                </div>');
+            });
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      });

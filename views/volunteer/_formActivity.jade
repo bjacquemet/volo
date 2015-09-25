@@ -41,7 +41,8 @@ form(action="/activity/new", method="POST", class="activity_form col-md-12 col-s
       onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');")
     .col-md-6.col-sm-6.col-xs-12.no-gutter_r
       label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_phone") Referee phone number *
-      input.col-md-12.col-sm-12.col-xs-12.bfh-phone(name="referee_phone", required, type="text", pattern=".{12,}", data-format="+44 - dddddddddd")
+      input.col-md-12.col-sm-12.col-xs-12(name="referee_phone", required, type="text", pattern="[0-9 \\-()+]{3,20}", title="Please enter a valid phone number" \
+      onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');")
 
     label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_email") Referee email *
     input.col-md-12.col-sm-12.col-xs-12(name="referee_email", type="email", required)

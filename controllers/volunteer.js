@@ -26,8 +26,10 @@ function getProfileById (volunteer_id, callback) {
 };
 
 exports.list = function(req, res) {
-  Volunteer.find({}).limit(3).exec(function(err, volunteers) {
-    res.send(volunteers);
+  Volunteer.findRandom({"photo.name": {$ne: 'placeholder.png'}}, 
+                        {first_name:1, last_name:1, photo:1}, 
+                        {limit:16}, function (err, volunteers) {
+                          res.send(volunteers);
   });
 };
 
