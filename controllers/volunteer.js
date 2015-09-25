@@ -26,11 +26,14 @@ function getProfileById (volunteer_id, callback) {
 };
 
 exports.list = function(req, res) {
-  Volunteer.findRandom({"photo.name": {$ne: 'placeholder.png'}}, 
-                        {first_name:1, last_name:1, photo:1}, 
-                        {limit:16}, function (err, volunteers) {
-                          res.send(volunteers);
-  });
+  Volunteer.find({"photo.name": {$ne: 'placeholder.png'}}).select('first_name last_name photo').limit(16).exec(function (err, volunteers) {
+    res.send(volunteers);
+  })
+  // Volunteer.findRandom({"photo.name": {$ne: 'placeholder.png'}}, 
+  //                       {first_name:1, last_name:1, photo:1}, 
+  //                       {limit:16}, function (err, volunteers) {
+  //                         res.send(volunteers);
+  // });
 };
 
 exports.getPhotoByVolunteerId = function(req,res) {
