@@ -51,6 +51,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['jshint', 'uglify', 'less', 'execute']);
+  grunt.registerTask('prod', ['jshint', 'uglify', 'less']);
 
   // ===========================================================================
   // LOAD GRUNT PLUGINS ========================================================
