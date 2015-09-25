@@ -3,6 +3,8 @@ public/uploads/.cache
 public/crop
 node_modules
 npm-debug.log
+public/javascripts/script.min.js
+public/javascripts/goal.min.js
 
 # OS generated files #
 ######################
