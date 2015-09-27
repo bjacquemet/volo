@@ -39,10 +39,11 @@ exports.list = function(req, res) {
 exports.getPhotoByVolunteerId = function(req,res) {
     Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
       res.set("Content-Type", volunteer.photo.contentType);
-      if (volunteer.photo.cropedPath) res.send(fs.readFileSync(volunteer.photo.cropedPath));
-      else {
-        res.send(fs.readFileSync(volunteer.photo.originalPath));
-      }
+      res.send(fs.readFileSync('public/images/placeholder.png'));
+      // if (volunteer.photo.cropedPath) res.send(fs.readFileSync(volunteer.photo.cropedPath));
+      // else {
+      //   res.send(fs.readFileSync(volunteer.photo.originalPath));
+      // }
       // res.send(volunteer.photo.data);
     });
 };
