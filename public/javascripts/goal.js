@@ -2,8 +2,8 @@ $(document).ready(function(){
 var data_w = [
 {
   value: 2,
-  color:"#666",
-  highlight: "#444",
+  color: "rgba(162, 255, 0, 0.95)",
+  highlight: "#A2FF00",
   label: "hours this week"
 },
 {
@@ -33,10 +33,10 @@ var global=
   datasets:
   [
   {
-  fillColor: "#666",
-  strokeColor: "rgba(255,255,255,0.8)",
-  highlightFill: "#333",
-  highlightStroke: "rgba(255,255,255,1)",
+  fillColor: "rgba(162, 255, 0, 0.9)",
+  strokeColor: "rgba(162, 255, 0, 0.9)",
+  highlightFill: "rgba(162, 255, 0, 1)",
+  highlightStroke: "rgba(162, 255, 0, 1)",
   data:[620]}
   ]
 };
