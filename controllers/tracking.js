@@ -16,7 +16,7 @@ function getStudentsOfUniversity (university, callback) {
 
 function getHoursPerMonth (university, callback) {
   getStudentsOfUniversity(university, function (err, students) {
-    var start = new Date(2015, 1, 1);
+    var start = new Date(2015, 9, 1);
     Activity.aggregate(
     [{
       $match:
@@ -53,7 +53,7 @@ function getHoursPerMonth (university, callback) {
 
 function getHoursPerStudent (university, callback) {
   getStudentsOfUniversity(university, function (err, students) {
-    var start = new Date(2015, 8, 1);
+    var start = new Date(2015, 9, 1);
     Activity.aggregate(
     [{
       $match:
@@ -128,8 +128,9 @@ function getHoursPerStudent (university, callback) {
   })
 }
 
+// Discipline = Area of Study
 function getHoursPerDiscipline (university, callback) {
-  var start = new Date(2015, 8, 1);
+  var start = new Date(2015, 9, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find disciplines and foreach discipline, list of students
     Volunteer.aggregate([
@@ -141,7 +142,7 @@ function getHoursPerDiscipline (university, callback) {
       },
       {
         $group: {
-          _id: "$discipline",
+          _id: "$area_of_study",
           students: {$push: "$_id"}
         }
       }
@@ -183,6 +184,7 @@ function getHoursPerDiscipline (university, callback) {
               var hours_for_a_discipline = {discipline: discipline._id, hours: activities};
               hours_per_discipline.push(hours_for_a_discipline);
               if (discipline_length == i) {
+                console.log(hours_per_discipline);
                 callback(null, hours_per_discipline);
               }
               else i++;
@@ -194,7 +196,7 @@ function getHoursPerDiscipline (university, callback) {
 }
 
 function getHoursPerGraduationYear (university, callback) {
-  var start = new Date(2015, 8, 1);
+  var start = new Date(2015, 9, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find graduation_years and foreach graduation_year, list of students
     Volunteer.aggregate([
@@ -260,7 +262,7 @@ function getHoursPerGraduationYear (university, callback) {
 
 function getHoursPerGraduate (university, callback) {
   // undergraduate vs postgraduate
-  var start = new Date(2015, 8, 1);
+  var start = new Date(2015, 9, 1);
   getStudentsOfUniversity(university, function (err, students) {
     // find graduate type and foreach graduate type, list of students
     Volunteer.aggregate([
@@ -403,11 +405,3 @@ exports.all = function (req, res) {
     res.send([]);
   }
 }
-
-
-
-// "position" : "student",
-//   "graduation_year" : 2016,
-//   "graduate" : "undergraduate",
-//   "discipline" : "Law School",
-//   "university" : "City University",

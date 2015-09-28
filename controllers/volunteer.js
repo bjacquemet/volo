@@ -260,7 +260,7 @@ exports.searchProfile = function (req, res) {
 }
 
 exports.updateProfile = function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "discipline","company", "graduation_year", "graduate"];
+  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "postcode", "about", "university", "area_of_study", "degree","company", "graduation_year", "graduate"];
   var field = req.body.name;
   var value = req.body.value;
   var json;
@@ -308,8 +308,11 @@ exports.updateProfile = function (req, res) {
       case 'graduation_year':
         json = {graduation_year: value};
         break;
-      case 'discipline':
-        json = {discipline: value};
+      case 'area_of_study':
+        json = {area_of_study: value};
+        break;
+      case 'degree':
+        json = {degree: value};
         break;
       default:
         break;
