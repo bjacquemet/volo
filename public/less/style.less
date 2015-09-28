@@ -750,3 +750,22 @@ h1.logo {
     background-color: @volo-green !important;
   }
 }
+
+//animate loading icon
+.glyphicon-refresh-animate {
+  color: @volo-green;
+  font-size: @font-size-base * 2.8;
+  margin-bottom: 20px;
+  -animation: spin .9s infinite linear;
+  -webkit-animation: spin2 .9s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+  from { .rotate(0deg);}
+  to { .rotate(360deg);}
+}
+
+@keyframes spin {
+  from { .scale(1); .rotate(0deg);}
+  to { .scale(1); .rotate(360deg);}
+}

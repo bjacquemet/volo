@@ -288,6 +288,7 @@ block content
             button(type="button" class="close" data-dismiss="modal") &times;
             p Change your profile photo
           .modal-body
+            span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate.hidden.text-center.col-md-12.col-sm-12.col-xs-12
             form(id="uploadForm", enctype="multipart/form-data", action="/volunteer/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary modal-submit")
@@ -781,6 +782,7 @@ block content
       });
 
       $('#uploadForm').submit(function() {
+        $('span.glyphicon-refresh-animate').removeClass('hidden');
         $(this).ajaxSubmit({
           error: function(xhr) {
             console.log(xhr);
@@ -791,6 +793,7 @@ block content
             var $newFile = "/"+response+'?dim=400x400';
             $('#uploadModal').modal('toggle');
             $(".user-bg img").attr('src',$newFile);
+            $('span.glyphicon-refresh-animate').addClass('hidden');
           }
         });
         return false;
