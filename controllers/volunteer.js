@@ -4,6 +4,9 @@ var Skill = require('../models/skill');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
 var RecommendationController = require('../controllers/recommendation');
+var path = require('path');
+var qt = require('quickthumb');
+var aws = require('aws-sdk');
 var fs = require('fs');
 var sys = require('sys')
 var exec = require('child_process').exec;
@@ -38,33 +41,104 @@ exports.list = function(req, res) {
 
 exports.getPhotoByVolunteerId = function(req,res) {
     Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
+      aws.config.update({accessKeyId: 'AKIAJKETK54VIHR3EFYA', 
+                        secretAccessKey: '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'});
+      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+      var params = {
+          Bucket: 'volo-crop-image',
+          Key: volunteer.photo.name
+        };
       res.set("Content-Type", volunteer.photo.contentType);
-      res.send(fs.readFileSync('public/images/placeholder.png'));
-      // if (volunteer.photo.cropedPath) res.send(fs.readFileSync(volunteer.photo.cropedPath));
-      // else {
-      //   res.send(fs.readFileSync(volunteer.photo.originalPath));
-      // }
+      console.log(volunteer.photo);
+      // res.send(fs.readFileSync('public/images/placeholder.png'));
+      if (volunteer.photo.cropedPath) {
+        console.log('croped');
+        s3.getObject(params, function (err, data) {
+          if (err) {
+            res.sendStatus(401)
+            console.log(err);
+          }
+          else {
+            console.log(data);
+            res.send(data.Body);
+          }
+        })
+      }
+      else {
+        res.send(fs.readFileSync(volunteer.photo.originalPath));
+      }
       // res.send(volunteer.photo.data);
     });
 };
 
+function putPhototoS3 (file, callback) {
+  console.log(file);
+  aws.config.update({accessKeyId: 'AKIAJKETK54VIHR3EFYA', 
+                    secretAccessKey: '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'});
+      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+      var s3_params = {
+          Bucket: 'volo-crop-image',
+          Key: file.name,
+          Expires: 60,
+          ContentType: file.mimetype,
+          ACL: 'public-read', 
+          Body: new Buffer(fs.readFileSync(file.croped_image))
+      };
+  var url = s3.putObject(s3_params, function (err, data) {
+    if (err) {
+      console.log(err);
+      callback(err, null);
+    }
+    else {
+      console.log("data");
+      console.log(data);
+      callback(null, data);
+    }
+  });
+}
+
 exports.postPhoto = function(req,res) {
   if(typeof(req.files.userPhoto.path) != 'undefined') {
+    console.log('entering');
     console.log(req.files);
-    exec("node node_modules/quickthumb/bin/make-thumb.js " + req.files.userPhoto.path + ' ' + 'public/crop/' + ' 400x400', puts);
-    Volunteer.findOne({_id: req.user._id}, function(err, volunteer){
-      var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:'public/crop/'+req.files.userPhoto.name, originalPath: req.files.userPhoto.path, name: req.files.userPhoto.name}};
-      volunteer.update(json, { upsert : true }, function(err) {
-        if (err) {
-           throw err;
-           return console.log(err);
-        }
-        else {
-          console.log('Successfully updated: ' + volunteer);
-          res.end(req.files.userPhoto.path);
-        }
-      })
-    });
+    var options = {
+      src: req.files.userPhoto.path,
+      dst: path.resolve(__dirname, '../public/crop/')+'/'+req.files.userPhoto.name,
+      width: 400,
+      height: 400
+    }
+    qt.convert(options, function (err, croped_image) {
+      if (err) console.log(err);
+      else {
+        console.log(croped_image);
+        var croped_file = {
+          name: req.files.userPhoto.name,
+          mimetype: req.files.userPhoto.mimetype,
+          croped_image: croped_image
+        };
+        putPhototoS3(croped_file, function (err, data) {
+          if (err) console.log(err);
+          else {
+            console.log(data);
+            var aws_url = process.env.AWS_URL ||'https://s3.eu-central-1.amazonaws.com/volo-crop-image/'
+            aws_url += croped_file.name;
+            Volunteer.findOne({_id: req.user._id}, function(err, volunteer){
+              var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:aws_url, originalPath: req.files.userPhoto.path, name: req.files.userPhoto.name}};
+              volunteer.update(json, { upsert : true }, function(err) {
+                if (err) {
+                   throw err;
+                   return console.log(err);
+                }
+                else {
+                  console.log('Successfully updated: ' + volunteer);
+                  res.end(req.files.userPhoto.path);
+                }
+              })
+            });
+          }
+        })
+      }
+    })
   }
   else
     {

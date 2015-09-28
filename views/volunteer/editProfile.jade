@@ -745,18 +745,34 @@ block content
         });
       });
 
+      // adding method to validate max size
+      jQuery.validator.addMethod("uploadFile", function (val, element) {
+                var size = element.files[0].size;
+                console.log(size);
+                if (size < 4194304)// checks the file is less than 4MB
+                {
+                  console.log("returning true");
+                  return true;
+                } else {
+                  console.log("returning false");
+                  return false;
+                }
+            }, "File type error");
+
       // Validate photo form
       $('#uploadForm').validate({
           rules: {
               userPhoto: {
                   required: true,
-                  extension: "png|jpg|gif|jpeg"
+                  extension: "png|jpg|gif|jpeg",
+                  uploadFile: true
               }
           },
           messages: {
               userPhoto: {
                   required: "Please upload a new photo",
-                  extension: "Please upload a valid image file"
+                  extension: "Please upload a valid image file",
+                  uploadFile: "Please make sure that your picture is smaller than 4M"
               }
           }
       });

@@ -23,7 +23,6 @@ exports.register = function(req, res) {
       last_name: req.body.last_name,
       photo: {contentType: 'image/png', 
               originalPath: 'public/images/placeholder.png', 
-              cropedPath: 'public/images/placeholder.png', 
               name: 'placeholder.png'}
     }), 
     req.body.password, function(err, volunteer) {
