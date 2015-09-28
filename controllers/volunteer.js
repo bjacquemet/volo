@@ -41,8 +41,6 @@ exports.list = function(req, res) {
 
 exports.getPhotoByVolunteerId = function(req,res) {
     Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
-      aws.config.update({accessKeyId: 'AKIAJKETK54VIHR3EFYA', 
-                        secretAccessKey: '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'});
       var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
       var params = {
           Bucket: 'volo-crop-image',
@@ -73,18 +71,21 @@ exports.getPhotoByVolunteerId = function(req,res) {
 
 function putPhototoS3 (file, callback) {
   console.log(file);
-  aws.config.update({accessKeyId: 'AKIAJKETK54VIHR3EFYA', 
-                    secretAccessKey: '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'});
-      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
-      var s3_params = {
-          Bucket: 'volo-crop-image',
-          Key: file.name,
-          Expires: 60,
-          ContentType: file.mimetype,
-          ACL: 'public-read', 
-          CacheControl: 'max-age=31536000',
-          Body: new Buffer(fs.readFileSync(file.croped_image))
-      };
+  console.log(process.env.AWS_ACCESS_KEY_ID);
+  aws.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  });
+  var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+  var s3_params = {
+      Bucket: 'volo-crop-image',
+      Key: file.name,
+      Expires: 60,
+      ContentType: file.mimetype,
+      ACL: 'public-read', 
+      CacheControl: 'max-age=31536000',
+      Body: new Buffer(fs.readFileSync(file.croped_image))
+  };
   var url = s3.putObject(s3_params, function (err, data) {
     if (err) {
       console.log(err);

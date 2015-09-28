@@ -22,8 +22,8 @@ function sendEmail (volunteer)
       // host: 'smtp.mailgun.org',
       // service: "Mailgun",
       // auth: {
-      //   user: "postmaster@mg.volo.org.uk",
-      //   pass: "18682498971f9e94b4c22b6433284351"
+      //   user: process.env.EMAIL_USER,
+      //   pass: process.env.EMAIL_PASS
       // }
       host: '127.0.0.1',
       port: 1025
