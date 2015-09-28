@@ -43,7 +43,10 @@ block content
       div.col-md-10.col-md-push-1.col-xs-12.col-sm-12.no-gutter_l.content
         .col-md-12.col-sm-12.col-xs-12
           .col-md-2.col-xs-12.user-bg.text-center
-            img(src="/volunteer/photo/#{volunteer._id}")
+            -if (volunteer.photo.cropedPath)
+              img(src="#{volunteer.photo.cropedPath}")
+            -else
+              img(src="#{volunteer.photo.originalPath}")
           .col-md-5.col-xs-12
               h3 #{volunteer.first_name} #{volunteer.last_name}
                 - if (volunteer.gender == 'male')

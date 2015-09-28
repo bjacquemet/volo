@@ -26,7 +26,10 @@ block content
             each result in results
               .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.search_result
                 .col-md-2.col-xs-12.col-sm-2.user-md.text-center
-                  img(src="/volunteer/photo/#{result._id}")
+                  -if (result.photo.cropedPath)
+                    img(src="#{result.photo.cropedPath}")
+                  -else
+                    img(src="#{result.photo.originalPath}")
                 
                 .col-md-8.col-xs-12.col-sm-8
                   p.volunteer_name #{result.first_name} #{result.last_name}

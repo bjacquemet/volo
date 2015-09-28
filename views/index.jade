@@ -96,11 +96,12 @@ block content
             $.each(data, function(){
               var v_url = '/volunteer/'+ this._id;
               var v_first_name = this.first_name;
+              var v_photo = this.photo.cropedPath || this.photo.originalPath;
               var v_id = '/volunteer/photo/'+this._id;
               $('.volunteer_list').append(
                 '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
                   <div class="col-md-12 col-sm-12 col-xs-12 text-center user-bg"> \
-                    <img src="' + v_id + '"/ alt=""> \
+                    <img src="' + v_photo + '"/ alt=""> \
                       <a href="'+v_url +'"> \
                         <p class="volunteer_name">'+ v_first_name +'</p> \
                       </a> \

@@ -82,6 +82,7 @@ function putPhototoS3 (file, callback) {
           Expires: 60,
           ContentType: file.mimetype,
           ACL: 'public-read', 
+          CacheControl: 'max-age=31536000',
           Body: new Buffer(fs.readFileSync(file.croped_image))
       };
   var url = s3.putObject(s3_params, function (err, data) {
@@ -208,7 +209,8 @@ exports.searchProfile = function (req, res) {
         last_name: 1,
         position:1,
         university:1,
-        company:1
+        company:1,
+        photo:1
       },
        },
        {$match:
@@ -232,7 +234,7 @@ exports.searchProfile = function (req, res) {
         results.forEach(function (volunteer) {
           ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
             if (err) console.log(err);
-            profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position};
+            profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position, photo:volunteer.photo};
             if (volunteer.university) profil['university'] = volunteer.university;
             if (volunteer.company) profil['company'] = volunteer.company;
             console.log(skills);

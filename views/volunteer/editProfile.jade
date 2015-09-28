@@ -63,7 +63,10 @@ block content
             //-   p Yo
             .col-md-2.user-bg
               a(href="#", id="changeImg", class="text-center", data-toggle="modal", data-target="#uploadModal")
-                img(src="/volunteer/photo/#{volunteer._id}", class="text-center")
+                -if (volunteer.photo.cropedPath)
+                  img(src="#{volunteer.photo.cropedPath}")
+                -else
+                  img(src="#{volunteer.photo.originalPath}")
                 p Change photo
             .col-md-7
               h3
