@@ -4,6 +4,7 @@ public/uploads/.cache
 public/crop
 node_modules
 npm-debug.log
+public/stylesheets/style.css
 public/javascripts/script.min.js
 public/javascripts/goal.min.js
 

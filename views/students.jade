@@ -2,9 +2,8 @@ extends layout
 
 block content
 
-  div.row.row-centered.background-header(style="background-image: url('/images/volunteer_background.jpg');")
+  div.row.row-centered.background-header(style="background-image: url('/images/student_background.jpg');")
     h1.text-center.col-md-10.col-md-push-1.col-xs-12.col-sm-12 Let your good work, work for you
-    h2.text-center.col-md-10.col-md-push-1.col-xs-12.col-sm-12 Track your volunteering hours, reach milestones and build skills
 
   div.container-fluid
     div.row.row-centered
@@ -14,50 +13,74 @@ block content
         //- .col-md-12.break  
 
         .col-md-12.col-sm-12.col-xs-12
-          .liner.col-md-12.no-gutter
-            img.col-md-5.no-gutter_l(src="/images/make_a_difference.jpg")
-            .col-md-6.text-left 
-              p.col-md-12.no-gutter_r
+          p.liner.text-center 
+            |Track your volunteering hours, reach milestones and build skills
+          .content.col-md-12.no-gutter
+            img.col-md-6.col-sm-6.col-xs-12(src="/images/make_a_difference.jpg")
+            .visible-xs
+              p &nbsp;
+            .col-md-6.col-sm-6.col-xs-12.text-justify 
+              p.col-md-12.col-sm-12.col-xs-12
                 |You don’t need to have years of experience to make a real difference in the world! VOLO connects you with charities that can help you build your skills while giving back in your local community and creating visible change.  
-                |As a VOLO volunteer you can locate opportunities to enhance your skills, track your progress and meet interesting new people, all while adding serious value to your CV and grabbing the attention of socially minded employers!  
-                |Charities need you as much as you need them.  
                 br
-                |So VOLO today and grow together for a better tomorrow! 
+                br
+                |As a VOLO volunteer you can locate opportunities to enhance your skills, track your progress and meet interesting new people, all while adding serious value to your CV and grabbing the attention of socially minded employers!  
 
 
     .row.row-centered.colored
       .col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
         .col-md-12.col-sm-12.col-xs-12
-          .col-md-6.text-right
+          .col-md-6.col-sm-6.col-xs-12.text-right
             h3.col-md-12.no-gutter_l.no_line Why VOLO?
             p.col-md-12.no-gutter_l 
-              |In an increasingly competitive job market, it’s your experience that will set you apart. But how do you gain experience if employers won’t hire you without any experience? 
+              |In an increasingly competitive job market, it’s your experience that will set you apart. 
               br
-              |VOLO is your solution! 
-          img.col-md-5.no-gutter_r(src="/images/get_experience.png")
-          .col-md-12.col-sm-12.col-xs-12.break
+              br
+              |But how do you gain experience if employers won’t hire you without any experience? 
+              br
+              br
+              h3.col-md-12.no_line.no-gutter_l VOLO is your solution! 
+          img.col-md-5.col-md-push-1.col-sm-6.col-xs-12(src="/images/get_experience.png")
         
 
     .row.row-centered.not_colored
       .col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
         .col-md-12.col-sm-12.col-xs-12
           h3.text-center.col-md-4.col-md-offset-4 How does it work?
+
+          .col-md-10.col-md-push-1.no-gutter
+            img.col-md-8.col-sm-8.col-xs-12(src="/images/skills.jpg")
+            .visible-xs
+              p &nbsp;
+            .col-md-4.col-sm-4.col-xs-12.text-justify 
+              p.col-md-12.col-sm-12.col-xs-12.no-gutter_r
+                |Upload your volunteer experience and tag up to three key skills you’ve gained through each role.
+                br
+                br
+                |VOLO will help you track your hours and skills in a way that will impress employers and gain you recognition from your peers and community. 
+
+            .col-md-12.col-sm-12.col-xs-12.break
+
+            .col-md-12.col-sm-12.col-xs-12.no-gutter
+              p Each VOLO hour you accumulate is a step closer towards your personal goals and towards a better future for all of us.
+
+            .col-md-12.col-sm-12.col-xs-12.break
+
           .col-md-12.col-xs-12.col-sm-12.text-center
             .col-md-5.col-md-push-1.col-sm-5.col-sm-push-1.col-xs-12
               img.pictogram(src="/images/reco_dotted.svg")
-              p.col-md-12.col-xs-12.col-sm-12
-                |Upload your volunteer experience and tag up to three key skills you’ve gained through each role. 
-                |VOLO will help you track your hours and skills in a way that will impress employers and gain you recognition 
-                |from your peers and community. Each VOLO hour you accumulate is a step closer towards 
-                |your personal goals and towards a better future for all of us. 
+              p.col-md-10.col-md-push-1.col-xs-12.col-sm-12
+                |VOLO recommends volunteer opportunities to help you further strengthen your skills.
+              p.col-md-10.col-md-push-1.col-xs-12.col-sm-12
+                a(href="/nonprofits", class="btn sharp btn-lg btn-primary big-btn no_wrap") Browse VOLO partner chartities
             .visible-xs
               p &nbsp;
             .col-md-5.col-md-push-1.col-sm-5.col-sm-push-1.col-xs-12
-              img.pictogram(src="/images/blocks_dotted.svg")
-              p.col-md-12.col-xs-12.col-sm-12
-                |VOLO will also recommend new volunteer opportunities to help you further strengthen the skill that you want to develop and promote to employers. 
-                |And you don’t have to take our word for it... 
-                |Skill building is <em>peer recommended</em>, so you can be sure that it's the right opportunity for you! 
+              img.pictogram(src="/images/connect.svg")
+              p.col-md-10.col-md-push-1.col-xs-12.col-sm-12
+                |VOLO connects you with socially minded companies based on your volunteer experience and skills.
+              p.col-md-10.col-md-push-1.col-xs-12.col-sm-12
+                a(href="/corporates", class="btn sharp btn-lg btn-primary big-btn no_wrap") Browse VOLO partner companies
 
         
         .col-md-12.col-xs-12.col-sm-12.break

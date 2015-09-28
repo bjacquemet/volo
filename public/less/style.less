@@ -17,7 +17,6 @@ body {
   color: @brand-primary;
   background-color: white;
 }
-p {margin-bottom: 0 !important;}
 li {list-style-type: none;}
 img, canvas { max-width: 100%;}
 
@@ -87,13 +86,10 @@ a {
 .placeholder-font-size(@font-size-base*0.9);
 
 .liner {
-  margin-top: @profile-margin * 4;
-  margin-bottom: @profile-margin * 4;
-  p {
-    font-size: @font-size-base * 1.1;
-    line-height: @line-height-base * 1.1;
-    margin-top: -5px;
-  }
+  margin-top: @profile-margin * 2;
+  margin-bottom: @profile-margin * 2;
+  font-size: @font-size-base * 1.35;
+  line-height: @line-height-base * 1.35;
   img {
     // border: 5px solid @volo-green;
     .rounded(3px);
@@ -130,7 +126,7 @@ a {
 }
 
 .break {
-  height: 27px;
+  height: 30px;
   display: block;
 }
 
@@ -243,7 +239,7 @@ h1.logo {
 .content {
   // background-color: fade(white, 80%);
   // box-shadow: 0px 1px 2px 0px #aaa;
-  padding: 27px 0px;
+  padding: 40px 0px;
   h1, h2 {
     margin-top: 0px;
   }
@@ -458,7 +454,7 @@ h1.logo {
   }
   .add {
     margin-top: @profile-margin;
-    margin-bottom: -27px;
+    margin-bottom: -40px;
     background-color: @brand-secondary;
     padding: 10px;
     cursor: pointer;
@@ -585,7 +581,7 @@ h1.logo {
   .company_top {
     padding-left: 0;
     padding-right: 0;
-    margin-top: -27px;
+    margin-top: -40px;
     background-repeat: no-repeat;
     background-size: cover;
     height: 400px;
