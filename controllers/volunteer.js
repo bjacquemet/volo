@@ -71,11 +71,6 @@ exports.getPhotoByVolunteerId = function(req,res) {
 
 function putPhototoS3 (file, callback) {
   console.log(file);
-  console.log(process.env.AWS_ACCESS_KEY_ID);
-  aws.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-  });
   var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
   var s3_params = {
       Bucket: 'volo-crop-image',
