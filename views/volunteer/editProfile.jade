@@ -14,7 +14,6 @@ append head-js
   script(src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.full.min.js")
 
   //- number input
-  script(src="//cdn.jsdelivr.net/bootstrap.formhelpers/1.8.2/js/bootstrap-formhelpers-phone.js")
   script(src="//cdn.jsdelivr.net/bootstrap.formhelpers/1.8.2/js/bootstrap-formhelpers-countries.js")
   
   script(src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js")
@@ -98,10 +97,15 @@ block content
             .col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-12.info
               h4 &nbsp;
               p 
-                - if (volunteer.postcode)
-                  a(href="#", data-value="#{volunteer.postcode}", id="postcode", data-type="text", data-pk="#{volunteer._id}", data-id="postcode", data-placeholder="PostCode", data-url="/volunteer/update", data-title="Enter home address", data-rows="3")  
+                - if (volunteer.country)
+                  a(href="#", data-inputclass="country_sm", data-value="#{volunteer.country}", id="country", data-type="select", data-pk="#{volunteer._id}", data-id="country", data-placeholder="Country", data-url="/volunteer/update", data-title="Enter Country")  
                 - else
-                  a(href="#", id="postcode", data-type="text", data-pk="#{volunteer._id}", data-id="postcode", data-placeholder="Postcode", data-url="/volunteer/update", data-title="Enter postcode", data-rows="3")  
+                  a(href="#", data-inputclass="country_sm", data-value="#", id="country", data-type="select", data-pk="#{volunteer._id}", data-id="country", data-placeholder="Country", data-url="/volunteer/update", data-title="Enter Country")  
+              p 
+                - if (volunteer.city)
+                  a(href="#", data-value="#{volunteer.city}", id="city", data-type="text", data-pk="#{volunteer._id}", data-id="city", data-placeholder="City", data-url="/volunteer/update", data-title="Enter City")  
+                - else
+                  a(href="#", data-value="", id="city", data-type="text", data-pk="#{volunteer._id}", data-id="city", data-placeholder="City", data-url="/volunteer/update", data-title="Enter City")  
             .col-md-12.col-xs-12.col-sm-12.info
               h4 Position
               p 
@@ -453,7 +457,7 @@ block content
             
 
   script.
-    $.fn.editable.defaults.mode = 'inline';
+    //- $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
       $("#editActivityModal").on('hide.bs.modal', function () {
         if ($("#editActivityModal .skills_list").data('select2'))
@@ -646,7 +650,7 @@ block content
           $('.editable-input').css("width", "90%");
           $('textarea').css("width", "100%");
           });
-      $('#postcode').editable({emptytext: 'Postcode'});
+      $('#city').editable({emptytext: 'City'});
       $('#position').editable({
         emptytext: 'Position',
         source: [
@@ -952,4 +956,263 @@ block content
           }
       })
 
+      $(':input[type=number]').on('mousewheel', function(e){
+          e.preventDefault();
+      });
+      $(':input[type=date]').on('mousewheel', function(e){
+          e.preventDefault();
+      });
+
+      // country selector
+      var countries = [];
+      $.each([
+      "United Kingdom",
+      "Afghanistan",
+      "Albania",
+      "Algeria",
+      "American Samoa",
+      "Andorra",
+      "Angola",
+      "Anguilla",
+      "Antarctica",
+      "Antigua and Barbuda",
+      "Argentina",
+      "Armenia",
+      "Aruba",
+      "Australia",
+      "Austria",
+      "Azerbaijan",
+      "Bahrain",
+      "Bangladesh",
+      "Barbados",
+      "Belarus",
+      "Belgium",
+      "Belize",
+      "Benin",
+      "Bermuda",
+      "Bhutan",
+      "Bolivia",
+      "Bosnia and Herzegovina",
+      "Botswana",
+      "Bouvet Island",
+      "Brazil",
+      "British Indian Ocean Territory",
+      "British Virgin Islands",
+      "Brunei",
+      "Bulgaria",
+      "Burkina Faso",
+      "Burundi",
+      "Côte d'Ivoire",
+      "Cambodia",
+      "Cameroon",
+      "Canada",
+      "Cape Verde",
+      "Cayman Islands",
+      "Central African Republic",
+      "Chad",
+      "Chile",
+      "China",
+      "Christmas Island",
+      "Cocos (Keeling) Islands",
+      "Colombia",
+      "Comoros",
+      "Congo",
+      "Cook Islands",
+      "Costa Rica",
+      "Croatia",
+      "Cuba",
+      "Cyprus",
+      "Czech Republic",
+      "Democratic Republic of the Congo",
+      "Denmark",
+      "Djibouti",
+      "Dominica",
+      "Dominican Republic",
+      "East Timor",
+      "Ecuador",
+      "Egypt",
+      "El Salvador",
+      "Equatorial Guinea",
+      "Eritrea",
+      "Estonia",
+      "Ethiopia",
+      "Faeroe Islands",
+      "Falkland Islands",
+      "Fiji",
+      "Finland",
+      "Former Yugoslav Republic of Macedonia",
+      "France",
+      "French Guiana",
+      "French Polynesia",
+      "French Southern Territories",
+      "Gabon",
+      "Georgia",
+      "Germany",
+      "Ghana",
+      "Gibraltar",
+      "Greece",
+      "Greenland",
+      "Grenada",
+      "Guadeloupe",
+      "Guam",
+      "Guatemala",
+      "Guinea",
+      "Guinea-Bissau",
+      "Guyana",
+      "Haiti",
+      "Heard and Mc Donald Islands",
+      "Honduras",
+      "Hong Kong",
+      "Hungary",
+      "Iceland",
+      "India",
+      "Indonesia",
+      "Iran",
+      "Iraq",
+      "Ireland",
+      "Israel",
+      "Italy",
+      "Jamaica",
+      "Japan",
+      "Jordan",
+      "Kazakhstan",
+      "Kenya",
+      "Kiribati",
+      "Kuwait",
+      "Kyrgyzstan",
+      "Laos",
+      "Latvia",
+      "Lebanon",
+      "Lesotho",
+      "Liberia",
+      "Libya",
+      "Liechtenstein",
+      "Lithuania",
+      "Luxembourg",
+      "Macau",
+      "Madagascar",
+      "Malawi",
+      "Malaysia",
+      "Maldives",
+      "Mali",
+      "Malta",
+      "Marshall Islands",
+      "Martinique",
+      "Mauritania",
+      "Mauritius",
+      "Mayotte",
+      "Mexico",
+      "Micronesia",
+      "Moldova",
+      "Monaco",
+      "Mongolia",
+      "Montenegro",
+      "Montserrat",
+      "Morocco",
+      "Mozambique",
+      "Myanmar",
+      "Namibia",
+      "Nauru",
+      "Nepal",
+      "Netherlands",
+      "Netherlands Antilles",
+      "New Caledonia",
+      "New Zealand",
+      "Nicaragua",
+      "Niger",
+      "Nigeria",
+      "Niue",
+      "Norfolk Island",
+      "North Korea",
+      "Northern Marianas",
+      "Norway",
+      "Oman",
+      "Pakistan",
+      "Palau",
+      "Palestine",
+      "Panama",
+      "Papua New Guinea",
+      "Paraguay",
+      "Peru",
+      "Philippines",
+      "Pitcairn Islands",
+      "Poland",
+      "Portugal",
+      "Puerto Rico",
+      "Qatar",
+      "Reunion",
+      "Romania",
+      "Russia",
+      "Rwanda",
+      "São Tomé and Príncipe",
+      "Saint Helena",
+      "St. Pierre and Miquelon",
+      "Saint Kitts and Nevis",
+      "Saint Lucia",
+      "Saint Vincent and the Grenadines",
+      "Samoa",
+      "San Marino",
+      "Saudi Arabia",
+      "Senegal",
+      "Serbia",
+      "Seychelles",
+      "Sierra Leone",
+      "Singapore",
+      "Slovakia",
+      "Slovenia",
+      "Solomon Islands",
+      "Somalia",
+      "South Africa",
+      "South Georgia and the South Sandwich Islands",
+      "South Korea",
+      "Spain",
+      "Sri Lanka",
+      "Sudan",
+      "Suriname",
+      "Svalbard and Jan Mayen Islands",
+      "Swaziland",
+      "Sweden",
+      "Switzerland",
+      "Syria",
+      "Taiwan",
+      "Tajikistan",
+      "Tanzania",
+      "Thailand",
+      "The Bahamas",
+      "The Gambia",
+      "Togo",
+      "Tokelau",
+      "Tonga",
+      "Trinidad and Tobago",
+      "Tunisia",
+      "Turkey",
+      "Turkmenistan",
+      "Turks and Caicos Islands",
+      "Tuvalu",
+      "US Virgin Islands",
+      "Uganda",
+      "Ukraine",
+      "United Arab Emirates",
+      "United States",
+      "United States Minor Outlying Islands",
+      "Uruguay",
+      "Uzbekistan",
+      "Vanuatu",
+      "Vatican City",
+      "Venezuela",
+      "Vietnam",
+      "Wallis and Futuna Islands",
+      "Western Sahara",
+      "Yemen",
+      "Zambia",
+      "Zimbabwe"],
+       function(k,v) {
+          countries.push({value: v,
+           text: v});
+      }); 
+      $('#country').editable({
+        emptytext: "Country",
+        defaultValue: "United Kingdom",
+        source: countries
+      }); 
     });

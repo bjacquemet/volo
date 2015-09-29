@@ -47,19 +47,21 @@ block content
               img(src="#{volunteer.photo.cropedPath}")
             -else
               img(src="#{volunteer.photo.originalPath}")
-          .col-md-5.col-xs-12
+          .col-md-5.col-sm-6.col-xs-12
               h3 #{volunteer.first_name} #{volunteer.last_name}
                 - if (volunteer.gender == 'male')
                   img(src="/images/male.svg", class="sex")
                 - else if (volunteer.gender == 'female')
                   img(src="/images/female.svg", class="sex")
+              -if (volunteer.country)
+                p Country: <em> #{volunteer.country}</em>
               p
                 -var hours = 0;
                 each experience in experiences
                   - hours += experience.totalHours
                 p Accumulated hours: <em>#{hours}</em>
 
-          .col-md-5.info
+          .col-md-5.col-sm-6.col-xs-12.info
             - if (volunteer.position == 'student' && volunteer.university)
               p Current position: <em>#{capitalize(volunteer.position)} at #{volunteer.university}</em>
             - else if (volunteer.position == 'student' && !volunteer.university)
