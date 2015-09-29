@@ -156,6 +156,12 @@ nav {
   &.navbar-default {
     background-color: black;
     margin-bottom: 0px;
+    .navbar-nav > li > a {
+      color: white;
+      &:hover, &:focus{
+        color: @volo-green;
+      }
+    }
   }
   .navbar-right{
     margin-top: 5px;
@@ -196,13 +202,6 @@ nav {
         margin-bottom: 10px;
       }
     }
-  }
-}
-
-.navbar-default .navbar-nav > li > a {
-  color: white;
-  &:hover{
-    color: @volo-green;
   }
 }
 
