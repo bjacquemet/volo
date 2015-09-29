@@ -1,3 +1,4 @@
+newrelic_agent.log
 .env
 public/uploads
 public/uploads/.cache
