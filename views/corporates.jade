@@ -2,45 +2,59 @@ extends layout
 
 block content
 
-  div.row.row-centered.background-header
+  .row.row-centered.background-header(style="background-image: url('/images/corporate_background.jpg');")
     h1.text-center.col-md-10.col-md-push-1.col-xs-12.col-sm-12 Share your company’s good work, with the people who care most
 
-  div.container-fluid
-    div.row.row-centered
-      div.col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
-        //- .col-md-12
-        //-   h1.text-center Corporates
-        //- .col-md-12.break  
+  .container-fluid
+    .row.row-centered
+      .col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
         .col-md-10.col-md-offset-1.col-sm-12.col-xs-12
           p.liner.text-center 
-            |The VOLO community cares about doing business with socially responsible companies.  If you run a socially responsible company, we’d like to hear about how you’re helping local communities to grow sustainably.  
-            
-        //- .col-md-12
-        //-   h2 What we offer
-
-        //-   div.col-md-4.text-center
-        //-     .col-md-12
-        //-       h3 Lorem
-        //-       p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius aut vero explicabo, sed molestias saepe tempore. Quae debitis alias deserunt, doloribus nostrum sapiente aperiam vel, porro excepturi quasi ad. Quia.
-
-        //-   div.col-md-4.text-center
-        //-     .col-md-12
-        //-       h3 Ipsum
-        //-       p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex quae facere natus repellat odit excepturi voluptatem eaque. Eos recusandae molestias, quasi quis, enim officiis impedit qui dolore, nesciunt, laborum architecto.
-
-        //-   div.col-md-4.text-center
-        //-     .col-md-12
-        //-       h3 Dolor
-        //-       p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, minus, quae! Voluptas amet eaque, iste omnis tenetur. Harum officiis fugit, vel possimus, error laboriosam eius voluptatem earum unde dolorum ab!
+            |VOLO is bringing companies, charities and individuals together to make social
+            |change in local communities. 
         
-        .col-md-12.break
+        .col-md-12.col-sm-12.col-xs.12.break
+
+        .col-md-12.col-sm-12.col-xs-12.text-center
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/share_solid.svg", alt="VOLO share")
+            h4 SHARE CSR
+
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/impact_solid.svg", alt="VOLO impact")
+            h4 CREATE IMPACT
+
+          .col-md-4.col-sm-4.col-xs-12
+            img.pictogram(src="/images/connect_solid.svg", alt="VOLO connect")
+            h4 CONNECT
+
+        .col-md-12.col-sm-12.col-xs.12.break
+
+        p.col-md-12.col-sm-12.col-xs-12
+          |When your company Volos, you not only get to the chance to share the great work 
+          |your company is doing in the community, but you are also connected with socially 
+          |minded individuals to help you expand your business and team.
+
+
+        .col-md-12.col-sm-12.col-xs.12.break
+
+        .col-md-12.col-sm-12.col-xs-12.text-center
+          a(href="/register", class="btn sharp btn-lg btn-primary big-btn") Register with volo
+
+        .col-md-12.col-sm-12.col-xs.12.break
+        
+        p.col-md-12.col-sm-12.col-xs-12
+          |The VOLO community cares about doing business with socially responsible 
+          |companies. If you run a socially responsible company, we’d like to hear about 
+          |how you’re helping local communities to grow sustainably. 
+
+        .col-md-12.col-sm-12.col-xs.12.break
+
 
     .row.row-centered.colored
       .col-md-10.col-md-offset-1.content.col-sm-12.col-xs-12
         .col-md-12.col-sm-12.col-xs-12
           h3.text-center.col-md-6.col-md-offset-3 Companies making a difference in the community:
-          .col-md-12.col-sm-12.col-xs-12.break
-          p.col-md-12.col-sm-12.col-xs-12  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit numquam maiores excepturi placeat quisquam distinctio, non aliquam harum tenetur atque, ipsam nemo consequatur laborum inventore quidem molestias magnam, ex suscipit.
           .col-md-12.col-sm-12.col-xs-12.break
           .col-md-4.col-sm-6.col-xs-6
             a(href="/c_profile")

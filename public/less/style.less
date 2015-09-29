@@ -272,7 +272,7 @@ h1.logo {
   background-size: cover;
   background-position-x: 50%;
   margin: 0px;
-  height: 400px;
+  height: 500px;
   h1 {
     @media screen {
       @media (max-width:@screen-xs-max) {
@@ -290,9 +290,12 @@ h1.logo {
   }
   h1, h2{
     position: relative;
-    color:@brand-primary;
-    background-color: fade(white,80%);
-    top: 40%;
+    color:white;
+    font-weight: 500;
+    // color:@brand-primary;
+    // background-color: fade(white,80%);
+    text-shadow: 1px 1px 3px @brand-primary;
+    top: 50%;
     transform: translateY(-50%);
     margin:0;
     @media screen {
@@ -351,7 +354,6 @@ h1.logo {
   padding-bottom: 40px;
   background-color: fade(@brand-secondary, 5%);
   h3 {
-    margin-top:30px;
     margin-bottom: 50px;
     border-bottom: 2px dotted #a2ff00;
   }
@@ -366,7 +368,6 @@ h1.logo {
   padding-top: 40px;
   padding-bottom: 40px;
   h3 {
-    margin-top:30px;
     margin-bottom: 50px;
     border-bottom: 2px dotted #a2ff00;
   }

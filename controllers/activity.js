@@ -144,7 +144,7 @@ exports.listActivitiesForAdmin = function (req, res) {
             count = all_activities.length;
             Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
               Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
-                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name'}, function (err, skill_activity_role_vol) {
+                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name photo'}, function (err, skill_activity_role_vol) {
                   Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
                     Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
                       // res.send(full_activities);
