@@ -1,10 +1,21 @@
 # VOLO
 
+### Before starting
+You should make sure you have heroku variables in your local environment. Copy the following heroku variables:
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- EMAIL_PASS    
+- EMAIL_USER
+Prompt heroku variables thanks to:
+```sh
+$ heroku config
+```
+Add these variables in a ".env" file (already added to gitignore)
+
 ### Start app
 Run the command
-Execute the following command:
 ```sh
-$ npm start
+$ heroku local
 ```
 
 ### Add seeds data
