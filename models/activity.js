@@ -12,6 +12,7 @@ var Activity = new Schema({
     hours: {type: Number, required:true},
     validated: {type: String, enum: ['pending', 'accepted', 'declined'], required: true},
     decline_reason: String,
+    validation_date: Date,
     skills: [{type: Schema.Types.ObjectId, ref: "Skill"}],
     notes: String,
     validated_via_email: Boolean,

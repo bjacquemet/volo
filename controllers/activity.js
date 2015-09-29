@@ -230,7 +230,7 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
 exports.getVolunteerSkills = getVolunteerSkills;
 
 exports.accept = function (req, res) {
-  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "accepted"}, function (err, activity) {
+  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "accepted", validation_date: Date.now()}, {upsert: true, 'new': true}, function (err, activity) {
     if (err) res.send(err);
     else {
       if (req.body.recommendation) {
@@ -298,7 +298,7 @@ function sendEmailIfDeclined (activityId) {
 }
 
 exports.decline = function (req, res) {
-  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason}, function (err, activity) {
+  Activity.findOneAndUpdate({_id: req.body.activityId}, {validated: "declined", decline_reason: req.body.declineReason, validation_date: Date.now()}, {upsert: true, 'new': true}, function (err, activity) {
     if (err) res.send(err);
     else {
       sendEmailIfDeclined(req.body.activityId);
