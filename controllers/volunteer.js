@@ -152,8 +152,7 @@ exports.getEditProfile = function(req, res, next) {
       else 
       {
         RecommendationController.getRecofromVolunteerId(volunteer._id, function (err, reco) {
-          console.log(skills);
-          console.log(reco);
+          res.header('Cache-Control', 'public, max-age=31557600');
           res.render('volunteer/editProfile', { title: 'Volunteer private profile', 
           user: req.user, 
           volunteer: volunteer, 
@@ -175,6 +174,7 @@ exports.getProfile = function (req, res, next) {
       if (err) console.log(err);
       else {
         RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+          res.header('Cache-Control', 'public, max-age=31557600');
           res.render('volunteer/profile', { title: volunteer.first_name + ' ' + volunteer.last_name + '\'s VOLO profile', 
             user: req.user, 
             volunteer: volunteer, 
