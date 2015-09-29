@@ -21,7 +21,7 @@ $ heroku local
 ### Add seeds data
 Execute the following command:
 ```sh
-$ mongo localhost/socialLift seed.js
+$ mongo localhost/volo seed.js
 ```
 *Note that you may have to change the db depending on your config*
 
