@@ -5,191 +5,198 @@ block content
   -if (number == 1) return number + ' hour'
   -else return number + ' hours'
   -}
-
-  div.container-fluid
-    div.row.row-centered
-      div.col-md-10.col-md-offset-1.content
-        .col-md-12
-          h3 Volunteer results
-          p Here you can track the student volunteering hours made by your students.
-        .col-md-12.break
-        .col-md-12.col-sm-12.col-xs-12
-          .panel-group#accordion
-            .panel.panel-default
-              .panel-heading
-                h3.panel-title
-                  a(data-toggle="collapse", data-parent="#accordion", href="#collapse-month") By Month
-              .panel-collapse.collapse.in#collapse-month
-                .panel-body.table-responsive
-                  table.col-md-12.table.table-bordered.table-hover
-                    tr
-                      th Student
-                      th September
-                      th October
-                      th November
-                      th December
-                      
-                    each students in perMonth
+  - if (perMonth || perDiscipline || perGraduationYear || perGraduate || perStatus) 
+    div.container-fluid
+      div.row.row-centered
+        div.col-md-10.col-md-offset-1.content
+          .col-md-12.col-sm-12.col-xs-12
+            h3 Volunteer results
+            p Here you can track the student volunteering hours made by your students.
+          .col-md-12.break
+          .col-md-12.col-sm-12.col-xs-12
+            .panel-group#accordion
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(data-toggle="collapse", data-parent="#accordion", href="#collapse-month") By Month
+                .panel-collapse.collapse.in#collapse-month
+                  .panel-body.table-responsive
+                    table.col-md-12.table.table-bordered.table-hover
                       tr
-                        td #{students.volunteer.first_name} #{students.volunteer.last_name}
-                        each activity, i in students.activities
-                          -if (i<4)
-                            -if (i==0 && activity.month > 9)
-                              -var m=0
-                              while m < (activity.month - 9)
-                                td 0 hour
-                                span(style="display:none")= m++
-                                //- input(type="hidden" value="n++")
-                              td #{plurialize_hour(activity.hours)}
-                            -else if (activity.month >= 9 && activity.month <= 12)
-                              -if (activity.month == 9)
-                                td #{plurialize_hour(activity.hours)}
-                              -else if ((activity.month > 9) && (activity.month == month +1))
-                                td #{plurialize_hour(activity.hours)}
-                              -else
-                                -var n=1
-                                while n < (activity.month - month)
+                        th Student
+                        th September
+                        th October
+                        th November
+                        th December
+                        
+                      each students in perMonth
+                        tr
+                          td #{students.volunteer.first_name} #{students.volunteer.last_name}
+                          each activity, i in students.activities
+                            -if (i<4)
+                              -if (i==0 && activity.month > 9)
+                                -var m=0
+                                while m < (activity.month - 9)
                                   td 0 hour
-                                  span(style="display:none")= n++
+                                  span(style="display:none")= m++
                                   //- input(type="hidden" value="n++")
                                 td #{plurialize_hour(activity.hours)}
-                                //- td 0 hour
-                              - var month = activity.month;
+                              -else if (activity.month >= 9 && activity.month <= 12)
+                                -if (activity.month == 9)
+                                  td #{plurialize_hour(activity.hours)}
+                                -else if ((activity.month > 9) && (activity.month == month +1))
+                                  td #{plurialize_hour(activity.hours)}
+                                -else
+                                  -var n=1
+                                  while n < (activity.month - month)
+                                    td 0 hour
+                                    span(style="display:none")= n++
+                                    //- input(type="hidden" value="n++")
+                                  td #{plurialize_hour(activity.hours)}
+                                  //- td 0 hour
+                                - var month = activity.month;
 
 
-            .panel.panel-default
-              .panel-heading
-                h3.panel-title
-                  a(href="#collapse-discipline", data-toggle="collapse", data-parent="#accordion") By Discipline
-              .panel-collapse.collapse#collapse-discipline
-                .panel-body.table-responsive
-                  table.col-md-12.table.table-bordered.table-hover
-                    tr
-                      th Discipline
-                      th September
-                      th October
-                      th November
-                      th December
-                    each discipline in perDiscipline
-                      tr 
-                        td #{discipline.discipline}
-                        each hour, i in discipline.hours
-                          -if (i<4)
-                            -if (i==0 && hour._id.month > 9)
-                              -var m=1
-                              while m < (hour._id.month - 9)
-                                td 0 hour
-                                span(style="display:none")= m++
-                                //- input(type="hidden" value="n++")
-                              td #{plurialize_hour(hour.sum_hours)}
-                            -else if (hour._id.month >= 9 && hour._id.month <= 12)
-                              -if (hour._id.month == 9)
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else if ((hour._id.month > 9) && (hour._id.month == month +1))
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else
-                                -var n=1
-                                while n < (hour._id.month - month)
-                                  td 0 hour
-                                  span(style="display:none")= n++
-                                  //- input(type="hidden" value="n++")
-                                td #{plurialize_hour(hour.sum_hours)}
-                                //- td 0 hour
-                              - var month = hour._id.month;
-
-            .panel.panel-default
-              .panel-heading
-                h3.panel-title
-                  a(href="#collapse-graduation", data-toggle="collapse", data-parent="#accordion") By Graduation Year
-              .panel-collapse.collapse#collapse-graduation
-                .panel-body.table-responsive
-                  table.col-md-12.table.table-bordered.table-hover
-                    tr
-                      th Graduation Year
-                      th September
-                      th October
-                      th November
-                      th December
-
-                    each graduation_year in perGraduationYear
-                      tr 
-                        td #{graduation_year.graduation_year}
-                        each hour, i in graduation_year.hours
-                          -if (i<4)
-                            -if (i==0 && hour._id.month > 9)
-                              -var m=1
-                              while m < (hour._id.month - 9)
-                                td 0 hour
-                                span(style="display:none")= m++
-                                //- input(type="hidden" value="n++")
-                              td #{plurialize_hour(hour.sum_hours)}
-                            -else if (hour._id.month >= 9 && hour._id.month <= 12)
-                              -if (hour._id.month == 9)
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else if ((hour._id.month > 9) && (hour._id.month == month +1))
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else
-                                -var n=1
-                                while n < (hour._id.month - month)
-                                  td 0 hour
-                                  span(style="display:none")= n++
-                                  //- input(type="hidden" value="n++")
-                                td #{plurialize_hour(hour.sum_hours)}
-                                //- td 0 hour
-                              - var month = hour._id.month;
-
-            .panel.panel-default
-              .panel-heading
-                h3.panel-title
-                  a(href="#collapse-undergrade", data-toggle="collapse", data-parent="#accordion") Undergraduate vs. Postgraduate
-              .panel-collapse.collapse#collapse-undergrade
-                .panel-body.table-responsive
-                  table.col-md-12.table.table-bordered.table-hover
-                    tr
-                      th Status
-                      th September
-                      th October
-                      th November
-                      th December
-
-                    each graduate in perGraduate
-                      tr 
-                        td #{capitalize(graduate.graduate)}
-                        each hour, i in graduate.hours
-                          -if (i<4)
-                            -if (i==0 && hour._id.month > 9)
-                              -var m=1
-                              while m < (hour._id.month - 9)
-                                td 0 hour
-                                span(style="display:none")= m++
-                                //- input(type="hidden" value="n++")
-                              td #{plurialize_hour(hour.sum_hours)}
-                            -else if (hour._id.month >= 9 && hour._id.month <= 12)
-                              -if (hour._id.month == 9)
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else if ((hour._id.month > 9) && (hour._id.month == month +1))
-                                td #{plurialize_hour(hour.sum_hours)}
-                              -else
-                                -var n=1
-                                while n < (hour._id.month - month)
-                                  td 0 hour
-                                  span(style="display:none")= n++
-                                  //- input(type="hidden" value="n++")
-                                td #{plurialize_hour(hour.sum_hours)}
-                                //- td 0 hour
-                              - var month = hour._id.month;
-
-            .panel.panel-default
-              .panel-heading
-                h3.panel-title
-                  a(href="#collapse-active", data-toggle="collapse", data-parent="#accordion") Active vs. non-active 
-              .panel-collapse.collapse#collapse-active
-                .panel-body.table-responsive
-                  table.col-md-12.table.table-bordered.table-hover
-                    tr
-                      th Student
-                      th Status
-                    each status in perStatus
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(href="#collapse-discipline", data-toggle="collapse", data-parent="#accordion") By Discipline
+                .panel-collapse.collapse#collapse-discipline
+                  .panel-body.table-responsive
+                    table.col-md-12.table.table-bordered.table-hover
                       tr
-                        td #{status.student.first_name} #{status.student.last_name} 
-                        td #{status.status}
+                        th Discipline
+                        th September
+                        th October
+                        th November
+                        th December
+                      each discipline in perDiscipline
+                        tr 
+                          td #{discipline.discipline}
+                          each hour, i in discipline.hours
+                            -if (i<4)
+                              -if (i==0 && hour._id.month > 9)
+                                -var m=1
+                                while m < (hour._id.month - 9)
+                                  td 0 hour
+                                  span(style="display:none")= m++
+                                  //- input(type="hidden" value="n++")
+                                td #{plurialize_hour(hour.sum_hours)}
+                              -else if (hour._id.month >= 9 && hour._id.month <= 12)
+                                -if (hour._id.month == 9)
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else if ((hour._id.month > 9) && (hour._id.month == month +1))
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else
+                                  -var n=1
+                                  while n < (hour._id.month - month)
+                                    td 0 hour
+                                    span(style="display:none")= n++
+                                    //- input(type="hidden" value="n++")
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                  //- td 0 hour
+                                - var month = hour._id.month;
+
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(href="#collapse-graduation", data-toggle="collapse", data-parent="#accordion") By Graduation Year
+                .panel-collapse.collapse#collapse-graduation
+                  .panel-body.table-responsive
+                    table.col-md-12.table.table-bordered.table-hover
+                      tr
+                        th Graduation Year
+                        th September
+                        th October
+                        th November
+                        th December
+
+                      each graduation_year in perGraduationYear
+                        tr 
+                          td #{graduation_year.graduation_year}
+                          each hour, i in graduation_year.hours
+                            -if (i<4)
+                              -if (i==0 && hour._id.month > 9)
+                                -var m=1
+                                while m < (hour._id.month - 9)
+                                  td 0 hour
+                                  span(style="display:none")= m++
+                                  //- input(type="hidden" value="n++")
+                                td #{plurialize_hour(hour.sum_hours)}
+                              -else if (hour._id.month >= 9 && hour._id.month <= 12)
+                                -if (hour._id.month == 9)
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else if ((hour._id.month > 9) && (hour._id.month == month +1))
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else
+                                  -var n=1
+                                  while n < (hour._id.month - month)
+                                    td 0 hour
+                                    span(style="display:none")= n++
+                                    //- input(type="hidden" value="n++")
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                  //- td 0 hour
+                                - var month = hour._id.month;
+
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(href="#collapse-undergrade", data-toggle="collapse", data-parent="#accordion") Undergraduate vs. Postgraduate
+                .panel-collapse.collapse#collapse-undergrade
+                  .panel-body.table-responsive
+                    table.col-md-12.table.table-bordered.table-hover
+                      tr
+                        th Status
+                        th September
+                        th October
+                        th November
+                        th December
+
+                      each graduate in perGraduate
+                        tr 
+                          td #{capitalize(graduate.graduate)}
+                          each hour, i in graduate.hours
+                            -if (i<4)
+                              -if (i==0 && hour._id.month > 9)
+                                -var m=1
+                                while m < (hour._id.month - 9)
+                                  td 0 hour
+                                  span(style="display:none")= m++
+                                  //- input(type="hidden" value="n++")
+                                td #{plurialize_hour(hour.sum_hours)}
+                              -else if (hour._id.month >= 9 && hour._id.month <= 12)
+                                -if (hour._id.month == 9)
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else if ((hour._id.month > 9) && (hour._id.month == month +1))
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                -else
+                                  -var n=1
+                                  while n < (hour._id.month - month)
+                                    td 0 hour
+                                    span(style="display:none")= n++
+                                    //- input(type="hidden" value="n++")
+                                  td #{plurialize_hour(hour.sum_hours)}
+                                  //- td 0 hour
+                                - var month = hour._id.month;
+
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(href="#collapse-active", data-toggle="collapse", data-parent="#accordion") Active vs. non-active 
+                .panel-collapse.collapse#collapse-active
+                  .panel-body.table-responsive
+                    table.col-md-12.table.table-bordered.table-hover
+                      tr
+                        th Student
+                        th Status
+                      each status in perStatus
+                        tr
+                          td #{status.student.first_name} #{status.student.last_name} 
+                          td #{status.status}
+  - else
+    div.container-fluid
+      div.row.row-centered
+        div.col-md-10.col-md-offset-1.content
+          .col-md-12.col-sm-12.col-xs-12.text-center
+            h3 We're sorry, no university has been found with this name or you don't have rights to see this page.
+            p Please, if you think there is a problem, <a href="mailto:feedback@volo.org.uk">email us</a>!

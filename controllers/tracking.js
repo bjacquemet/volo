@@ -336,7 +336,7 @@ function getHoursPerActiveStatus (university, callback) {
         last_sign_in;
     students.forEach(function (student) {
       Volunteer.findById(student, "first_name last_name last_sign_in", function (err, student) {
-        if (err) console.log(err);
+        if (err) callback(err, null);
         else {
           last_sign_in = new Date(student.last_sign_in);
           // 2629746000 = 1 month in milliseconds
@@ -353,55 +353,117 @@ function getHoursPerActiveStatus (university, callback) {
   })
 }
 
+function ensureAdmin(req, res, next) {
+  if (req.user && req.user.usertype.indexOf('admin') > 0) { return next(); }
+  res.sendStatus(401);
+}
+
+function universityExists(university, callback) {
+  Volunteer.count({position: "student", university: university}, function (err, count) {
+    if (err) console.log(err);
+    else {
+      if (count > 0) callback(null, true);
+      else callback(null, false);
+    }
+  })
+}
+
+function isAuthorized (req, res, university, callback) {
+  if (req.user) {
+    if (req.user.usertype.indexOf('admin') > 0) {
+      callback(true);
+    }
+    else {
+      switch(university) {
+        case "University of Westminster":
+          if (req.user.usertype.indexOf('westminster') > 0) callback(true);
+          else callback(false);
+          break;
+        case "City University":
+          if (req.user.usertype.indexOf('city') > 0) callback(true);
+          else callback(false);
+          break;
+        default:
+          callback(false);
+          break;
+      }
+    }
+  }
+  else callback(false);
+}
+
 exports.all = function (req, res) {
   if (req.params.university)
   {
     var university = req.params.university;
-    getHoursPerStudent(university, function (err, perMonth) {
+    universityExists(req.params.university, function (err, count) {
       if (err) console.log(err);
-      else {
-        getHoursPerDiscipline(university, function (err, perDiscipline) {
-          if (err) console.log(err);
-          else {
-            getHoursPerGraduationYear(university, function (err, perGraduationYear) {
+      if (count)
+      {
+        isAuthorized(req, res, university, function (authorization) {
+          if (authorization){
+            getHoursPerStudent(university, function (err, perMonth) {
               if (err) console.log(err);
-              else
-              {
-                getHoursPerGraduate(university, function (err, perGraduate) {
+              else {
+                getHoursPerDiscipline(university, function (err, perDiscipline) {
                   if (err) console.log(err);
-                  else
-                  {
-                    getHoursPerActiveStatus(university, function (err, perStatus) {
+                  else {
+                    getHoursPerGraduationYear(university, function (err, perGraduationYear) {
                       if (err) console.log(err);
-                      else {
-                        console.log(perMonth);
-                        res.render('university/tracking', {
-                          title: 'University Tracking: ' + university,
-                          user: req.user,
-                          perMonth: perMonth, 
-                          perDiscipline: perDiscipline, 
-                          perGraduationYear: perGraduationYear,
-                          perGraduate: perGraduate, 
-                          perStatus: perStatus
-                        });
-                        // res.send({perMonth: perMonth, 
-                        //           perDiscipline: perDiscipline, 
-                        //           perGraduationYear: perGraduationYear,
-                        //           perGraduate: perGraduate
-                        //         });
+                      else
+                      {
+                        getHoursPerGraduate(university, function (err, perGraduate) {
+                          if (err) console.log(err);
+                          else
+                          {
+                            getHoursPerActiveStatus(university, function (err, perStatus) {
+                              if (err) console.log(err);
+                              else {
+                                console.log(perMonth);
+                                res.render('university/tracking', {
+                                  title: 'University Tracking: ' + university,
+                                  user: req.user,
+                                  perMonth: perMonth, 
+                                  perDiscipline: perDiscipline, 
+                                  perGraduationYear: perGraduationYear,
+                                  perGraduate: perGraduate, 
+                                  perStatus: perStatus
+                                });
+                                // res.send({perMonth: perMonth, 
+                                //           perDiscipline: perDiscipline, 
+                                //           perGraduationYear: perGraduationYear,
+                                //           perGraduate: perGraduate
+                                //         });
+                              }
+                            })
+                          }
+                        })
                       }
                     })
                   }
                 })
               }
-            })
+            });
+          }
+          else {
+            res.render('university/tracking', {
+                        title: 'University Tracking', 
+                        user:req.user});
           }
         })
+      }
+      else
+      {
+        res.render('university/tracking', {
+                    title: 'University Tracking', 
+                    user:req.user});
       }
     });
   }
   else
   {
-    res.send([]);
+    res.render('university/tracking', {
+                title: 'University Tracking', 
+                user:req.user});
   }
 }
