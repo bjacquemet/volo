@@ -44,7 +44,8 @@ module.exports = function(grunt) {
 
     execute: {
       target: {
-        src: './bin/www'
+        // src: './bin/www'
+        src: 'main.js'
       }
     }
 

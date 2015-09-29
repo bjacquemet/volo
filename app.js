@@ -15,6 +15,8 @@ var compression = require('compression');
 var qt = require('quickthumb');
 var done = false;
 var config = require('./config');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 var volunteers = require('./routes/volunteer');
@@ -55,8 +57,12 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'volo session secret',
+    maxAge: new Date(Date.now() + 3600000),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoStore(
+      { mongooseConnection: mongoose.connection }, function (err) {
+        console.log(err || 'connection OK');})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
