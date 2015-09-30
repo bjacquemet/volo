@@ -378,8 +378,17 @@ block content
             h2 Goals
             
             h5 Total hours volunteered
+            -var hours = 0;
+            each experience in experiences
+              - hours += experience.totalHours
+            -var translate = 200-hours;
+            -translate += 'px';
             canvas(id="g_goal", height="280px", width="80px")
-
+            //- .col-md-10(style="border-left:1px solid #ccc;height:200px;border-bottom: 1px solid #ccc;overflow:hidden;-webkit-animation:all 1s;")
+            //-   .col-md-push-2.col-md-8(style="height: #{hours}px; background-color:#a2ff00;transform: translateY(#{translate});")
+            //-     p.text-center(style='margin-top:-30px') 
+            //-       em #{hours} hours
+            .col-md-12.col-sm-12.col-xs-12.break
             h5 Hours volunteered <em>this week</em>
             canvas(id="w_goal", height="230px")
             p You've reached your weekly goal!! <em>
