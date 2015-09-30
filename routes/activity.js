@@ -27,6 +27,9 @@ router.post("/new", ensureAuthenticated, ActivityController.new);
 // Validation page for referees
 router.get('/validation', ActivityController.ActivityToBeValidatedByRefereeEmail)
 
+// Get total accepted hours for authenticated user
+router.get('/totalHours', ensureAuthenticated, ActivityController.getTotalHours)
+
 // router.get('/all_pending', ActivityController.allPending)
 
 // Accept one activity
@@ -36,10 +39,10 @@ router.post("/accept", ActivityController.accept);
 router.post("/decline", ActivityController.decline);
 
 // Update one activity (if pending)
-router.post("/update", ActivityController.update);
+router.post("/update", ensureAuthenticated, ActivityController.update);
 
 // Update notes on one activity
-router.post("/update_notes", ActivityController.update_notes);
+router.post("/update_notes", ensureAuthenticated, ActivityController.update_notes);
 
 // Get list of activities (Admin only)
 router.get("/admin/list", ensureAdmin, ActivityController.listActivitiesForAdmin);

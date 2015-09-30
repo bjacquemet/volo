@@ -371,23 +371,23 @@ block content
                     p #{recommendation.recommendation.recommendation}
                   .col-md-2.break
 
-    .col-md-3.col-md-push-1
+    .col-md-3.col-md-push-1.col-sm-3.col-sm-push-1.col-xs-12
       .row.row-centered
-        .col-md-12.content
-          .col-md-12
+        .col-md-12.col-sm-12.col-xs-12.content
+          .col-md-12.col-sm-12.col-xs-12
             h2 Goals
             
             h5 Total hours volunteered
+              br
             -var hours = 0;
             each experience in experiences
               - hours += experience.totalHours
-            -var translate = 200-hours;
-            -translate += 'px';
-            canvas(id="g_goal", height="280px", width="80px")
-            //- .col-md-10(style="border-left:1px solid #ccc;height:200px;border-bottom: 1px solid #ccc;overflow:hidden;-webkit-animation:all 1s;")
-            //-   .col-md-push-2.col-md-8(style="height: #{hours}px; background-color:#a2ff00;transform: translateY(#{translate});")
-            //-     p.text-center(style='margin-top:-30px') 
-            //-       em #{hours} hours
+            .col-md-1.col-sm-1.col-xs-1.totalHoursGoal
+              p 500
+            .col-md-10.col-sm-10.col-xs-10.totalHoursContainer
+              .col-md-push-2.col-md-8.col-sm-push-2.col-sm-8.col-xs-12#totalGoal
+                p.text-center
+                  em #{hours} hours
             .col-md-12.col-sm-12.col-xs-12.break
             h5 Hours volunteered <em>this week</em>
             canvas(id="w_goal", height="230px")
@@ -484,6 +484,7 @@ block content
   script.
     //- $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
+
       $("#editActivityModal").on('hide.bs.modal', function () {
         if ($("#editActivityModal .skills_list").data('select2'))
           {

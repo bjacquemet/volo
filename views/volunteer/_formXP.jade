@@ -43,7 +43,7 @@ form(action="/experience/new", method="POST")
         |I have a signed document from the organisation verifying my work. Please, also send it to <a href="mailto:melissa@volo.org.uk">melissa@volo.org.uk</a> to speed up the verification process. 
     .col-md-6.col-sm-6.col-xs-12.no-gutter
       label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_name") Referee name *
-      input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", pattern="\\w{3,}", required, title="Please enter the real name of the referee, this name will appear on your recommendation if he decides to make you one" \
+      input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", pattern="[a-zA-Z ]+", required, title="Please enter the real name of the referee, this name will appear on your recommendation if he decides to make you one" \
       onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');")
     .col-md-6.col-sm-6.col-xs-12.no-gutter_r
       label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_phone") Referee phone number *

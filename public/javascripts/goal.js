@@ -42,18 +42,33 @@ var global=
 };
 window.onload = function()
   {
+    var totalHours = 0,
+        top = 0,
+        barHeight = 300,
+        goal = 500;
+    $.getJSON('/activity/totalHours', function (hours) {
+        totalHours = hours[0].totalHours;
+        if (totalHours < 90) {
+          totalHours = (totalHours * barHeight)/goal + 20;
+        }
+        else {
+          totalHours = (totalHours * barHeight)/goal;
+        }
+        if (totalHours >= barHeight) totalHours = barHeight;
+        top = barHeight-totalHours;
+        console.log(top);
+        console.log(totalHours);
+        setTimeout(function () {
+          $('#totalGoal').animate({
+            height: totalHours,
+            top: top});
+          }, 500);
+    });
     var week = $('#w_goal').get(0).getContext("2d");
     var newChart = new Chart(week).Doughnut(data_w, {animationEasing : "easeInQuad", animationSteps : 50,   tooltipTemplate: "<%=value%> <%if(label){%><%=label%><%}%>", maintainAspectRatio: true, responsive: true});
     var hours = 20;
     var height = hours*2;
     var y = 200 - height;
     $('#current_hours').animate({y: y, height: height});
-    var ctx = $("#g_goal").get(0).getContext("2d");
-    var myBarChart = new Chart(ctx).Bar(global, {scaleShowHorizontalLines: true,scaleShowVerticalLines: false, scaleOverride: true,
-    scaleSteps: 4,
-    scaleStepWidth: 250,
-    scaleStartValue: 0, 
-    tooltipTemplate: "<%= value %> hours"
-});
   };
 });

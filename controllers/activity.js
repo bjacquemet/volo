@@ -11,6 +11,31 @@ var crypto = require('crypto');
 var async = require('async');
 var nodemailer = require('nodemailer');
 
+exports.getTotalHours = function (req, res) {
+  if (req.user) {
+    volunteer_id = mongoose.Types.ObjectId(req.user._id);
+    Activity.aggregate([
+      {
+        $match: {
+          volunteer:volunteer_id,
+          validated: 'accepted'
+        }
+      },
+      {
+        $group:{
+          _id: volunteer_id,
+          totalHours: {$sum: "$hours"}
+        }
+      }
+    ], function (err, hours) {
+      if (err) res.send(err);
+      else res.send(hours);
+    });
+  }
+  else {
+    res.sendStatus(303);
+  }
+}
 
 exports.get = function (req, res) {
   if (req.params.id) {
