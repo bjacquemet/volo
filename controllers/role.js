@@ -1,7 +1,7 @@
 var Role = require('../models/role');
 
 exports.list = function(req,res) {
-  Role.find({}).select('_id name').exec(function (err,roles) {
+  Role.find({}).sort({name: 1}).select('_id name').exec(function (err,roles) {
     if (err) res.sendStatus(400);
     else {
       // res.setHeader('Cache-Control', 'public, max-age=31557600');
