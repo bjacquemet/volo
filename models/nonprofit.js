@@ -20,7 +20,6 @@ var Nonprofit = new Schema({
     updated_at: Date,
     created_at: {type: Date, default: Date.now()}
 });
-// todo: if suggested_by_volunteer: add a created_by = volunteer._id
 
 Nonprofit.pre('update', function(next) {
   console.log('------------->>>>>> update updated_at')

@@ -25,7 +25,7 @@ var Volunteer = new Schema({
     twitter: String, 
     facebook: String, 
     position: String, 
-    university: String,
+    university: {type: Schema.Types.ObjectId, ref: 'University'},
     area_of_study: String,
     degree: String,
     graduate: String,

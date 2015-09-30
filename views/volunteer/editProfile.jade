@@ -115,7 +115,8 @@ block content
                   a(href="#", data-value="", id="position", data-type="select", data-pk="#{volunteer._id}", data-id="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)   
                 - if (volunteer.position == 'student' && volunteer.university)
                   |&nbsp;at 
-                  a(href="#", data-value="#{volunteer.university}", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", data-value="#{volunteer.university.name}", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", class="little", data-toggle="modal", data-target="#universityModal") Add a new university
                   p 
                   - if (volunteer.graduate)
                     a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")
@@ -187,6 +188,7 @@ block content
                 - else if (volunteer.position == 'student' && !volunteer.university)
                   |&nbsp;at 
                   a(href="#", data-value="", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", class="little", data-toggle="modal", data-target="#universityModal") Add a new university
                   p 
                   - if (volunteer.graduate)
                     a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")
@@ -394,6 +396,20 @@ block content
             form(id="uploadForm", enctype="multipart/form-data", action="/volunteer/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary modal-submit")
+    
+    .modal.fade#universityModal(tabindex='-1')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button(type="button" class="close" data-dismiss="modal") &times;
+            p Add a new University
+          .modal-body
+            p If you are not finding the university you study at, please just add its name here. We'll review this information. <br/>
+            form(id="universityForm", action="/university/new", method="post")
+              input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", autofocus, placeholder="University name", required)
+              input(type="hidden", name="suggested_by_volunteer", value="true")
+              input(type="hidden", name="created_by", value="#{volunteer._id}")
+              input(type="submit", value="Add new university", name="submit", class="btn btn-primary modal-submit")
 
     .modal.fade#nonprofitModal(tabindex='-1')
       .modal-dialog
@@ -691,12 +707,28 @@ block content
               {value:"female", text:"Female"}
             ]
       });
+
       $('#university').editable({
         emptytext: 'University',
-        source: [
-              {value:"University of Westminster", text:"University of Westminster"},
-              {value:"City University", text:"City University"}
-            ]
+        source: "/university/list",
+        sourceCache: false
+      });
+
+      $('#universityForm').submit(function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          error: function(xhr) {
+          console.log(xhr);
+            $('#universityModal .modal-body').prepend('<div class="alert alert-danger"> \
+              <div>'+ xhr.responseText + '</div> \
+              <div>Sorry, you can\'t add this university. Please, contact us if you think you should.</div> \
+              </div>');
+          },
+          success: function(response) {
+            $('#universityModal').modal('toggle');
+            $('#universityForm').find('input[name=name]').val('');
+          }
+        });
       });
 
       $('.xp_description').editable({emptytext: 'Describe your Experience'});

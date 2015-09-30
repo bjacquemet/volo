@@ -1,6 +1,7 @@
 var Volunteer = require('../models/volunteer');
 var Experience = require('../models/experience');
 var Skill = require('../models/skill');
+var University = require('../models/university');
 var ExperienceController = require('./experience');
 var ActivityController = require('./activity');
 var RecommendationController = require('../controllers/recommendation');
@@ -13,7 +14,7 @@ var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 function getProfileById (volunteer_id, callback) {
-  Volunteer.findById(volunteer_id, function (err, volunteer) {
+  Volunteer.findById(volunteer_id).populate('university').exec(function (err, volunteer) {
       if (err || !volunteer) {
         console.log(err);
       }
@@ -188,7 +189,7 @@ exports.getProfile = function (req, res, next) {
 }
 
 exports.searchProfile = function (req, res) { 
-  if (req.query.search) {
+  if (req.query.search && req.query.search.length > 3) {
     var terms = req.query.search.split(' ');
     var regexString = "";
     for (var i = 0; i < terms.length; i++)
@@ -231,20 +232,57 @@ exports.searchProfile = function (req, res) {
           ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
             if (err) console.log(err);
             profil = {_id: volunteer._id, first_name: volunteer.first_name, last_name: volunteer.last_name, position:volunteer.position, photo:volunteer.photo};
-            if (volunteer.university) profil['university'] = volunteer.university;
-            if (volunteer.company) profil['company'] = volunteer.company;
-            console.log(skills);
-            if (skills)
-            {
-              profil.skills = skills.skills;
-            }
-            volunteer_profiles.push(profil);
-            i++;
-            if (result_length == i) {
-                res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
-                user: req.user,
-                results: volunteer_profiles
+            if (volunteer.university) {
+              University.findById(volunteer.university).exec(function (err, uni) {
+                if (err) console.log(err);
+                else {
+                  profil['university'] = uni.name;
+                  console.log(skills);
+                  if (skills)
+                  {
+                    profil.skills = skills.skills;
+                  }
+                  volunteer_profiles.push(profil);
+                  i++;
+                  if (result_length == i) {
+                      res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+                      user: req.user,
+                      results: volunteer_profiles
+                    });
+                  }
+                }
               });
+            }
+            else if (volunteer.company) {
+              profil['company'] = volunteer.company;
+              console.log(skills);
+              if (skills)
+              {
+                profil.skills = skills.skills;
+              }
+              volunteer_profiles.push(profil);
+              i++;
+              if (result_length == i) {
+                  res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+                  user: req.user,
+                  results: volunteer_profiles
+                });
+              }
+            }
+            else{
+              console.log(skills);
+              if (skills)
+              {
+                profil.skills = skills.skills;
+              }
+              volunteer_profiles.push(profil);
+              i++;
+              if (result_length == i) {
+                  res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+                  user: req.user,
+                  results: volunteer_profiles
+                });
+              }
             }
           });
         })

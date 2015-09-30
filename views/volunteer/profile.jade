@@ -63,7 +63,7 @@ block content
 
           .col-md-5.col-sm-6.col-xs-12.info
             - if (volunteer.position == 'student' && volunteer.university)
-              p Current position: <em>#{capitalize(volunteer.position)} at #{volunteer.university}</em>
+              p Current position: <em>#{capitalize(volunteer.position)} at #{volunteer.university.name}</em>
             - else if (volunteer.position == 'student' && !volunteer.university)
               p Current position: <em>#{capitalize(volunteer.position)}</em>
             - else if (volunteer.position == 'employed' && volunteer.company)
