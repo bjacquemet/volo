@@ -4,7 +4,7 @@ exports.list = function(req,res) {
   Role.find({}).select('_id name').exec(function (err,roles) {
     if (err) res.sendStatus(400);
     else {
-      res.setHeader('Cache-Control', 'public, max-age=31557600');
+      // res.setHeader('Cache-Control', 'public, max-age=31557600');
       res.send(roles);
     }
   });
