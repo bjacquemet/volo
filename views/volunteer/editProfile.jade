@@ -748,12 +748,6 @@ block content
         // Nonprofit modal
         $("#nonprofit").select2({
           placeholder: "Select a nonprofit",
-        }).on('change', function(e){
-          console.log(e.currentTarget.selectedOptions[0].text);
-          if(e.currentTarget.selectedOptions[0].text=="Other")
-            {
-              $('#nonprofitModal').modal('toggle');
-            }
         });
         $('#nonprofitForm').submit(function(event){
           event.preventDefault();
@@ -768,6 +762,7 @@ block content
             success: function(response) {
               loadExternalData('nonprofit', "#nonprofit");
               $('#nonprofitModal').modal('toggle');
+              $('#nonprofitForm').find('input[name=name]').val('');
             }
           });
         });
@@ -797,6 +792,7 @@ block content
           success: function(response) {
             loadExternalData('skill', ".skills_list");
             $('#skillModal').modal('toggle');
+            $('#skillForm').find('input[name=name]').val('');
           }
         });
       });
@@ -815,6 +811,7 @@ block content
           success: function(response) {
             loadExternalData('role', ".role");
             $('#roleModal').modal('toggle');
+            $('#roleForm').find('input[name=name]').val('');
           }
         });
       });
