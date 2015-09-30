@@ -32,7 +32,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
   head
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Activity Validation
+    title VOLO: Volunteer Approval Needed
   body
     table(align='center', cellpadding='0', cellspacing='0', width='100%', height='100%')
       tr
@@ -56,10 +56,15 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                         br
                     tr
                       td
-                        h4 Hello #{referee.name},
-                        p <a href="http://volo.org.uk">VOLO</a> is a social enterprise dedicated to encourage volunteering in the UK.
-                        p Volunteers can promote their volunteer effort on our platform, where we engage ourselves to validate these activities. 
-                        p Precisely, volunteers have been adding activities with your nonprofit. We would be glad if you could review these experiences:
+                        h4 Dear #{referee.name},
+                        p <a href="http://volo.org.uk">VOLO</a>  is a social enterprise dedicated to encouraging and supporting volunteering.
+                        p 
+                          |We have received a request to validate a volunteer activity that was completed with your organisation.  
+                          |We would very much appreciate your help in reviewing the below activity and either
+                          em Validating
+                          | or 
+                          em Declining
+                          |&nbsp;this request:
                     tr.colored
                       td(align='center', valign='top')
                         h3 #{volunteer.name}
@@ -76,7 +81,15 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                             |On our website, you will also be able to validate #{plurialize_activities(count)}.
                     tr
                       td(align='center', valign='top')
-                        p Please, if you have any doubt, don't hesitate to <a href="mailto:mellisa@volo.org.uk">contact us</a>!
-                        h4 We greatly appreciate your help in making the volunteering community grow together.
+                        p Approving volunteering hours, helps individuals to track their community involvement and enhance their employability. 
+                        p If you have any questions regarding this request, please do not hesitate to <a href="mailto:mellisa@volo.org.uk">contact us</a>!
+                        h4 We greatly appreciate your help and support of the volunteering community.
                         p <i>The VOLO team</i>
+                        p
+                          br
+                        p 
+                          |If you are interested in creating a free non-profit profile on VOLO to promote your volunteering opportunities, 
+                          |please contact Melissa Mitchell at 
+                          a(href="mailto:melissa@volo.org.uk ") Melissa@volo.org.uk 
+
 

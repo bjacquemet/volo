@@ -12,30 +12,39 @@ function ensureAdmin(req, res, next) {
   res.sendStatus(401);
 }
 
-router.get("/list", ActivityController.list);
+// router.get("/list", ActivityController.list);
 
-router.get("/volunteer/:id", ActivityController.getByVolunteerId);
+// router.get("/volunteer/:id", ActivityController.getByVolunteerId);
 
-router.get("/skills/:id", ActivityController.getVolunteerSkills);
+// router.get("/skills/:id", ActivityController.getVolunteerSkills);
 
-router.get("/get/:id", ActivityController.get)
+// GET one activity details
+router.get("/get/:id", ensureAuthenticated, ActivityController.get)
 
+// create new activity
 router.post("/new", ensureAuthenticated, ActivityController.new);
 
+// Validation page for referees
 router.get('/validation', ActivityController.ActivityToBeValidatedByRefereeEmail)
 
-router.get('/all_pending', ActivityController.allPending)
+// router.get('/all_pending', ActivityController.allPending)
 
+// Accept one activity
 router.post("/accept", ActivityController.accept);
 
+// Decline one activity
 router.post("/decline", ActivityController.decline);
 
+// Update one activity (if pending)
 router.post("/update", ActivityController.update);
 
+// Update notes on one activity
 router.post("/update_notes", ActivityController.update_notes);
 
+// Get list of activities (Admin only)
 router.get("/admin/list", ensureAdmin, ActivityController.listActivitiesForAdmin);
 
+// Validation page for Admin
 router.get("/admin/validation", ensureAdmin, ActivityController.validateActivitiesByAdmin);
 
 module.exports = router;

@@ -151,7 +151,7 @@ function sendEmail (ToBeValidated) {
               smtpTransport.sendMail({
                 from: 'Baptiste <baptiste@volo.org.uk>',
                 to: locals.referee.name + "<" + locals.referee.email + ">",
-                subject: 'VOLO: Please validate experiences',
+                subject: 'VOLO: Volunteer Approval Needed',
                 html: html,
                 text: text
               }, function(err, responseStatus) {
