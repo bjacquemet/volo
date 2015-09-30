@@ -1,6 +1,7 @@
 var Activity = require('../models/activity');
 var Experience = require('../models/experience');
 var Skill = require('../models/skill');
+var University = require('../models/university');
 var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
 var Recommendation = require('../models/recommendation');
@@ -156,8 +157,8 @@ exports.ActivityToBeValidatedByRefereeEmail = function (req, res) {
         if (validationOK.length > 0) 
         {
           console.log(validationOK);
-          Activity.find({'referee.email': validationOK[0].referee_email, validated: "pending", validated_via_email:false}).populate('volunteer role').exec(function (err, activities) {
-            Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+          Activity.find({'referee.email': validationOK[0].referee_email, validated: "pending", validated_via_email:false}).populate('volunteer role skills').exec(function (err, activities) {
+            University.populate(activities, {path:'volunteer.university', select: 'name'}, function (err, full_activities) {
               if (err) console.log(err);
               else {
                 console.log(full_activities);
@@ -271,36 +272,40 @@ exports.listActivitiesForAdmin = function (req, res) {
             count = all_activities.length;
             Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
               Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
-                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name photo email'}, function (err, skill_activity_role_vol) {
-                  Experience.populate(skill_activity_role_vol, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_exp) {
-                    Experience.populate(skill_activity_role_vol_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
-                      // res.send(full_activities);
-                      res.locals.createPagination = function (pages, page) {
-                        var url = require('url')
-                          , qs = require('querystring')
-                          , params = qs.parse(url.parse(req.url).query)
-                          , str = ''
-                        params.page = 0
-                        var clas = page == 0 ? "active" : "no"
-                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">First</a></li>'
-                        for (var p = 1; p < pages; p++) {
-                          params.page = p
-                          clas = page == p ? "active" : "no"
-                          str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">'+ p +'</a></li>'
-                        }
-                        params.page = --p
-                        clas = page == params.page ? "active" : "no"
-                        str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">Last</a></li>'
+                Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name photo email university position'}, function (err, skill_activity_role_vol) {
+                  console.log(JSON.stringify(skill_activity_role_vol));
+                  University.populate(skill_activity_role_vol, {path: 'activities.volunteer.university', select: 'name'}, function(err, skill_activity_role_vol_uni) {
+                    Experience.populate(skill_activity_role_vol_uni, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_uni_exp) {
+                      Experience.populate(skill_activity_role_vol_uni_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
+                        // res.send(full_activities);
+                        console.log(full_activities);
+                        res.locals.createPagination = function (pages, page) {
+                          var url = require('url')
+                            , qs = require('querystring')
+                            , params = qs.parse(url.parse(req.url).query)
+                            , str = ''
+                          params.page = 0
+                          var clas = page == 0 ? "active" : "no"
+                          str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">First</a></li>'
+                          for (var p = 1; p < pages; p++) {
+                            params.page = p
+                            clas = page == p ? "active" : "no"
+                            str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">'+ p +'</a></li>'
+                          }
+                          params.page = --p
+                          clas = page == params.page ? "active" : "no"
+                          str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">Last</a></li>'
 
-                        return str
-                      };
-                      res.render('activity/adminList',
-                        { title: 'Activities pending validation', 
-                          user: req.user, 
-                          activities: full_activities,
-                          page: page,
-                          pages: count / perPage
-                      });
+                          return str
+                        };
+                        res.render('activity/adminList',
+                          { title: 'Activities pending validation', 
+                            user: req.user, 
+                            activities: full_activities,
+                            page: page,
+                            pages: count / perPage
+                        });
+                      })
                     })
                   })
                 })
@@ -314,8 +319,8 @@ exports.listActivitiesForAdmin = function (req, res) {
 }
 
 exports.validateActivitiesByAdmin = function (req, res) {
-  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role').exec(function (err, activities) {
-    Skill.populate(activities, {path:'skills', select: 'name'}, function (err, full_activities) {
+  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role skills').exec(function (err, activities) {
+    University.populate(activities, {path:'volunteer.university', select: 'name'}, function (err, full_activities) {
       if (err) console.log(err);
       else {
         res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 

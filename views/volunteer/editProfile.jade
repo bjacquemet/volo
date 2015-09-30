@@ -115,7 +115,7 @@ block content
                   a(href="#", data-value="", id="position", data-type="select", data-pk="#{volunteer._id}", data-id="position", data-placeholder="Position", data-url="/volunteer/update", data-title="Enter position", required)   
                 - if (volunteer.position == 'student' && volunteer.university)
                   |&nbsp;at 
-                  a(href="#", data-value="#{volunteer.university.name}", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
+                  a(href="#", data-value="#{volunteer.university._id}", id="university", data-type="select", data-pk="#{volunteer._id}", data-id="university", data-placeholder="University", data-url="/volunteer/update", data-title="Enter university")  
                   a(href="#", class="little", data-toggle="modal", data-target="#universityModal") Add a new university
                   p 
                   - if (volunteer.graduate)

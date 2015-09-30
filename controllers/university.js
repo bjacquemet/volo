@@ -1,7 +1,7 @@
 var University = require('../models/university');
 
 exports.list = function(req,res) {
-    University.find({}).select('_id name suggested_by_volunteer').exec(function (err, universities) {
+    University.find({}).sort({name: 1}).select('_id name suggested_by_volunteer').exec(function (err, universities) {
       res.setHeader('Cache-Control', 'public, max-age=31557600');
       var universityList = [];
       universities.forEach(function (university) {

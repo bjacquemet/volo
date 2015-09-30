@@ -1,5 +1,6 @@
 var Activity = require('../models/activity');
 var Volunteer = require('../models/volunteer');
+var University = require('../models/university');
 
 function getStudentsOfUniversity (university, callback) {
   Volunteer.find({position: "student", university: university}, {select: '_id'}, function (err, students) {
@@ -11,43 +12,6 @@ function getStudentsOfUniversity (university, callback) {
       })
       callback(null, s_array);
     }
-  })
-}
-
-function getHoursPerMonth (university, callback) {
-  getStudentsOfUniversity(university, function (err, students) {
-    var start = new Date(2015, 8, 1);
-    Activity.aggregate(
-    [{
-      $match:
-      {
-        volunteer: {$in: students},
-        validated: 'accepted',
-        start_date: {$gte: start}
-      }
-    },
-    {
-      $group: {
-        _id: {volunteer: "$volunteer", month: {$month: "$start_date"}, year: {$year: "$start_date"}},
-        sum_hours: {$sum: "$hours"}
-      }
-    },
-    {
-      $sort: {
-        "_id.year": 1,
-        "_id.month": 1
-      }
-    }
-    ],
-    function (err, activities) {
-      if (err) callback(err, null);
-      else {
-        Volunteer.populate(activities, {path: '_id.volunteer', select: 'first_name last_name'}, function (err, activities) {
-          callback(null, activities);
-        })
-      }
-    }
-    )  
   })
 }
 
@@ -80,48 +44,55 @@ function getHoursPerStudent (university, callback) {
     function (err, activities) {
       if (err) callback(err, null);
       else {
-        var old_student = '',
-            old_month,
-            old_year,
-            i = 1,
-            act_length = activities.length,
-            perStudent = {},
-            mo_hours = [],
-            final_activity = [];
-        activities.forEach(function (activity) {
-          if ((old_student) && (old_student == activity._id.volunteer.toString()))
-          {
-            mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            if (i == act_length) 
+        if (activities.length > 0)
+        {
+          var old_student = '',
+              old_month,
+              old_year,
+              i = 1,
+              act_length = activities.length,
+              perStudent = {},
+              mo_hours = [],
+              final_activity = [];
+          activities.forEach(function (activity) {
+            if ((old_student) && (old_student == activity._id.volunteer.toString()))
             {
-              perStudent.activities = mo_hours;
-              final_activity.push(perStudent);
+              mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
+              if (i == act_length) 
+              {
+                perStudent.activities = mo_hours;
+                final_activity.push(perStudent);
+              }
             }
-          }
-          else {
-            if(Object.keys(perStudent).length > 0 && i == act_length)
-            {
-              perStudent.activities = mo_hours;
-              final_activity.push(perStudent);
+            else {
+              if(Object.keys(perStudent).length > 0 && i == act_length)
+              {
+                perStudent.activities = mo_hours;
+                final_activity.push(perStudent);
+              }
+              perStudent = {};
+              mo_hours = [];
+              perStudent.volunteer = activity._id.volunteer;
+              mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
+              if (i == act_length) 
+              {
+                perStudent.activities = mo_hours;
+                final_activity.push(perStudent);
+              }
             }
-            perStudent = {};
-            mo_hours = [];
-            perStudent.volunteer = activity._id.volunteer;
-            mo_hours.push({month:activity._id.month, year:activity._id.year, hours: activity.sum_hours});
-            if (i == act_length) 
-            {
-              perStudent.activities = mo_hours;
-              final_activity.push(perStudent);
-            }
-          }
-          old_student = activity._id.volunteer;
-          i++;
-        })
-        Volunteer.populate(final_activity, {path: 'volunteer', select: 'first_name last_name'}, function (err, activities) {
-          if (err) callback(err, null);
-          else callback(null, activities);
-          // res.send(activities);
-        })
+            old_student = activity._id.volunteer;
+            i++;
+          })
+          Volunteer.populate(final_activity, {path: 'volunteer', select: 'first_name last_name'}, function (err, activities) {
+            if (err) callback(err, null);
+            else callback(null, activities);
+            // res.send(activities);
+          })
+        }
+        else
+        {
+          callback(null, null);
+        }
       }
     }
     )  
@@ -353,17 +324,16 @@ function getHoursPerActiveStatus (university, callback) {
   })
 }
 
-function ensureAdmin(req, res, next) {
-  if (req.user && req.user.usertype.indexOf('admin') > 0) { return next(); }
-  res.sendStatus(401);
-}
-
 function universityExists(university, callback) {
-  Volunteer.count({position: "student", university: university}, function (err, count) {
-    if (err) console.log(err);
+  University.findOne({name: new RegExp('^'+university+'$', 'i')}, function (err, university) {
+    if (err) {
+      console.log(err);
+      callback(err, null);
+    }
     else {
-      if (count > 0) callback(null, true);
-      else callback(null, false);
+      console.log(university);
+      if (university != null) callback(null, university._id);
+      else callback(null, null);
     }
   })
 }
@@ -395,68 +365,69 @@ function isAuthorized (req, res, university, callback) {
 exports.all = function (req, res) {
   if (req.params.university)
   {
-    var university = req.params.university;
-    universityExists(req.params.university, function (err, count) {
+    universityExists(req.params.university, function (err, university) {
       if (err) console.log(err);
-      if (count)
-      {
-        isAuthorized(req, res, university, function (authorization) {
-          if (authorization){
-            getHoursPerStudent(university, function (err, perMonth) {
-              if (err) console.log(err);
-              else {
-                getHoursPerDiscipline(university, function (err, perDiscipline) {
-                  if (err) console.log(err);
-                  else {
-                    getHoursPerGraduationYear(university, function (err, perGraduationYear) {
-                      if (err) console.log(err);
-                      else
-                      {
-                        getHoursPerGraduate(university, function (err, perGraduate) {
-                          if (err) console.log(err);
-                          else
-                          {
-                            getHoursPerActiveStatus(university, function (err, perStatus) {
-                              if (err) console.log(err);
-                              else {
-                                console.log(perMonth);
-                                res.render('university/tracking', {
-                                  title: 'University Tracking: ' + university,
-                                  user: req.user,
-                                  perMonth: perMonth, 
-                                  perDiscipline: perDiscipline, 
-                                  perGraduationYear: perGraduationYear,
-                                  perGraduate: perGraduate, 
-                                  perStatus: perStatus
-                                });
-                                // res.send({perMonth: perMonth, 
-                                //           perDiscipline: perDiscipline, 
-                                //           perGraduationYear: perGraduationYear,
-                                //           perGraduate: perGraduate
-                                //         });
-                              }
-                            })
-                          }
-                        })
-                      }
-                    })
-                  }
-                })
-              }
-            });
-          }
-          else {
-            res.render('university/tracking', {
-                        title: 'University Tracking', 
-                        user:req.user});
-          }
-        })
-      }
-      else
-      {
-        res.render('university/tracking', {
-                    title: 'University Tracking', 
-                    user:req.user});
+      else {
+        if (university)
+        {
+          isAuthorized(req, res, university, function (authorization) {
+            if (authorization){
+              getHoursPerStudent(university, function (err, perMonth) {
+                if (err) console.log(err);
+                else if (perMonth == null) {
+                  res.render('university/tracking', {
+                              title: 'University Tracking', 
+                              user:req.user,
+                              perMonth: []});
+                }
+                else {
+                  getHoursPerDiscipline(university, function (err, perDiscipline) {
+                    if (err) console.log(err);
+                    else {
+                      getHoursPerGraduationYear(university, function (err, perGraduationYear) {
+                        if (err) console.log(err);
+                        else
+                        {
+                          getHoursPerGraduate(university, function (err, perGraduate) {
+                            if (err) console.log(err);
+                            else
+                            {
+                              getHoursPerActiveStatus(university, function (err, perStatus) {
+                                if (err) console.log(err);
+                                else {
+                                  console.log(perMonth);
+                                  res.render('university/tracking', {
+                                    title: 'University Tracking: ' + university,
+                                    user: req.user,
+                                    perMonth: perMonth, 
+                                    perDiscipline: perDiscipline, 
+                                    perGraduationYear: perGraduationYear,
+                                    perGraduate: perGraduate, 
+                                    perStatus: perStatus
+                                  });
+                                  // res.send({perMonth: perMonth, 
+                                  //           perDiscipline: perDiscipline, 
+                                  //           perGraduationYear: perGraduationYear,
+                                  //           perGraduate: perGraduate
+                                  //         });
+                                }
+                              })
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              });
+            }
+          });
+        }
+        else {
+          res.render('university/tracking', {
+                      title: 'University Tracking', 
+                      user:req.user});
+        }
       }
     });
   }

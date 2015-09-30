@@ -55,7 +55,7 @@ block content
                     a(href="/volunteer/#{activity.volunteer._id}", target="_blank")
                       p.volunteer_name Volunteer: #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
                     - if (activity.volunteer.position == 'student' && activity.volunteer.university)
-                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university}</em>
+                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university.name}</em>
                     - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
                       p <em>#{capitalize(activity.volunteer.position)}</em>
                     - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
