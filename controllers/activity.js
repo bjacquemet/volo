@@ -13,7 +13,7 @@ var nodemailer = require('nodemailer');
 
 exports.getTotalHours = function (req, res) {
   if (req.user) {
-    volunteer_id = mongoose.Types.ObjectId(req.user._id);
+    var volunteer_id = mongoose.Types.ObjectId(req.user._id);
     Activity.aggregate([
       {
         $match: {
@@ -36,6 +36,38 @@ exports.getTotalHours = function (req, res) {
     res.sendStatus(303);
   }
 }
+
+exports.getWeeklyHours = function (req, res) {
+  if (req.user) {
+    var volunteer_id = mongoose.Types.ObjectId(req.user._id),
+        today = new Date(),
+        start_week = new Date();
+    start_week.setDate(today.getDate() - 7);
+
+    Activity.aggregate([
+      {
+        $match:{
+          volunteer:volunteer_id,
+          validated: 'accepted',
+          start_date: {$gte: start_week, $lte: today}
+        }
+      },
+      {
+        $group:{
+          _id: volunteer_id,
+          weeklyHours: {$sum: '$hours'}
+        }
+      }
+    ], function (err, hours) {
+      if (err) res.send(err);
+      else res.send(hours);
+    });
+  }
+  else {
+    res.sendStatus(303);
+  }
+}
+
 
 exports.get = function (req, res) {
   if (req.params.id) {
@@ -475,7 +507,8 @@ exports.update_notes = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  if (!req.body.role || !req.body.skills || !req.body.hours || !req.body.s_date || !req.body.notes || !req.body.activity) {
+  console.log(typeof req.body.notes);
+  if (!req.body.role || !req.body.skills || !req.body.hours || !req.body.s_date || !req.body.activity) {
     res.status(400);
     res.send('Field(s) missing');
   }
@@ -485,7 +518,7 @@ exports.update = function (req, res) {
         hours = req.body.hours,
         start_date = req.body.s_date,
         end_date = req.body.e_date,
-        notes = req.body.notes,
+        notes = req.body.notes || '',
         activity = req.body.activity;
     var json = {
       role: role,
@@ -509,8 +542,9 @@ exports.update = function (req, res) {
   }
 }
 
-
-//  Archives (functions not used)
+///////////////////////////////////////////////////////////////////
+//////////////////  ARCHIVES (functions not used) ////////////////
+/////////////////////////////////////////////////////////////////
 
 exports.list = function(req,res) {
     Activity.find({}).populate('role skills').exec(function(err,activities) {

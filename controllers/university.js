@@ -1,14 +1,21 @@
 var University = require('../models/university');
 
 exports.list = function(req,res) {
-    University.find({}).sort({name: 1}).select('_id name suggested_by_volunteer').exec(function (err, universities) {
-      // res.setHeader('Cache-Control', 'public, max-age=31557600');
-      var universityList = [];
-      universities.forEach(function (university) {
-        universityList.push({value: university._id, text: university.name})
-      })
-      console.log(universityList);
-      res.send(universityList);
+    University.find({}).sort({name: 1}).select('_id name').exec(function (err, universities) {
+      if (err) 
+        {
+          res.status(400);
+          res.send('error');
+        }
+      else{
+        var universityList = [];
+        universities.forEach(function (university) {
+          // formating the data to be readable by x-editable library
+          universityList.push({value: university._id, text: university.name});
+        })
+        console.log(universityList);
+        res.send(universityList);
+      }
     });
 };
 

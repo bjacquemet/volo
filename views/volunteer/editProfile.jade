@@ -50,6 +50,9 @@ block content
   -if (number == 1) return number + ' recommendation'
   -else return number + ' recommendations'
   -}
+  -function lowerToCapitalize(str){
+  -return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  -}
 
   .container-fluid.profile_container
     .col-md-7.col-md-push-1.col-xs-12.col-sm-12.no-gutter_l
@@ -294,7 +297,7 @@ block content
                   each skill in skills
                     .col-md-12.no-gutter_l.barContainer
                       .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
-                        span #{skill._id.name}
+                        span #{lowerToCapitalize(skill._id.name)}
 
       .row.row-centered
         .col-md-12
@@ -388,11 +391,14 @@ block content
               .col-md-push-2.col-md-8.col-sm-push-2.col-sm-8.col-xs-12#totalGoal
                 p.text-center
                   em #{hours} hours
+
             .col-md-12.col-sm-12.col-xs-12.break
+
             h5 Hours volunteered <em>this week</em>
             canvas(id="w_goal", height="230px")
-            p You've reached your weekly goal!! <em>
-              a(href="#") Share it </em>
+            p.w_goal_achieved You've reached your weekly goal!!
+            em.w_goal_achieved
+              a(href="#") Share it
 
     .modal.fade#uploadModal(tabindex='-1')
       .modal-dialog

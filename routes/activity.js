@@ -18,10 +18,12 @@ function ensureAdmin(req, res, next) {
 
 // router.get("/skills/:id", ActivityController.getVolunteerSkills);
 
-// GET one activity details
+// Get one activity details
+// param: _id (id of an activity)
+// sending back a json
 router.get("/get/:id", ensureAuthenticated, ActivityController.get)
 
-// create new activity
+// Create new activity
 router.post("/new", ensureAuthenticated, ActivityController.new);
 
 // Validation page for referees
@@ -30,9 +32,12 @@ router.get('/validation', ActivityController.ActivityToBeValidatedByRefereeEmail
 // Get total accepted hours for authenticated user
 router.get('/totalHours', ensureAuthenticated, ActivityController.getTotalHours)
 
+// Get weekly hours for the authenticated user
+router.get('/weeklyHours', ensureAuthenticated, ActivityController.getWeeklyHours)
+
 // router.get('/all_pending', ActivityController.allPending)
 
-// Accept one activity
+// Accept one activity (for referee or admin)
 router.post("/accept", ActivityController.accept);
 
 // Decline one activity

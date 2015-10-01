@@ -1,8 +1,7 @@
 var Nonprofit = require('../models/nonprofit');
 
 exports.list = function(req,res) {
-    Nonprofit.find({}).sort({name: 1}).select('_id name suggested_by_volunteer').exec(function(err,nonprofits) {
-      // res.setHeader('Cache-Control', 'public, max-age=31557600');
+    Nonprofit.find({}).sort({name: 1}).select('_id name').exec(function(err,nonprofits) {
       res.send(nonprofits);
     });
 };

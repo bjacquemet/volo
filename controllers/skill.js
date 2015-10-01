@@ -4,8 +4,6 @@ exports.list = function(req, res) {
   Skill.find({}).sort({name: 1}).select('_id name').exec(function (err,skills) {
     if (err) res.sendStatus(400);
     else {
-      // res.setHeader('Cache-Control', 'public, max-age=31557600');
-      console.log(skills);
       res.send(skills);
     }
   });

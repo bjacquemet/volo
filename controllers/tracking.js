@@ -344,6 +344,8 @@ function isAuthorized (req, res, university, callback) {
       callback(true);
     }
     else {
+      // TODO: not working if ID, is it?
+      // Idea is to change that to a matching document in mongolab
       switch(university) {
         case "University of Westminster":
           if (req.user.usertype.indexOf('westminster') > 0) callback(true);
