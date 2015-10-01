@@ -482,13 +482,13 @@ exports.decline = function (req, res) {
 }
 
 exports.update_notes = function (req, res) {
-  if (!req.body.notes || !req.body.activity) {
+  if (!req.body.activity) {
     res.status(400);
-    res.send('Field(s) missing');
+    res.send('Activity missing');
   }
   else
   {
-    var notes = req.body.notes,
+    var notes = req.body.notes || '',
         activity = req.body.activity;
     var json = {notes: notes};
     console.log(json);

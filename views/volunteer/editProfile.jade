@@ -500,15 +500,14 @@ block content
       });
 
     $('.editForm').submit(function(event) {
-      console.log('submiting');
       event.preventDefault();
+      var $this = $(this);
       $(this).ajaxSubmit({
         error: function(xhr) {
           console.log(xhr);
         },
         success: function(response) {
-        console.log(response);
-          location.reload();
+          $this.parent().closest('.modal').modal('toggle');
         }
       });
     });
