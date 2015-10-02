@@ -6,7 +6,7 @@ block content
   - if(isNaN(newDate.getFullYear())) return '';
   - var y = newDate.getFullYear();
   - var m = newDate.getMonth();
-  - if (m <10) = = '0'+m;
+  - if (m <10) m = '0'+m;
   - var d = newDate.getDate();
   - if (d <10) d= '0'+d;
   - return m +' '+d+', '+y;

@@ -330,12 +330,10 @@ exports.listActivitiesForAdmin = function (req, res) {
             Skill.populate(activities, {path:'activities.skills', select: 'name'}, function (err, skill_activity) {
               Role.populate(skill_activity, {path: 'activities.role', select: "name"}, function (err, skill_activity_role) {
                 Volunteer.populate(skill_activity_role, {path: "activities.volunteer", select: 'first_name last_name photo email university position'}, function (err, skill_activity_role_vol) {
-                  console.log(JSON.stringify(skill_activity_role_vol));
                   University.populate(skill_activity_role_vol, {path: 'activities.volunteer.university', select: 'name'}, function(err, skill_activity_role_vol_uni) {
                     Experience.populate(skill_activity_role_vol_uni, {path: "activities.experience", model: 'Experience', select: 'nonprofit'}, function (err, skill_activity_role_vol_uni_exp) {
                       Experience.populate(skill_activity_role_vol_uni_exp, {path: 'activities.experience.nonprofit', model: 'Nonprofit'}, function (err, full_activities) {
                         // res.send(full_activities);
-                        console.log(full_activities);
                         res.locals.createPagination = function (pages, page) {
                           var url = require('url')
                             , qs = require('querystring')
