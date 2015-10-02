@@ -3,6 +3,11 @@ var Schema = mongoose.Schema;
 
 var Nonprofit = new Schema({
     name: {type: String, unique:true},
+    logo: { 
+      contentType: {type: String, default: 'image/png'}, 
+      path: {type: String, default: '/images/img_placeholder.png'}, 
+      name: {type: String, default: 'img_placeholder.png'}
+    },
     // logo: { data: Buffer, contentType: String, path: String },
     // header_image: { data: Buffer, contentType: String, path: String },
     // tagline: String,

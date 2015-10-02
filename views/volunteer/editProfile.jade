@@ -138,48 +138,6 @@ block content
                     |&nbsp;(
                     a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
                     |)
-                  //- - if (volunteer.graduate && volunteer.area_of_study && volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="#{volunteer.degree}", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (volunteer.graduate && volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (volunteer.graduate && !volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")   
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (!volunteer.graduate && volunteer.area_of_study && volunteer.degree)
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="#{volunteer.degree}", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (!volunteer.graduate && volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
 
                   - if (volunteer.graduation_year)
                     |&nbsp;in 
@@ -211,56 +169,6 @@ block content
                     a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
                     |)
 
-
-                  //- - if (volunteer.graduate && volunteer.area_of_study && volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="#{volunteer.degree}", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (volunteer.graduate && volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (volunteer.graduate && !volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="#{volunteer.graduate}", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")   
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (!volunteer.graduate && volunteer.area_of_study && volunteer.degree)
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="#{volunteer.degree}", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (!volunteer.graduate && !volunteer.area_of_study && volunteer.degree)
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="#{volunteer.degree}", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else if (!volunteer.graduate && volunteer.area_of_study && !volunteer.degree)
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="#{volunteer.area_of_study}", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
-                  //- - else
-                  //-   a(href="#", data-value="", id="graduate", data-type="select", data-pk="#{volunteer._id}", data-id="graduate", data-placeholder="Graduate", data-url="/volunteer/update", data-title="Enter graduate")  
-                  //-   |&nbsp;in 
-                  //-   a(href="#", data-value="", id="area_of_study", data-type="select", data-pk="#{volunteer._id}", data-id="area_of_study", data-placeholder="Area Of Study", data-url="/volunteer/update", data-title="Enter Area Of Study")
-                  //-   |&nbsp;(
-                  //-   a(href="#", data-value="", id="degree", data-type="text", data-pk="#{volunteer._id}", data-id="degree", data-placeholder="Degree", data-url="/volunteer/update", data-title="Enter Degree")
-                  //-   |)
 
                   - if (volunteer.graduation_year)
                     |&nbsp;graduating in  
@@ -583,7 +491,7 @@ block content
                 if (m <10) m = '0'+m;
                 var d = newDate.getDate();
                 if (d <10) d = '0'+d;
-                $('#checkActivityModal p.s_date_data em').text(m+'/'+d+'/'+y);
+                $('#checkActivityModal p.s_date_data em').text(d+'/'+m+'/'+y);
                 if (data.end_date)
                   {
                   var endDate = new Date(data.end_date);
@@ -592,7 +500,7 @@ block content
                   if (m_e <10) m_e = '0'+m_e;
                   var d_e = endDate.getDate();
                   if (d_e <10) d_e = '0'+d_e;
-                  $('#checkActivityModal p.e_date_data em').text(m_e+'/'+d_e+'/'+y_e);
+                  $('#checkActivityModal p.e_date_data em').text(d_e+'/'+m_e+'/'+y_e);
                   }
                 $('#checkActivityModal input[name=activity]').val(data._id);
                 $('#checkActivityModal p.role_data em').text(lowerToCapitalize(data.role.name));
