@@ -212,6 +212,23 @@ exports.update = function (req, res) {
   }
 }
 
+exports.getByNonprofitId = function (req, res) {
+  if (req.params.id) {
+    Experience.find({nonprofit: req.params.id}).select('volunteer').populate('volunteer', 'first_name last_name photo').exec(function (err, volunteers) {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      }
+      else {
+        res.send(volunteers)
+      }
+    }) 
+  }
+  else {
+    res.sendStatus(400);
+  }
+}
+
 exports.getByVolunteerIdParam = function(req,res) {
   getVolunteerExperiences(req.params.id, function(response) {
     res.send(response.experiences);

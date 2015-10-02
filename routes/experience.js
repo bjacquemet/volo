@@ -10,4 +10,6 @@ router.post("/new", ExperienceController.new);
 
 router.post("/update", ExperienceController.update);
 
+router.get("/volunteersByNonprofit/:id", ExperienceController.getByNonprofitId);
+
 module.exports = router;
