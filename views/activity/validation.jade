@@ -26,6 +26,9 @@ block content
   -if (number == 1) return number + ' hour'
   -else return number + ' hours'
   -}
+  -function lowerToCapitalize(str){
+  -return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  -}
 
   script(src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js")
 
@@ -75,16 +78,16 @@ block content
                     p <em>#{activity.volunteer.position}</em>
                   p 
                     |Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em> as 
-                    em #{activity.role.name}
+                    em #{lowerToCapitalize(activity.role.name)}
 
                   - if (activity.skills.length > 0)
                     p Skills acquired: 
                       each skill, i in activity.skills
                         em
                           if (i == 0)
-                            span #{skill.name}
+                            span #{lowerToCapitalize(skill.name)}
                           else
-                            span , #{skill.name}
+                            span , #{lowerToCapitalize(skill.name)}
                 .col-md-3.col-sm-3.col-xs-12.text-center
                   a(href="#", class="btn sharp btn-lg btn-primary first-btn btn-validate", data-toggle="modal", data-target="#acceptModal", data-response="accept", data-activity="#{activity._id}" data-referee="#{activity.referee.name}") Accept
                   a(href="#", class="btn sharp btn-lg btn-default btn-validate btn-decline", data-toggle="modal", data-target="#declineModal", data-response="decline", data-activity="#{activity._id}",) Decline

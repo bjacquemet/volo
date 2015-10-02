@@ -37,6 +37,9 @@ block content
   -if (number == 1) return number + ' recommendation'
   -else return number + ' recommendations'
   -}
+  -function lowerToCapitalize(str){
+  -return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  -}
 
   div.container-fluid.profile_container
     div.row.row-centered
@@ -114,7 +117,7 @@ block content
                 each skill in skills
                   .col-md-12.no-gutter_l.barContainer
                     .bar(style="width:#{bar_size(skill.sum_hours)};background-color:rgba(162, 255, 0, #{color_opacity(skill.sum_hours)})")
-                      span #{skill._id.name}
+                      span #{lowerToCapitalize(skill._id.name)}
     
     if (experiences.length > 0)       
       .row.row-centered
@@ -135,9 +138,9 @@ block content
                         each skill, i in experience.skills_list
                           em
                             if (i == 0)
-                              span #{skill.name}
+                              span #{lowerToCapitalize(skill.name)}
                             else
-                              span , #{skill.name}
+                              span , #{lowerToCapitalize(skill.name)}
                     - if (experience.recommendation_number > 0)
                         p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
                   .col-md-2.col-md-offset-1

@@ -1,10 +1,20 @@
 var Role = require('../models/role');
 
+function lowerToCapitalize(str){
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 exports.list = function(req,res) {
   Role.find({}).sort({name: 1}).select('_id name').exec(function (err,roles) {
     if (err) res.sendStatus(400);
     else {
-      res.send(roles);
+      var array_role = [],
+          name = '';
+      roles.forEach(function (role) {
+        name = lowerToCapitalize(role.name);
+        array_role.push({_id: role._id, name: name})
+      })
+      res.send(array_role);
     }
   });
 };
@@ -19,6 +29,7 @@ exports.new =function(req,res) {
   else
   {
     var name = req.body.name;
+    name = name.toLowerCase();
     if (Object.prototype.toString.call(name) === '[object Array]')
     {
       var name_is_array = true;

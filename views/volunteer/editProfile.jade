@@ -322,13 +322,13 @@ block content
                     != "<div class='row'>"
                       .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
                         .col-md-12.grey_background
-                          p Role: <em>#{activity.role.name}</em>
+                          p Role: <em>#{lowerToCapitalize(activity.role.name)}</em>
                           p Skills: <em>
                             each skill, i in activity.skills
                               if (i == 0)
-                                span #{skill.name}
+                                span #{lowerToCapitalize(skill.name)}
                               else
-                                span , #{skill.name}
+                                span , #{lowerToCapitalize(skill.name)}
                             </em>
                           p <em>#{activity.hours} Hours</em>
                           p.validation #{activity.validated}
@@ -339,13 +339,13 @@ block content
                   else
                     .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
                       .col-md-12.grey_background
-                        p Role: <em>#{activity.role.name}</em>
+                        p Role: <em>#{lowerToCapitalize(activity.role.name)}</em>
                         p Skills: <em>
                           each skill, i in activity.skills
                             if (i == 0)
-                              span #{skill.name}
+                              span #{lowerToCapitalize(skill.name)}
                             else
-                              span , #{skill.name}
+                              span , #{lowerToCapitalize(skill.name)}
                           </em>
                         p <em>#{activity.hours} Hours</em>
                         p.validation #{activity.validated}
@@ -511,6 +511,9 @@ block content
         }
       });
     });
+    function lowerToCapitalize(str){
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
   
     $('.activity').on('click', function () {
       if ($(this).data("validated") == "pending")
@@ -592,8 +595,8 @@ block content
                   $('#checkActivityModal p.e_date_data em').text(m_e+'/'+d_e+'/'+y_e);
                   }
                 $('#checkActivityModal input[name=activity]').val(data._id);
-                $('#checkActivityModal p.role_data em').text(data.role.name);
-                $('#checkActivityModal p.skills_data em').text(data.skills_list_name.join(', '));
+                $('#checkActivityModal p.role_data em').text(lowerToCapitalize(data.role.name));
+                $('#checkActivityModal p.skills_data em').text(lowerToCapitalize(data.skills_list_name.join(', ')));
                 $('#checkActivityModal p.hours_data em').text(data.hours);
                 $('#checkActivityModal textarea[name=notes]').val(data.notes);
                 $('#checkActivityModal p.referee_name').text(data.referee.name);

@@ -27,6 +27,9 @@ block content
   -if (number == 1) return number + ' hour'
   -else return number + ' hours'
   -}
+  -function lowerToCapitalize(str){
+  -return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  -}
 
   div.container-fluid
     div.row.row-centered
@@ -72,9 +75,9 @@ block content
                         each skill, i in activity.skills
                           em
                             if (i == 0)
-                              span #{skill.name}
+                              span #{lowerToCapitalize(skill.name)}
                             else
-                              span , #{skill.name}
+                              span , #{lowerToCapitalize(skill.name)}
                     p Status of his activity is <em>#{activity.validated}</em>
                   .col-md-4.col-sm-4.col-xs-12
                     p.volunteer_name.text-left Referee: #{activity.referee.name}
