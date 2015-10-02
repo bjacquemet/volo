@@ -386,9 +386,31 @@ h1.logo {
 }
 
 .user-bg {
-  img {
+  .greenify {
+    height: 150px;
     width: 150px;
-    .rounded(50%);
+    background-size: contain;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+    display: inline-block;
+    &::before{
+        position: absolute;
+        .transition(all .25s);
+        content: " ";
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 0;
+        background-color: fade(@volo-green, 40%);
+        .rounded(50%);
+    }
+  }
+  &:hover > .greenify::before{
+    opacity: 1;
   }
 }
 

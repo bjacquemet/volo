@@ -102,12 +102,12 @@ block content
               var v_id = '/volunteer/photo/'+this._id;
               $('.volunteer_list').append(
                 '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
-                  <div class="col-md-12 col-sm-12 col-xs-12 text-center user-bg"> \
-                    <img src="' + v_photo + '"/ alt=""> \
-                      <a href="'+v_url +'"> \
-                        <p class="volunteer_name">'+ v_first_name +'</p> \
-                      </a> \
-                  </div> \
+                  <a href="'+v_url+'"> \
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center user-bg"> \
+                      <div class=\'greenify\' style=\'background-image:url("'+ v_photo+'")\'></div> \
+                       <p class="volunteer_name">'+ v_first_name +'</p> \
+                    </div> \
+                  </a> \
                 </div>');
             });
           },
