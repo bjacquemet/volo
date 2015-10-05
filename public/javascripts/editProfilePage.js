@@ -118,7 +118,7 @@ $('.activity').on('click', function () {
           }
         });
       }
-})
+});
   
   //- Editable set up
   $('#first_name').editable({emptytext: 'First Name'});
@@ -166,7 +166,7 @@ $('.activity').on('click', function () {
   $('#email').editable({
     emptytext: 'Email',
     validate: function(value) {
-        if($.trim(value) == '') {
+        if($.trim(value) === '') {
             return "This field can't be empty required";
         }
     },
@@ -177,7 +177,7 @@ $('.activity').on('click', function () {
   $('#phone').editable({
     emptytext: 'Phone Number', 
     validate: function (value) {
-      if (/^[0-9 \-()+]{3,20}$|(^$)/i.test(value) == false) {
+      if (/^[0-9 \-()+]{3,20}$|(^$)/i.test(value) === false) {
         return  'Please enter a valid phone number';
       }
     },
@@ -493,10 +493,10 @@ $('.activity').on('click', function () {
     $('html, body').animate({
       scrollTop: $(".recommendation").offset().top
     }, "slow");
-  })
+  });
 
   var today = new Date(); 
-  var year = today.getFullYear()
+  var year = today.getFullYear();
   var month = today.getMonth()+1;
   if (month <10) month = '0'+month;
   var day = today.getDate()+1;
@@ -506,11 +506,11 @@ $('.activity').on('click', function () {
   $('input[name="e_date"]').attr("max", year+"-"+month+'-'+day);
   
   $('.little').on('click', function () {
-    if ($('#editActivityModal').hasClass('in') == true)
+    if ($('#editActivityModal').hasClass('in') === true)
       {
         $('#editActivityModal').modal('hide');
       }
-  })
+  });
 
   $(':input[type=number]').on('mousewheel', function(e){
       e.preventDefault();
@@ -774,5 +774,5 @@ $('.activity').on('click', function () {
 
   $('.modal').on('shown.bs.modal', function () {
     $(this).find('input:text:visible:first').focus();
-  })
+  });
 });

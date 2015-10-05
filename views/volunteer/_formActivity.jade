@@ -27,14 +27,8 @@ form(action="/activity/new", method="POST", class="activity_form col-md-12 col-s
 
   h4 Referee
   p 
-    |Please enter the name and contact details of someone involved in your project who can confirm what you do there.
-    |This person should be aged 18 or over, and you must ask their permission before giving us their details.
-    em The name of the referee will appear on your recommendation if he decides to make you one.
+    |Please enter the name and contact details of someone from the organisation that can confirm your volunteer work and hours. 
   .form-group.col-md-12.no-gutter
-    .col-md-12.col-sm-12.col-xs-12.no-gutter
-      p 
-        input.checkbox-inline(type="checkbox", value="true", name="validated_via_email")
-        |I have a signed document from the organisation verifying my work. Please, also send it to <a href="mailto:melissa@volo.org.uk">melissa@volo.org.uk</a> to speed up the verification process. 
     .col-md-6.col-sm-6.col-xs-12.no-gutter
       label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_name") Referee name *
       input.col-md-12.col-sm-12.col-xs-12(name="referee_name", type="text", pattern="[a-zA-Z ]+", required, title="Please enter the real name of the referee, this name will appear on your recommendation if he decides to make you one" \
@@ -47,10 +41,20 @@ form(action="/activity/new", method="POST", class="activity_form col-md-12 col-s
     label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="referee_email") Referee email *
     input.col-md-12.col-sm-12.col-xs-12(name="referee_email", type="email", required)
 
+    p 
+      |This person should be aged 18 or over and you must ask their permission before giving us their details. 
+      |Please note that the name you enter above will be displayed in the e-mail sent to your referee and on your public profile if they write you a recommendation.
+
+    .col-md-12.col-sm-12.col-xs-12.no-gutter
+      p 
+        input.checkbox-inline(type="checkbox", value="true", name="validated_via_email")
+        |If you already have a <em>signed document confirming your work with this organisation</em>, please tick this box and we will not send an e-mail to the referee. 
+        |You MUST also e-mail your signed document to <a href="mailto:melissa@volo.org.uk">Melissa@volo.org.uk</a> in order to get credit on your VOLO profile.
+
   h4 Personal Notes
   .form-group.col-md-12.no-gutter
-    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="notes") You can write personal notes - they won't be public.
-    textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="You can add the situation, tasks, actions and results you obtain with this experience")
+    label.col-md-12.col-sm-12.col-xs-12.no-gutter(for="notes") Add personal notes regarding this activity – they won’t be public. 
+    textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="Track the situations, tasks, actions and results you encounter through your volunteer experiences. You can refer back to these notes to help you better prepare for interviews.")
 
   .form-group.col-md-12.text-center
     input(type="submit", value="Add activity", class="btn btn-primary sharp")

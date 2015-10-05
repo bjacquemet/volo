@@ -9,6 +9,6 @@ $(document).on('ready', function () {
   $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     return results[1] || 0;
-  }
-  if ($.urlParam("search") != 0) $('input').val(decodeURIComponent($.urlParam("search")).replace(/\+$/, '').replace(/\+|\%2B/g, ' '));
-})
+  };
+  if ($.urlParam("search") !== 0) $('input').val(decodeURIComponent($.urlParam("search")).replace(/\+$/, '').replace(/\+|\%2B/g, ' '));
+});

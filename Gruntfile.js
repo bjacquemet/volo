@@ -13,10 +13,22 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
+        reporter: require('jshint-stylish'), // use jshint-stylish to make our errors look and read good
+        multistr: true
       },
       // when this task is run, lint the Gruntfile and all js files in src
-      build: ['Grunfile.js', ['public/javascripts/script.js', 'public/javascripts/goal.js']]
+      build: ['Grunfile.js', ['public/javascripts/global.js', 
+                              'public/javascripts/indexPage.js', 
+                              'public/javascripts/adminValidationPage.js', 
+                              'public/javascripts/validationPage.js', 
+                              'public/javascripts/corporateProfilePage.js', 
+                              'public/javascripts/nonprofitProfilePage.js', 
+                              'public/javascripts/resetPage.js', 
+                              'public/javascripts/editProfilePage.js', 
+                              'public/javascripts/volunteerProfilePage.js', 
+                              'public/javascripts/searchPage.js', 
+                              'public/javascripts/loginPage.js', 
+                              'public/javascripts/goal.js']]
     },
 
     uglify: {
@@ -34,7 +46,8 @@ module.exports = function(grunt) {
           'public/javascripts/resetPage.min.js': 'public/javascripts/resetPage.js',
           'public/javascripts/editProfilePage.min.js': ['public/javascripts/editProfilePage.js', 'public/javascripts/goal.js'],
           'public/javascripts/volunteerProfilePage.min.js': 'public/javascripts/volunteerProfilePage.js',
-          'public/javascripts/searchPage.min.js': 'public/javascripts/searchPage.js'
+          'public/javascripts/searchPage.min.js': 'public/javascripts/searchPage.js',
+          'public/javascripts/loginPage.min.js': 'public/javascripts/loginPage.js'
         }
       }
     },

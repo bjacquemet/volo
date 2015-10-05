@@ -24,7 +24,7 @@ $(document).ready(function() {
         $back.removeClass('fadeout');
         $doc.on('click', closeImage);
         $doc.keyup(function(e) {
-          if (e.keyCode == 27) { closeImage() }  
+          if (e.keyCode == 27) { closeImage(); }  
         });
       }, 20);
       $(window).resize();
