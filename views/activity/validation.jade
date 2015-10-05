@@ -112,47 +112,6 @@ block content
                       input(type="hidden", name="referee", class='referee')
                       input(type="submit", value="I just want to accept the activity", class="btn btn-default modal-submit")
 
-      script.
-        $(document).ready(function() {
-          $(".btn-validate").on('click', function () {
-            var activityID = $(this).data('activity');
-            var referee = $(this).data('referee');
-            $(".referee").val(referee);
-            $(".activityId").val(activityID);
-          });
-
-          $('.btn-decline').on('click', function () {
-            var activityID = $(this).data('activity');
-            $(".activityId").val(activityID);
-          });
-
-          //- $('.modal form').on('submit', function (e) {
-          //-   e.preventDefault();
-          //-   location.reload();
-          //- })
-
-          $('#acceptModal form').submit(function(event) {
-            event.preventDefault();
-            $(this).ajaxSubmit({
-              error: function(xhr) {
-                console.log(xhr);
-              },
-              success: function(response) {
-                location.reload();
-              }
-            });
-          });
-
-          $('#declineModal form').submit(function(event) {
-            event.preventDefault();
-            $(this).ajaxSubmit({
-              error: function(xhr) {
-                console.log(xhr);
-              },
-              success: function(response) {
-                location.reload();
-              }
-            });
-          });
-        });
+      script(src="/javascripts/validationPage.min.js")
+        
         

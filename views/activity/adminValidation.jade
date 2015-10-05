@@ -96,28 +96,6 @@ block content
                       input(type="hidden", name="activityId", class="activityId")
                       input(type="submit", value="Accept experience", class="btn btn-primary modal-submit")
 
-      script.
-        $(document).ready(function() {
-          $(".btn-validate").on('click', function () {
-            var activityID = $(this).data('activity');
-            $(".activityId").val(activityID);
-          });
+      script(src="/javascripts/adminValidationPage.min.js")
 
-          //- $('.modal form').on('submit', function (e) {
-          //-   e.preventDefault();
-          //-   location.reload();
-          //- })
-
-          $('form').submit(function(event) {
-            event.preventDefault();
-            $(this).ajaxSubmit({
-              error: function(xhr) {
-                console.log(xhr);
-              },
-              success: function(response) {
-                location.reload();
-              }
-            });
-          });
-        });
         

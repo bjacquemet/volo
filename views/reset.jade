@@ -27,12 +27,4 @@ block content
             button.btn.btn-primary(type='submit') Update Password
 
 
-  script.
-    $('form').validate({
-      rules:{
-        password: required,
-        confirm: {
-          equalTo: password
-        }
-      }
-    });
+  script(src="/javascripts/resetPage.min.js")

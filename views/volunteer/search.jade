@@ -54,18 +54,4 @@ block content
                 .col-md-2.col-sm-2.col-xs-12.text-center
                   a(href="/volunteer/#{result._id}", class="btn sharp btn-lg first-btn btn-primary") View
 
-    script.
-      $(document).on('ready', function () {
-        $('form').submit(function (){
-          $input = $(this).find('input');
-          if ($input.val().substr($input.val().length - 1) == ' ')
-            {
-              $input.val($input.val().substr(0, $input.val().length-1));
-            }
-        });
-        $.urlParam = function(name){
-          var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-          return results[1] || 0;
-        }
-        if ($.urlParam("search") != 0) $('input').val(decodeURIComponent($.urlParam("search")).replace(/\+$/, '').replace(/\+|\%2B/g, ' '));
-      })
+      script(src="/javascripts/searchPage.min.js")

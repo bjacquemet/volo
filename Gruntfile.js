@@ -25,8 +25,16 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          'public/javascripts/script.min.js': 'public/javascripts/script.js', 
-          'public/javascripts/goal.min.js': 'public/javascripts/goal.js'
+          'public/javascripts/global.min.js': 'public/javascripts/global.js',
+          'public/javascripts/indexPage.min.js': 'public/javascripts/indexPage.js',
+          'public/javascripts/adminValidationPage.min.js': 'public/javascripts/adminValidationPage.js',
+          'public/javascripts/validationPage.min.js': 'public/javascripts/validationPage.js',
+          'public/javascripts/corporateProfilePage.min.js': 'public/javascripts/corporateProfilePage.js',
+          'public/javascripts/nonprofitProfilePage.min.js': 'public/javascripts/nonprofitProfilePage.js',
+          'public/javascripts/resetPage.min.js': 'public/javascripts/resetPage.js',
+          'public/javascripts/editProfilePage.min.js': ['public/javascripts/editProfilePage.js', 'public/javascripts/goal.js'],
+          'public/javascripts/volunteerProfilePage.min.js': 'public/javascripts/volunteerProfilePage.js',
+          'public/javascripts/searchPage.min.js': 'public/javascripts/searchPage.js'
         }
       }
     },

@@ -8,6 +8,11 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login')
 }
 
+function isLogedIn (req, res, next) {
+  if (req.user) res.redirect('/');
+  else return next();
+}
+
 router.post('/register', IndexController.register);
 router.post('/login', IndexController.login);
 router.post('/forgot', IndexController.forgot);
@@ -19,14 +24,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Home', user: req.user });
 });
 
-router.get('/register', function(req, res) {
+router.get('/register', isLogedIn, function(req, res) {
   res.header('Cache-Control', 'public, max-age=31557600');
   res.render('register', {title: "Register"});
 });
 
-router.get('/login', function(req, res) {
+router.get('/login', isLogedIn, function(req, res) {
   res.header('Cache-Control', 'public, max-age=31557600');
-  res.render('login', { user : req.user, info: req.flash('error'), title: "Login" });
+  res.render('login', { info: req.flash('error'), title: "Login" });
 });
 
 router.get('/logout', function(req, res) {
@@ -83,11 +88,6 @@ router.get('/register-university', function (req, res, next) {
 ///////////////////////////////////////////////////////////
 ///////////// Static pages for wireframing ///////////////
 /////////////////////////////////////////////////////////
-
-// volunteer private profile
-router.get('/profile', function(req, res, next) {
-  res.render('profile', { title: 'Volunteer private profile', user: req.user });
-});
 
 // volunteer public profile
 router.get('/v_profile', function(req, res, next) {

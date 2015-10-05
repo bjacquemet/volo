@@ -173,6 +173,7 @@ nav {
   }
   .navbar-link {
     font-size: @font-size-base *0.9;
+    font-weight: 300;
   }
   .navbar-center{
     float: none;
@@ -207,7 +208,7 @@ nav {
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  font-weight: 400 !important;
+  font-weight: 400;
   background-color:inherit !important;
   color: @volo-green;
 }
@@ -243,18 +244,6 @@ h1.logo {
   h1, h2 {
     margin-top: 0px;
   }
-  a {
-    color: @brand-primary;
-    &:active, &:visited, &:focus{
-      color: @brand-primary;
-      text-decoration: none;
-    }
-    &:hover {
-      color: @brand-primary;
-      font-weight: 400;
-      text-decoration: underline;
-    }
-  }
 }
 
 .general {
@@ -275,6 +264,20 @@ h1.logo {
   }
   .content {
       border: 1px solid #ccc;
+      a {
+        color: @brand-primary;
+        &:active, &:visited, &:focus{
+          color: @brand-primary;
+          text-decoration: none;
+        }
+        &:hover {
+          color: @brand-primary;
+          font-weight: 400;
+          &:not(.editable) {
+            text-decoration: underline;
+          }
+        }
+      }
   }
 }
 
