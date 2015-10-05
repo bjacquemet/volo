@@ -61,15 +61,18 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                         p 
                           |We have received a request to validate a volunteer activity that was completed with your organisation.  
                           |We would very much appreciate your help in reviewing the below activity and either
-                          em Validating
+                          em Validating 
                           | or 
                           em Declining
                           |&nbsp;this request:
                     tr.colored
                       td(align='center', valign='top')
                         h3 #{volunteer.name}
-                        p Volunteered on the #{format_date(start_date)} during #{plurialize(hours)}.
-                        p With your help, he mentioned he acquired the following skills: <em>#{skills}</em>.
+                        p Volunteered on the #{format_date(start_date)} for #{plurialize(hours)}.
+                        p 
+                          |Skills Acquired: 
+                          br
+                          <em>#{skills}</em>.
                       td 
                         a.btn-primary(href="#{url}") Validate
                     -if (count > 0)
@@ -83,7 +86,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                       td(align='center', valign='top')
                         p Approving volunteering hours, helps individuals to track their community involvement and enhance their employability. 
                         p If you have any questions regarding this request, please do not hesitate to <a href="mailto:mellisa@volo.org.uk">contact us</a>!
-                        h4 We greatly appreciate your help and support of the volunteering community.
+                        h4 We greatly appreciate your help in supporting the volunteer community.
                         p <i>The VOLO team</i>
                         p
                           br
