@@ -21,7 +21,6 @@ router.get('/list', VolunteerController.list);
 router.get('/search', VolunteerController.searchProfile);
 
 // need to be the last one in order to not overwrite all the ones before.
-// TODO: create a by username to make it more URL friendly
 router.get('/:id', VolunteerController.getProfile);
 
 module.exports = router;

@@ -1,6 +1,13 @@
 var Activity = require('../models/activity');
 var Volunteer = require('../models/volunteer');
 var University = require('../models/university');
+var UniversityAdminRights = require('../models/university_admin_rights');
+
+exports.new = function (req, res) {
+  var newRight = UniversityAdminRights({university: req.body.university, right: req.body.right});
+  newRight.save()
+  // UniversityAdminRights.save({university: req.body.university, right: req.body.right});
+}
 
 function getStudentsOfUniversity (university, callback) {
   Volunteer.find({position: "student", university: university}, {select: '_id'}, function (err, students) {
@@ -344,21 +351,31 @@ function isAuthorized (req, res, university, callback) {
       callback(true);
     }
     else {
+      UniversityAdminRights.findOne({university:university}).exec(function (err, university) {
+        if (err) console.log(err);
+        else {
+          if (university) {
+            if (req.user.usertype.indexOf(university.right) > 0) callback(true);
+            else callback(false);
+          }
+          else callback(false);
+        }
+      })
       // TODO: not working if ID, is it?
       // Idea is to change that to a matching document in mongolab
-      switch(university) {
-        case "University of Westminster":
-          if (req.user.usertype.indexOf('westminster') > 0) callback(true);
-          else callback(false);
-          break;
-        case "City University":
-          if (req.user.usertype.indexOf('city') > 0) callback(true);
-          else callback(false);
-          break;
-        default:
-          callback(false);
-          break;
-      }
+      // switch(university) {
+      //   case "University of Westminster":
+      //     if (req.user.usertype.indexOf('westminster') > 0) callback(true);
+      //     else callback(false);
+      //     break;
+      //   case "City University":
+      //     if (req.user.usertype.indexOf('city') > 0) callback(true);
+      //     else callback(false);
+      //     break;
+      //   default:
+      //     callback(false);
+      //     break;
+      // }
     }
   }
   else callback(false);

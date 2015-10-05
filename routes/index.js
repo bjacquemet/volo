@@ -68,6 +68,18 @@ router.get('/students', function(req, res, next) {
   res.render('students', { title: 'Volunteer public profile', user: req.user });
 });
 
+// Registration form page for organizations
+router.get('/register-organisation', function (req, res, next) {
+  res.header('Cache-Control', 'public, max-age=31557600');
+  res.render('register-organisation', { title: 'Register your organisation', user: req.user });
+});
+
+// Registration form page for universities
+router.get('/register-university', function (req, res, next) {
+  res.header('Cache-Control', 'public, max-age=31557600');
+  res.render('register-university', { title: 'Register your university', user: req.user });
+});
+
 ///////////////////////////////////////////////////////////
 ///////////// Static pages for wireframing ///////////////
 /////////////////////////////////////////////////////////

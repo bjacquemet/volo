@@ -7,6 +7,7 @@ var fs = require('fs');
 var emailTemplates = require('email-templates');
 var path = require('path');
 var templatesDir = path.resolve(__dirname, '../templates', 'emails');
+var config = require('../config');
 
 exports.register = function(req, res) {
   if (req.body.usertype != 'volunteer')
@@ -14,8 +15,7 @@ exports.register = function(req, res) {
     var usertype = ['volunteer', req.body.usertype];
   }
   else var usertype = ['volunteer']; 
-  Volunteer.register(new Volunteer(
-    { 
+  var json_volunteer = { 
       username : req.body.username, 
       email: req.body.email, 
       usertype : usertype,
@@ -24,16 +24,16 @@ exports.register = function(req, res) {
       photo: {contentType: 'image/png', 
               originalPath: '/images/placeholder.png', 
               name: 'placeholder.png'}
-    }), 
+    };
+  Volunteer.register(new Volunteer(json_volunteer), 
     req.body.password, function(err, volunteer) {
       if (err) {
         return res.render("register", {info: err});
       }
       passport.authenticate('local')(req, res, function () {
             console.log('Volunteer created');
-            // welcome(json_volunteer, function () {
+            welcome(json_volunteer, function () {});
             res.redirect('/volunteer/edit');
-            // })
           });
     }
   );
@@ -42,20 +42,20 @@ exports.register = function(req, res) {
 function welcome (volunteer, callback)
 {
   var smtpTransport = nodemailer.createTransport({
-      // host: 'smtp.mailgun.org',
-      // service: "Mailgun",
-      // auth: {
-      //   user: process.env.EMAIL_USER,
-      //   pass: process.env.EMAIL_PASS
-      // }
-      host: '127.0.0.1',
-      port: 1025
+      host: config.email.host,
+      service: config.email.service,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+      // host: '127.0.0.1',
+      // port: 1025
     });
 
   locals = {
     email: volunteer.email,
     name: volunteer.first_name + ' ' + volunteer.last_name,
-    url: 'http://localhost:3000/volunteer/edit'
+    url: config.url + '/volunteer/edit'
   };
   // to do change url
   emailTemplates(templatesDir, function(err, template) {
@@ -114,12 +114,12 @@ exports.forgot_username = function (req, res, next) {
     function(user, done) {
       console.log(user);
       var smtpTransport = nodemailer.createTransport({
-        host: 'smtp.mailgun.org',
-        service: "Mailgun",
+        host: config.email.host,
+        service: config.email.service,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
-        }
+      }
       });
       var mailOptions = {
         to: user.email,
@@ -167,12 +167,12 @@ exports.forgot = function (req, res, next) {
     },
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
-        host: 'smtp.mailgun.org',
-        service: "Mailgun",
+        host: config.email.host,
+        service: config.email.service,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
-        }
+      }
       });
 
       var mailOptions = {
@@ -235,12 +235,12 @@ exports.updatePassword = function (req, res) {
     },
     function (user, done) {
       var smtpTransport = nodemailer.createTransport({
-        host: 'smtp.mailgun.org',
-        service: "Mailgun",
+        host: config.email.host,
+        service: config.email.service,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
-        }
+      }
       });
       var mailOptions = {
         to: user.email,

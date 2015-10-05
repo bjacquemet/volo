@@ -12,7 +12,7 @@ var templatesDir = path.resolve(__dirname, 'templates', 'emails');
 var async = require('async');
 var config = require('./config');
 
-function getActi () {
+function getActivities () {
 
   mongoose.connect(config.mongo_uri, function (err, res) {
     if (err) {
@@ -94,14 +94,12 @@ function sendEmail (ToBeValidated) {
       activities_to_remove;
 
   var smtpTransport = nodemailer.createTransport({
-    // host: 'smtp.mailgun.org',
-    // service: "Mailgun",
-    // auth: {
-    //   user: process.env.EMAIL_USER,
-    //   pass: process.env.EMAIL_PASS
-    // }
-    host: '127.0.0.1',
-    port: 1025
+    host: config.email.host,
+    service: config.email.service,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
   });
 
   ToBeValidated.forEach(function (pendings) {
@@ -172,8 +170,6 @@ function sendEmail (ToBeValidated) {
                     else removeFromList(activity);
                   })
                   }
-                  // mongoose.connection.close();
-                  // process.exit();
                 });
             }
           });
@@ -237,4 +233,4 @@ function removeFromList (id, last) {
   });
 }
               
-getActi();
+getActivities();
