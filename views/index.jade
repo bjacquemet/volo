@@ -67,13 +67,13 @@ block content
               .col-md-5.col-sm-5.col-xs-12
                 img.pictogram(src="/images/promote.svg", alt="VOLO promote")
               h4.col-md-7.col-sm-7.col-xs-12.text-left 4. Promote your skills to employers on your volunteer profile
+          
+          .col-md-12.col-sm-12.break
 
-          .col-md-12
-            p
-            br
-            |You can browse VOLO’s non-profit partners to identify valuable skill-based volunteer opportunities in your community.
-            |You can also opt in to receive weekly notifications of upcoming activities that might interest you. 
-            br
+          .col-md-10.col-md-push-1.col-sm-12.col-xs-12
+            p.text-justify
+              |You can browse VOLO’s non-profit partners to identify valuable skill-based volunteer opportunities in your community.
+              |You can also opt in to receive weekly notifications of upcoming activities that might interest you. 
         
         .col-md-12.col-sm-12.break
         .col-md-12.col-sm-12.break
@@ -86,6 +86,20 @@ block content
         .col-md-12.col-sm-12.col-xs-12
           h3.text-center.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12 Check out the VOLO Volunteers that are making a difference:
           .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.volunteer_list
+
+    .row.row-centered.colored
+      .col-md-10.col-md-offset-1.col-sm-12.col-xs-12.content
+        .col-md-12.col-xs-12.col-sm-12  
+          h3.text-center.col-md-4.col-md-offset-4.col-sm-8.col-sm-offset-2.col-xs-12 Find a volunteer:
+          .col-md-6.col-md-offset-3.col-xs-12.col-sm-12
+            form(action="/volunteer/search")
+              .input-group.col-md-12.col-xs-12.col-sm-12
+                input(type="text", name="search", class="form-control", placeholder="Type a volunteer name" )
+                span.input-group-btn
+                  button(class="btn btn-primary btn-search", type="button")
+                    i.glyphicon.glyphicon-search
+        
+        .col-md-12.col-sm-12.col-xs-12.break
 
 
     
