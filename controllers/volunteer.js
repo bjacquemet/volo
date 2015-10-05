@@ -8,25 +8,42 @@ var RecommendationController = require('../controllers/recommendation');
 var path = require('path');
 var qt = require('quickthumb');
 var aws = require('aws-sdk');
+var mongoose = require('mongoose');
 var fs = require('fs');
 var sys = require('sys')
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
+function isObjectId(n) {
+  return mongoose.Types.ObjectId.isValid(n);
+}
+
 function getProfileById (volunteer_id, callback) {
-  Volunteer.findById(volunteer_id).populate('university').exec(function (err, volunteer) {
-      if (err || !volunteer) {
-        console.log(err);
-      }
-      else {
-        ExperienceController.getByVolunteerId(volunteer._id, function(response) {
-          callback({
-            experiences: response.experiences,
-            volunteer: volunteer
-          });
-        });
-      }
-    });
+  if (volunteer_id && isObjectId(volunteer_id)){
+    Volunteer.findById(volunteer_id).populate('university').exec(function (err, volunteer) {
+        if (err) {
+          console.log(err);
+          callback(false);
+        }
+        else {
+          if (volunteer) {
+            ExperienceController.getByVolunteerId(volunteer._id, function(response) {
+              callback({
+                experiences: response.experiences,
+                volunteer: volunteer
+              });
+            });
+          }
+          else {
+            callback(false);
+          }
+        }
+      });
+  }
+  else
+  {
+    callback(false);
+  }
 };
 
 exports.list = function(req, res) {
@@ -38,36 +55,6 @@ exports.list = function(req, res) {
                         {limit:16}, function (err, volunteers) {
                           res.send(volunteers);
   });
-};
-
-exports.getPhotoByVolunteerId = function(req,res) {
-    Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
-      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
-      var params = {
-          Bucket: 'volo-crop-image',
-          Key: volunteer.photo.name
-        };
-      res.set("Content-Type", volunteer.photo.contentType);
-      console.log(volunteer.photo);
-      // res.send(fs.readFileSync('public/images/placeholder.png'));
-      if (volunteer.photo.cropedPath) {
-        console.log('croped');
-        s3.getObject(params, function (err, data) {
-          if (err) {
-            res.sendStatus(401)
-            console.log(err);
-          }
-          else {
-            console.log(data);
-            res.send(data.Body);
-          }
-        })
-      }
-      else {
-        res.send(fs.readFileSync(volunteer.photo.originalPath));
-      }
-      // res.send(volunteer.photo.data);
-    });
 };
 
 function putPhototoS3 (file, callback) {
@@ -97,7 +84,6 @@ function putPhototoS3 (file, callback) {
 
 exports.postPhoto = function(req,res) {
   if(typeof(req.files.userPhoto.path) != 'undefined') {
-    console.log('entering');
     console.log(req.files);
     var options = {
       src: req.files.userPhoto.path,
@@ -129,6 +115,7 @@ exports.postPhoto = function(req,res) {
                 }
                 else {
                   console.log('Successfully updated: ' + volunteer);
+                  res.status(201);
                   res.end(req.files.userPhoto.path);
                 }
               })
@@ -145,7 +132,8 @@ exports.postPhoto = function(req,res) {
 };
 
 exports.getEditProfile = function(req, res, next) {
-  getProfileById(req.user._id, function (complete_profile){
+  var loggedin_user = req.user._id.toString()
+  getProfileById(loggedin_user, function (complete_profile){
     var volunteer = complete_profile.volunteer;
     var experiences = complete_profile.experiences;
     ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
@@ -166,23 +154,33 @@ exports.getEditProfile = function(req, res, next) {
 };
 
 exports.getProfile = function (req, res, next) {
-  getProfileById(req.params.id, function (complete_profile){
-    var volunteer = complete_profile.volunteer;
-    var experiences = complete_profile.experiences;
-    ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
-      if (err) console.log(err);
+  if (req.params.id) {
+    getProfileById(req.params.id, function (complete_profile){
+      if (complete_profile == false) {
+        res.render('volunteer/profile', { title: 'VOLO profile not found', 
+                user: req.user, 
+                volunteer: null 
+        });
+      }
       else {
-        RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
-          res.render('volunteer/profile', { title: volunteer.first_name + ' ' + volunteer.last_name + '\'s VOLO profile', 
-            user: req.user, 
-            volunteer: volunteer, 
-            experiences: experiences,
-            volunteer_skills: skills,
-            recommendations: reco });
-        })
+        var volunteer = complete_profile.volunteer;
+        var experiences = complete_profile.experiences;
+        ActivityController.getVolunteerSkills(req.params.id, function (err, skills) {
+          if (err) console.log(err);
+          else {
+            RecommendationController.getRecofromVolunteerId(req.params.id, function (err, reco) {
+              res.render('volunteer/profile', { title: volunteer.first_name + ' ' + volunteer.last_name + '\'s VOLO profile', 
+                user: req.user, 
+                volunteer: volunteer, 
+                experiences: experiences,
+                volunteer_skills: skills,
+                recommendations: reco });
+            })
+          }
+        });
       }
     });
-  });
+  }
 }
 
 exports.searchProfile = function (req, res) { 
@@ -288,104 +286,150 @@ exports.searchProfile = function (req, res) {
   }
   else
   {
-    res.render('volunteer/search', {title: "Volunteer Results for search " + req.query.search, 
+    res.render('volunteer/search', {title: "No Volunteer Results for search " + req.query.search, 
       user: req.user
     });
   }
 }
 
 exports.updateProfile = function (req, res) {
-  var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "country", "city", "about", "university", "area_of_study", "degree","company", "graduation_year", "graduate"];
-  var field = req.body.name;
-  var value = req.body.value;
-  var json;
-  if (fields.indexOf(field) > -1)
-  {
-    Volunteer.findOne({_id: req.body.pk}, function(err, volunteer){
-    switch (field)
-    {
-      case 'first_name':
-        json = {first_name: value};
-        break;
-      case 'last_name':
-        json = {last_name: value};
-        break;
-      case 'gender':
-        json = {gender: value};
-        break;
-      case 'birthdate':
-        json = {birthdate: value};
-        break;
-      case 'email':
-        json = {email: value};
-        break;
-      case 'phone':
-        json = {phone: value};
-        break;
-      case 'position':
-        json = {position: value};
-        break;
-      case 'country':
-        json = {country: value};
-        break;
-      case 'city':
-        json = {city: value};
-        break;
-      case 'about':
-        json = {about: value};
-        break;
-      case 'university':
-        json = {university: value};
-        break;
-      case 'company':
-        json = {company: value};
-        break;
-      case 'graduate':
-        json = {graduate: value};
-        break;
-      case 'graduation_year':
-        json = {graduation_year: value};
-        break;
-      case 'area_of_study':
-        json = {area_of_study: value};
-        break;
-      case 'degree':
-        json = {degree: value};
-        break;
-      default:
-        break;
-    }
-    if (field == 'email') {
-      Volunteer.findByIdAndUpdate(req.user._id, {email: value}, function (err, volunteer) {
-        if (err) {
-          console.log(err);
-          res.status(400);
-          res.send('Sorry, this email is already taken.');
-        }
-        else {
-          console.log('Successfully updated: ' + volunteer);
-          res.sendStatus(200);
-        }
-      })
-    }
-    else
-    {
-      volunteer.update(json, { upsert : true }, function(err) {
-        if (err) {
-           res.send({status: 400, msg: err});
-        }
-        else {
-          console.log('Successfully updated: ' + volunteer);
-          res.sendStatus(200);
-        }
-      })
-    }
-  });
-  } 
-  else {
-    console.log("Field doesn't exist");
-    res.status(400)
-    res.send("Field doesn't exist");
-    // res.end("Field doesn't exist");
+  if (!req.body.name || !req.body.value || !req.body.pk) {
+    res.status(400);
+    res.send('Field(s) missing');
   }
+  else {
+    var fields = ['first_name', 'last_name', 'gender', 'birthdate', "email", "phone", "position", "country", "city", "about", "university", "area_of_study", "degree","company", "graduation_year", "graduate"];
+    var field = req.body.name;
+    var value = req.body.value;
+    var json;
+    if (fields.indexOf(field) > -1)
+    {
+      if (req.body.pk == req.user._id){
+          Volunteer.findOne({_id: req.body.pk}, function(err, volunteer){
+          switch (field)
+          {
+            case 'first_name':
+              json = {first_name: value};
+              break;
+            case 'last_name':
+              json = {last_name: value};
+              break;
+            case 'gender':
+              json = {gender: value};
+              break;
+            case 'birthdate':
+              json = {birthdate: value};
+              break;
+            case 'email':
+              json = {email: value};
+              break;
+            case 'phone':
+              json = {phone: value};
+              break;
+            case 'position':
+              json = {position: value};
+              break;
+            case 'country':
+              json = {country: value};
+              break;
+            case 'city':
+              json = {city: value};
+              break;
+            case 'about':
+              json = {about: value};
+              break;
+            case 'university':
+              json = {university: value};
+              break;
+            case 'company':
+              json = {company: value};
+              break;
+            case 'graduate':
+              json = {graduate: value};
+              break;
+            case 'graduation_year':
+              json = {graduation_year: value};
+              break;
+            case 'area_of_study':
+              json = {area_of_study: value};
+              break;
+            case 'degree':
+              json = {degree: value};
+              break;
+            default:
+              break;
+          }
+          if (field == 'email') {
+            Volunteer.findByIdAndUpdate(req.user._id, {email: value}, function (err, volunteer) {
+              if (err) {
+                console.log(err);
+                res.status(400);
+                res.send('Sorry, this email is already taken.');
+              }
+              else {
+                console.log('Successfully updated: ' + volunteer);
+                res.sendStatus(200);
+              }
+            })
+          }
+          else
+          {
+            volunteer.update(json, { upsert : true }, function (err) {
+              if (err) {
+                 res.sendStatus(400);
+              }
+              else {
+                console.log('Successfully updated: ' + volunteer);
+                res.sendStatus(200);
+              }
+            })
+          }
+        });
+      }
+      else
+      {
+        res.sendStatus(401);
+      }
+    } 
+    else {
+      console.log("Field doesn't exist");
+      res.status(400)
+      res.send("Field doesn't exist");
+      // res.end("Field doesn't exist");
+    }
+  }
+};
+
+///////////////////////////////////////////////////////////////////
+//////////////////  ARCHIVES (functions not used) ////////////////
+/////////////////////////////////////////////////////////////////
+
+exports.getPhotoByVolunteerId = function(req,res) {
+    Volunteer.findOne({ _id: req.params.id },function(err,volunteer) {
+      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+      var params = {
+          Bucket: 'volo-crop-image',
+          Key: volunteer.photo.name
+        };
+      res.set("Content-Type", volunteer.photo.contentType);
+      console.log(volunteer.photo);
+      // res.send(fs.readFileSync('public/images/placeholder.png'));
+      if (volunteer.photo.cropedPath) {
+        console.log('croped');
+        s3.getObject(params, function (err, data) {
+          if (err) {
+            res.sendStatus(401)
+            console.log(err);
+          }
+          else {
+            console.log(data);
+            res.send(data.Body);
+          }
+        })
+      }
+      else {
+        res.send(fs.readFileSync(volunteer.photo.originalPath));
+      }
+      // res.send(volunteer.photo.data);
+    });
 };

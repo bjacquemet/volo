@@ -3,7 +3,7 @@ var Volunteer = require('../models/volunteer');
 var University = require('../models/university');
 var UniversityAdminRights = require('../models/university_admin_rights');
 
-exports.new = function (req, res) {
+exports.newRight = function (req, res) {
   var newRight = UniversityAdminRights({university: req.body.university, right: req.body.right});
   newRight.save()
   // UniversityAdminRights.save({university: req.body.university, right: req.body.right});
@@ -439,6 +439,11 @@ exports.all = function (req, res) {
                   })
                 }
               });
+            }
+            else {
+              res.render('university/tracking', {
+                          title: 'University Tracking', 
+                          user:req.user});
             }
           });
         }

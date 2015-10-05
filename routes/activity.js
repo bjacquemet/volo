@@ -16,7 +16,7 @@ function ensureAdmin(req, res, next) {
 // Param: _id (id of an activity)
 router.get("/get/:id", ensureAuthenticated, ActivityController.get)
 
-// Create new activity and send back a status
+// Create a new activity and send back a status
 // Params: 
 // - experience (_id of experience - parent)
 // - volunteer (_id of volunteer)

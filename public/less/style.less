@@ -67,13 +67,14 @@ em {
   font-weight: 400;
 }
 a {
-  color: @brand-primary;
+  color: @volo-green;
   &:active, &:visited, &:focus{
-    color: @brand-primary;
+    color: @volo-green;
     text-decoration: none;
   }
   &:hover {
-    color: fade(@brand-primary, 80%);
+    color: @volo-green;
+    font-weight: 400;
     text-decoration: none;
   }
 }
@@ -242,6 +243,18 @@ h1.logo {
   h1, h2 {
     margin-top: 0px;
   }
+  a {
+    color: @brand-primary;
+    &:active, &:visited, &:focus{
+      color: @brand-primary;
+      text-decoration: none;
+    }
+    &:hover {
+      color: @brand-primary;
+      font-weight: 400;
+      text-decoration: underline;
+    }
+  }
 }
 
 .general {
@@ -390,7 +403,17 @@ h1.logo {
     width: 150px;
     .rounded(50%);
   }
+  p {
+    color: @brand-primary;
+  }
   .greenify {
+    // a, a:visited, a:focus, a:active {
+    //   color: @brand-primary;
+    // }
+    // a:hover {
+    //   color: @volo-green;
+    //   .transition(all .25s);
+    // }
     height: 150px;
     width: 150px;
     background-size: contain;
@@ -415,6 +438,10 @@ h1.logo {
   }
   &:hover > .greenify::before{
     opacity: 1;
+  }
+  &:hover > p{
+    color: @volo-green;
+    .transition(all .25s);
   }
 }
 
@@ -708,6 +735,9 @@ h1.logo {
   margin-top: -1px;
   display: block;
   text-decoration: underline;
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
 
 // Autocomplete custom
