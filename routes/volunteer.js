@@ -44,8 +44,13 @@ router.get('/edit', ensureAuthenticated, VolunteerController.getEditProfile);
 // - pk: experience _id to modify
 router.post('/update', ensureAuthenticated, VolunteerController.updateProfile);
 
+// Get a list of 16 random volunteer profile, sent as a JSON
+// No params
 router.get('/list', VolunteerController.list);
 
+// Search for volunteer profile and render the search result page
+// Param:
+// search (String -> must be longer that 3 characters)
 router.get('/search', VolunteerController.searchProfile);
 
 // Render public profile of a specific volunteer
