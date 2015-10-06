@@ -53,7 +53,8 @@ form(action="/experience/new", method="POST")
       p 
         |This person should be aged 18 or over and you must ask their permission before giving us their details. 
         |Please note that the name you enter above will be displayed in the e-mail sent to your referee and on your public profile if they write you a recommendation.
-
+  
+  .form-group.col-md-12.no-gutter
     .col-md-12.col-sm-12.col-xs-12.no-gutter
       p 
         input.checkbox-inline(type="checkbox", value="true", name="validated_via_email")
@@ -66,4 +67,8 @@ form(action="/experience/new", method="POST")
     textarea.col-md-12.col-sm-12.col-xs-12(name="notes", rows="2", placeholder="Track the situations, tasks, actions and results you encounter through your volunteer experiences. You can refer back to these notes to help you better prepare for interviews.")
 
   .form-group.col-md-12.text-center
-    input(type="submit", value="Submit this experience", class="btn btn-primary")
+    input(type="submit", value="Submit this experience", class="btn btn-primary first-btn")
+
+  .form-group.col-md-12.no-gutter
+    p 
+      |<em>PLEASE NOTE:</em> Clicking "Submit this experience" will send an e-mail to your referee, unless you have ticked the pre-authorisation box.

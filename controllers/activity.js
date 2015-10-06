@@ -378,6 +378,7 @@ exports.validateActivitiesByAdmin = function (req, res) {
     University.populate(activities, {path:'volunteer.university', select: 'name'}, function (err, full_activities) {
       if (err) console.log(err);
       else {
+        console.log(full_activities);
         res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 
         user: req.user, 
         activities: full_activities });
