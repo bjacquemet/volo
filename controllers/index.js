@@ -54,8 +54,8 @@ function welcome (volunteer, callback)
 
   locals = {
     email: volunteer.email,
-    name: volunteer.first_name + ' ' + volunteer.last_name,
-    url: config.url + '/volunteer/edit'
+    name: volunteer.first_name,
+    url: config.url + '/login'
   };
   // to do change url
   emailTemplates(templatesDir, function(err, template) {
@@ -68,7 +68,7 @@ function welcome (volunteer, callback)
         console.log(err);
       } else {
         smtpTransport.sendMail({
-          from: 'VOLO <welcome@volo.org.uk>',
+          from: 'VOLO <melissa@volo.org.uk>',
           to: locals.name + "<" + locals.email + ">",
           subject: 'Welcome to VOLO',
           html: html,

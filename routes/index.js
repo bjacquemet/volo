@@ -9,7 +9,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 function isLogedIn (req, res, next) {
-  if (req.user) res.redirect('/');
+  if (req.user) res.redirect('/volunteer/edit');
   else return next();
 }
 
@@ -84,6 +84,18 @@ router.get('/register-university', function (req, res, next) {
   res.header('Cache-Control', 'public, max-age=31557600');
   res.render('register-university', { title: 'Register your university', user: req.user });
 });
+
+// About us Page
+router.get('/about', function (req, res, next) {
+  res.header('Cache-Control', 'public, max-age=31557600');
+  res.render('about', { title: 'About us', user: req.user });
+});
+
+// Cookie Policy
+router.get('/policy', function (req, res, next) {
+  res.header('Cache-Control', 'public, max-age=31557600');
+  res.render('policy', {title: 'Cookie Policy', user: req.user});
+})
 
 ///////////////////////////////////////////////////////////
 ///////////// Static pages for wireframing ///////////////

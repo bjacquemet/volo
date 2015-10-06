@@ -112,10 +112,12 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
+    res.header('Cache-Control', 'public, max-age=31557600');
     res.render('error', {
       title: 'Page not found',
       message: err.message,
-      error: err
+      error: err,
+      user: req.user
     });
   });
 }
@@ -124,10 +126,12 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
+  res.header('Cache-Control', 'public, max-age=31557600');
   res.render('error', {
     title: 'Page not found',
     message: err.message,
-    error: {}
+    error: {},
+    user: req.user
   });
 });
 
