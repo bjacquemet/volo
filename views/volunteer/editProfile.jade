@@ -279,8 +279,10 @@ block content
                 each recommendation in recommendations.recommendations
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     p.manager_name #{recommendation.recommendation.referee_name} from #{recommendation.nonprofit} 
-                    p #{recommendation.recommendation.recommendation}
-                  .col-md-2.break
+                    p 
+                      img(src="/images/quote.svg")
+                      i #{recommendation.recommendation.recommendation}
+                  .col-md-12.col-sm-12.col-xs-12.break
 
     .col-md-3.col-md-push-1.col-sm-3.col-sm-push-1.col-xs-12
       .row.row-centered

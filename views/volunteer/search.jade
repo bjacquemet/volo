@@ -42,6 +42,8 @@ block content
                     p <em>#{capitalize(result.position)} at #{capitalize(result.company)}</em>
                   - else if (result.position == 'employed' && !result.company)
                     p <em>#{capitalize(result.position)}</em>
+                  - else if (result.position == 'unemployed')
+                    p <em>#{capitalize(result.position)}</em>
                   
                   - if (result.skills && result.skills.length > 0)
                     p Main skills: 

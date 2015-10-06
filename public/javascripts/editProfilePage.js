@@ -276,7 +276,6 @@ $('.activity').on('click', function () {
           $(id).append('<option value='+ val._id + '>'+ val.name +'</option>');
         });
       } 
-      console.log(listName);
     });
   }
 
@@ -342,7 +341,6 @@ $('.activity').on('click', function () {
     event.preventDefault();
     $(this).ajaxSubmit({
       error: function(xhr) {
-      console.log(xhr);
         $('#skillModal .modal-body').prepend('<div class="alert alert-danger"> \
           <div>'+ xhr.responseText + '</div> \
           <div>Sorry, you can\'t add this skill. Please, contact us if you think you should.</div> \
@@ -361,7 +359,6 @@ $('.activity').on('click', function () {
     event.preventDefault();
     $(this).ajaxSubmit({
       error: function(xhr) {
-      console.log(xhr);
         $('#roleModal .modal-body').prepend('<div class="alert alert-danger"> \
           <div>'+ xhr.responseText + '</div> \
           <div>Sorry, you can\'t add this role. Please, contact us if you think you should.</div> \
@@ -376,7 +373,6 @@ $('.activity').on('click', function () {
   });
 
   function showActivity (element) {
-    console.log(element);
     $(element).find(".add_new").hide().addClass('hide_it');
     $(element).find(".activity_form").show().addClass('height-auto').parent().removeClass('text-center').addClass('no-hover').parent().switchClass("col-md-6", "col-md-12", 500, function () {
         $('html, body').animate({
@@ -441,13 +437,10 @@ $('.activity').on('click', function () {
   // adding method to validate max size
   jQuery.validator.addMethod("uploadFile", function (val, element) {
             var size = element.files[0].size;
-            console.log(size);
             if (size < 4194304)// checks the file is less than 4MB
             {
-              console.log("returning true");
               return true;
             } else {
-              console.log("returning false");
               return false;
             }
         }, "File type error");
@@ -477,8 +470,6 @@ $('.activity').on('click', function () {
         console.log(xhr);
       },
       success: function(response) {
-        console.log(response);
-        //remove public from path
         var $newFile = "/"+response+'?dim=400x400';
         $('#uploadModal').modal('toggle');
         $(".user-bg img").attr('src',$newFile);

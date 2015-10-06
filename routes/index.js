@@ -20,17 +20,17 @@ router.post('/forgot_username', IndexController.forgot_username);
 router.post('/reset/:token', IndexController.updatePassword);
 
 router.get('/', function(req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('index', { title: 'Home', user: req.user });
 });
 
 router.get('/register', isLogedIn, function(req, res) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('register', {title: "Register"});
 });
 
 router.get('/login', isLogedIn, function(req, res) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('login', { info: req.flash('error'), title: "Login" });
 });
 
@@ -51,49 +51,49 @@ router.get('/forgot_username', function(req, res) {
 
 // nonprofits page
 router.get('/nonprofits', function(req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('nonprofits', { title: 'Nonprofits', user: req.user });
 });
 
 // corporates page
 router.get('/corporates', function(req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('corporates', { title: 'Company public profile', user: req.user });
 });
 
 // universities page
 router.get('/universities', function(req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('universities', { title: 'Company public profile', user: req.user });
 });
 
 // volunteers page
 router.get('/students', function(req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('students', { title: 'Volunteer public profile', user: req.user });
 });
 
 // Registration form page for organizations
 router.get('/register-organisation', function (req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('register-organisation', { title: 'Register your organisation', user: req.user });
 });
 
 // Registration form page for universities
 router.get('/register-university', function (req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('register-university', { title: 'Register your university', user: req.user });
 });
 
 // About us Page
 router.get('/about', function (req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('about', { title: 'About us', user: req.user });
 });
 
 // Cookie Policy
 router.get('/policy', function (req, res, next) {
-  res.header('Cache-Control', 'public, max-age=31557600');
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
   res.render('policy', {title: 'Cookie Policy', user: req.user});
 })
 

@@ -81,33 +81,33 @@ block content
               - else if (volunteer.position == 'employed' && !volunteer.company)
                 p Current position: <em>#{capitalize(volunteer.position)}</em>
               - else if (volunteer.position)
-                p Current position: <em>#{volunteer.position}</em>
+                p Current position: <em>#{capitalize(volunteer.position)}</em>
 
-              - if (volunteer.graduate && volunteer.area_of_study && volunteer.graduation_year)
+              - if (volunteer.position == 'student' && volunteer.graduate && volunteer.area_of_study && volunteer.graduation_year)
                 -if (volunteer.degree)
                   p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.degree}</em>, graduating in <em>#{volunteer.graduation_year}</em>
                 -else
                   p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.area_of_study}</em>, graduating in <em>#{volunteer.graduation_year}</em>
 
-              - else if (volunteer.graduate && volunteer.area_of_study && !volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && volunteer.graduate && volunteer.area_of_study && !volunteer.graduation_year)
                 -if (volunteer.degree)
                   p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.degree}</em>
                 -else
                   p <em>#{capitalize(volunteer.graduate)}</em> in <em>#{volunteer.area_of_study}</em>
 
-              - else if (volunteer.graduate && !volunteer.area_of_study && !volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && volunteer.graduate && !volunteer.area_of_study && !volunteer.graduation_year)
                 p <em>#{capitalize(volunteer.graduate)}</em>
-              - else if (volunteer.graduate && !volunteer.area_of_study && volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && volunteer.graduate && !volunteer.area_of_study && volunteer.graduation_year)
                 p <em>#{capitalize(volunteer.graduate)}</em>, graduating in <em>#{volunteer.graduation_year}</em>
-              - else if (!volunteer.graduate && volunteer.area_of_study && !volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && !volunteer.graduate && volunteer.area_of_study && !volunteer.graduation_year)
                 -if (volunteer.degree)
                   p Studying in <em>#{volunteer.degree}</em>
                 -else
                   p Studying in <em>#{volunteer.area_of_study}</em>
                   
-              - else if (!volunteer.graduate && !volunteer.area_of_study && volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && !volunteer.graduate && !volunteer.area_of_study && volunteer.graduation_year)
                 p Graduating in <em>#{volunteer.graduation_year}</em>
-              - else if (!volunteer.graduate && volunteer.area_of_study && volunteer.graduation_year)
+              - else if (volunteer.position == 'student' && !volunteer.graduate && volunteer.area_of_study && volunteer.graduation_year)
                 -if (volunteer.degree)
                   p Studying in <em>#{volunteer.degree}</em>, graduating in <em>#{volunteer.graduation_year}</em>
                 -else
@@ -166,7 +166,9 @@ block content
                 each recommendation in recommendations.recommendations
                   .col-md-12.col-sm-12.col-xs-12.no-gutter
                     p.manager_name #{recommendation.recommendation.referee_name} from #{recommendation.nonprofit} 
-                    p #{recommendation.recommendation.recommendation}
+                    p 
+                      img(src="/images/quote.svg")
+                      i #{recommendation.recommendation.recommendation}
                   .col-md-2.break
 
 
