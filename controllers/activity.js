@@ -437,8 +437,8 @@ function sendEmailIfDeclined (activityId) {
     });
 
     var mailOptions = {
-      to: "baptiste.jacquemet@gmail.com",
-      from: 'VOLO <password@volo.org.uk>',
+      to: "melissa@volo.org.uk",
+      from: 'VOLO <no-reply@volo.org.uk>',
       subject: "Activity declined",
       text: 'Hi Melissa!'+ '\n\n' +
         'The following activity has been declined:' + '\n'+
@@ -455,7 +455,8 @@ function sendEmailIfDeclined (activityId) {
         "Referee email: " + activity.referee.email+ '\n' +
         "Status: " + activity.validated+ '\n' +
         "Decline reason: " + activity.decline_reason+ '\n\n' +
-        "Have a great day"         
+        "Have a great day" + '\n\n' +
+        "With <3 from Barcelona"
     };
     smtpTransport.sendMail(mailOptions, function (err) {
       if (err) console.log(err);
