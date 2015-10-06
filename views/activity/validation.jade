@@ -63,8 +63,8 @@ block content
                     p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
                   - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
                     p <em>#{capitalize(activity.volunteer.position)}</em>
-                  - else if (volunteer.position)
-                    p <em>#{capitalize(activity.volunteer.position)}</em>
+                  - else if (volunteer.position == 'unemployed')
+                    p <em>Volunteer</em>
                   p 
                     |Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em> as 
                     em #{lowerToCapitalize(activity.role.name)}

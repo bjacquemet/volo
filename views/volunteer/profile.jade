@@ -11,8 +11,8 @@ block content
   - return d+'/'+m+'/'+y;
   -}
   -function bar_size(size){
-  -var barSize = Math.round(size/4);
-  -if(barSize >= 400) barSize = 100;
+  -var barSize = Math.round(size/2);
+  -if(barSize >= 200) barSize = 100;
   -return barSize + '%'
   -}
   -function color_opacity(size){
@@ -80,8 +80,8 @@ block content
                 p Current position: <em>#{capitalize(volunteer.position)} at #{volunteer.company}</em>
               - else if (volunteer.position == 'employed' && !volunteer.company)
                 p Current position: <em>#{capitalize(volunteer.position)}</em>
-              - else if (volunteer.position)
-                p Current position: <em>#{capitalize(volunteer.position)}</em>
+              - else if (volunteer.position == 'unemployed')
+                p Current position: <em>Volunteer</em>
 
               - if (volunteer.position == 'student' && volunteer.graduate && volunteer.area_of_study && volunteer.graduation_year)
                 -if (volunteer.degree)
