@@ -404,7 +404,9 @@ h1.logo {
 .user-bg {
   img {
     width: 150px;
-    .rounded(50%);
+    &:not(.squared){
+      .rounded(50%);
+    }
   }
   p {
     color: @brand-primary;
