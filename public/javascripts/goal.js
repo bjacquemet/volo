@@ -7,7 +7,6 @@ window.onload = function()
         barHeight = 300,
         goal = 500;
     $.getJSON('/activity/totalHours', function (hours) {
-      console.log(hours);
       if (hours.length > 0) {
         totalHours = hours[0].totalHours;
         if (totalHours < 90) {
