@@ -46,19 +46,22 @@ block content
                 .col-md-8.col-sm-8.col-xs-12
                   a(href="/volunteer/#{activity.volunteer._id}", target="_blank")
                     p.volunteer_name #{activity.volunteer.first_name} #{activity.volunteer.last_name} 
-                  - if (activity.volunteer.position == 'student' && activity.volunteer.university)
-                    p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university.name}</em>
-                  - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
-                    p <em>#{capitalize(activity.volunteer.position)}</em>
-                  - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
-                    p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
-                  - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
-                    p <em>#{capitalize(activity.volunteer.position)}</em>
-                  - else if (activity.volunteer.position == 'unemployed')
-                    p <em>Volunteer</em>
+                  - if (activity.volunteer.position)
+                    - if (activity.volunteer.position == 'student' && activity.volunteer.university)
+                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.university.name}</em>
+                    - else if (activity.volunteer.position == 'student' && !activity.volunteer.university)
+                      p <em>#{capitalize(activity.volunteer.position)}</em>
+                    - else if (activity.volunteer.position == 'employed' && activity.volunteer.company)
+                      p <em>#{capitalize(activity.volunteer.position)} at #{activity.volunteer.company}</em>
+                    - else if (activity.volunteer.position == 'employed' && !activity.volunteer.company)
+                      p <em>#{capitalize(activity.volunteer.position)}</em>
+                    - else if (activity.volunteer.position == 'unemployed')
+                      p <em>Volunteer</em>
                   p 
                     |Volunteered on the <em>#{format_date(activity.start_date)}</em> during <em>#{plurialize(activity.hours)}</em> as 
-                    em #{lowerToCapitalize(activity.role.name)}
+                    em #{lowerToCapitalize(activity.role.name)} 
+                    | with 
+                    em #{activity.experience.nonprofit.name} 
                   - if (activity.skills.length > 0)
                     p Skills acquired: 
                       each skill, i in activity.skills

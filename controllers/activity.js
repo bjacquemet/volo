@@ -5,6 +5,7 @@ var University = require('../models/university');
 var Volunteer = require('../models/volunteer');
 var Role = require('../models/role');
 var Recommendation = require('../models/recommendation');
+var Nonprofit = require('../models/nonprofit');
 var ValidationPending = require('../models/validation_pending');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
@@ -374,14 +375,20 @@ exports.listActivitiesForAdmin = function (req, res) {
 }
 
 exports.validateActivitiesByAdmin = function (req, res) {
-  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role skills').exec(function (err, activities) {
+  Activity.find({validated_via_email: true, validated: "pending"}).populate('volunteer role skills experience').exec(function (err, activities) {
     University.populate(activities, {path:'volunteer.university', select: 'name'}, function (err, full_activities) {
       if (err) console.log(err);
       else {
-        console.log(full_activities);
-        res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 
-        user: req.user, 
-        activities: full_activities });
+        Nonprofit.populate(full_activities, {path:'experience.nonprofit', select: 'name'}, function (err, full_activities) {
+          if (err) console.log(err);
+          else
+          {
+            console.log(full_activities);
+            res.render('activity/adminValidation', { title: 'Activities pending validation to be validated by Admin', 
+            user: req.user, 
+            activities: full_activities });
+          }
+        });
       }
     });
   });
