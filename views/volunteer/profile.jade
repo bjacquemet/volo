@@ -136,7 +136,11 @@ block content
                 each experience, i in experiences
                   -if (experience.totalHours > 0)
                     .col-md-9.col-xs-12.col-sm-12.no-gutter_l
-                      p.charity_name #{experience.nonprofit.name}
+                      - if (experience.nonprofit.url)
+                        a(href="#{experience.nonprofit.url}")
+                          p.charity_name #{experience.nonprofit.name}
+                      -else
+                        p.charity_name #{experience.nonprofit.name}
                       p #{experience.start_date}
                       p #{experience.description}
                       p <em>#{experience.totalHours}</em> accumulated hours
@@ -151,7 +155,11 @@ block content
                       - if (experience.recommendation_number > 0)
                           p <u><a href="#" class="reco">#{plurialize_reco(experience.recommendation_number)}</a></u>
                     .col-md-2.col-md-offset-1
-                      img(src="#{experience.nonprofit.logo.path}")
+                      - if (experience.nonprofit.url)
+                        a(href="#{experience.nonprofit.url}")
+                          img(src="#{experience.nonprofit.logo.path}")
+                      -else
+                        img(src="#{experience.nonprofit.logo.path}")
       
                     - if (!(i == experience.length-1))
                       .separator.col-md-2.col-md-offset-5

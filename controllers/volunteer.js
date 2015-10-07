@@ -10,9 +10,6 @@ var qt = require('quickthumb');
 var aws = require('aws-sdk');
 var mongoose = require('mongoose');
 var fs = require('fs');
-var sys = require('sys')
-var exec = require('child_process').exec;
-function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 function isObjectId(n) {
   return mongoose.Types.ObjectId.isValid(n);

@@ -57,11 +57,12 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'volo session secret',
-    maxAge: new Date(Date.now() + 3600000),
+    cookie: {maxAge: 14 * 24 * 60 * 60 * 1000},
     resave: false,
     saveUninitialized: false,
     store: new MongoStore(
       { mongooseConnection: mongoose.connection,
+        clear_interval: 3600,
         autoRemove: 'interval'
       }, function (err) {
         console.log(err || 'connection OK');})

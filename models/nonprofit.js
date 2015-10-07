@@ -8,6 +8,7 @@ var Nonprofit = new Schema({
       path: {type: String, default: '/images/img_placeholder.png'}, 
       name: {type: String, default: 'img_placeholder.png'}
     },
+    url: String,
     // logo: { data: Buffer, contentType: String, path: String },
     // header_image: { data: Buffer, contentType: String, path: String },
     // tagline: String,
