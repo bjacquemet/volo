@@ -419,7 +419,7 @@ $('.activity').on('click', function () {
       success: function(response) {
         $('body').prepend('<div class="alert alert-success sticky text-center"> \
           <h4>Your experience has been added successfully!</h3></div>');
-        setTimeout(function () {location.reload();}, 2000 );
+        setTimeout(function () {location.reload();}, 1600 );
       }
     });
   });
@@ -433,7 +433,7 @@ $('.activity').on('click', function () {
       success: function(response) {
         $('body').prepend('<div class="alert alert-success sticky text-center"> \
           <h4>Your activity has been added successfully!</h3></div>');
-        setTimeout(function () {location.reload();}, 2000 );
+        setTimeout(function () {location.reload();}, 1600 );
       }
     });
   });
