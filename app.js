@@ -61,7 +61,9 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore(
-      { mongooseConnection: mongoose.connection }, function (err) {
+      { mongooseConnection: mongoose.connection,
+        autoRemove: 'interval'
+      }, function (err) {
         console.log(err || 'connection OK');})
 }));
 app.use(passport.initialize());
