@@ -1,5 +1,26 @@
+var Skill = require('./models/skill');
+var Role = require('./models/role');
+var University = require('./models/university');
+var Nonprofit = require('./models/nonprofit');
+var mongoose = require('mongoose');
+var config = require('./config');
+
+mongoose.connect(config.mongo_uri, function (err, res) {
+    if (err) {
+    console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
+    } else {
+    console.log ('Succeeded connected to: ' + config.mongo_uri);
+    console.log ('Running on port: ' + config.theport);
+    }
+});
+
+var sbv = false;
+// var baptiste_id = mongoose.Types.ObjectId('5615128e373b391c00c260fb');
+var baptiste_id = mongoose.Types.ObjectId('56139adc2ef229c2541f218d');
+
+
 // Seed for skills
-db.skills.drop();
+// db.skills.drop();
 var s = [
 "Active Listening",
 "Adaptability",
@@ -46,12 +67,27 @@ var s = [
 "Web Development"
 
 ];
+
 s.forEach(function(name){
-  db.skills.save({name: name});
+  var newSkill = Skill(
+  {
+    name: name, 
+    suggested_by_volunteer: sbv,
+    created_by: baptiste_id
+  });
+  newSkill.save(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log('OK');
+      }
+    }
+  );
 });
 
 // Seed for roles
-db.roles.drop();
+// db.roles.drop();
 var r = [
 "Volunteer Coordinator",
 "Coach",
@@ -93,11 +129,25 @@ var r = [
 "Carer"
 ];
 r.forEach(function(name){
-  db.roles.save({name: name});
+  var newRole = Role(
+  {
+    name: name, 
+    suggested_by_volunteer: sbv,
+    created_by: baptiste_id
+  });
+  newRole.save(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log('OK');
+      }
+    }
+  );
 });
 
 // Seeds for universities
-db.universities.drop();
+// db.universities.drop();
 var u = [
 "Anglia Ruskin University",
 "Arts University Bournemouth",
@@ -225,12 +275,26 @@ var u = [
 "York St John University"
 ];
 u.forEach(function(name){
-  db.universities.save({name: name});
+  var newUniversity = University(
+  {
+    name: name, 
+    suggested_by_volunteer: sbv,
+    created_by: baptiste_id
+  });
+  newUniversity.save(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log('OK');
+      }
+    }
+  );
 });
 
 
 // Seeds for nonprofit
-db.nonprofits.drop();
+// db.nonprofits.drop();
 var n = [
 "Anglia Ruskin University",
 "Arts University Bournemouth",
@@ -404,5 +468,19 @@ var n = [
 "Spitalfields Farm Association"
 ];
 n.forEach(function(name){
-  db.nonprofits.save({name: name});
+  var newNonprofit = Nonprofit(
+  {
+    name: name, 
+    suggested_by_volunteer: sbv,
+    created_by: baptiste_id
+  });
+  newNonprofit.save(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log('OK');
+      }
+    }
+  );
 });
