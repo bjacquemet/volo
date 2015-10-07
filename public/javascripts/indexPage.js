@@ -8,7 +8,7 @@ $(document).ready(function() {
         var v_first_name = this.first_name;
         var v_photo = this.photo.cropedPath || this.photo.originalPath;
         $('.volunteer_list').append(
-          '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
+          '<div class="col-md-3 col-sm-3 col-xs-12 unique_volunteer"> \
             <a href="'+v_url+'"> \
               <div class="col-md-12 col-sm-12 col-xs-12 text-center user-bg"> \
                 <div class=\'greenify\' style=\'background-image:url("'+ v_photo+'")\'></div> \
