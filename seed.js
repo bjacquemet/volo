@@ -15,9 +15,7 @@ mongoose.connect(config.mongo_uri, function (err, res) {
 });
 
 var sbv = false;
-// var baptiste_id = mongoose.Types.ObjectId('5615128e373b391c00c260fb');
-var baptiste_id = mongoose.Types.ObjectId('56139adc2ef229c2541f218d');
-
+var baptiste_id = mongoose.Types.ObjectId('5615128e373b391c00c260fb');
 
 // Seed for skills
 // db.skills.drop();

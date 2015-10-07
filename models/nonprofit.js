@@ -5,8 +5,8 @@ var Nonprofit = new Schema({
     name: {type: String, unique:true},
     logo: { 
       contentType: {type: String, default: 'image/png'}, 
-      path: {type: String, default: '/images/img_placeholder.png'}, 
-      name: {type: String, default: 'img_placeholder.png'}
+      path: {type: String, default: '/images/nonprofit_placeholder.png'}, 
+      name: {type: String, default: 'nonprofit_placeholder.png'}
     },
     url: String,
     // logo: { data: Buffer, contentType: String, path: String },
