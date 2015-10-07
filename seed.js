@@ -160,7 +160,7 @@ var u = [
 "Royal Veterinary College",
 "School of Advanced Study",
 "School of Oriental and African Studies",
-"School of Pharmacy, University of London"
+"School of Pharmacy, University of London",
 "Sheffield Hallam University",
 "Southampton Solent University",
 "St George's, University of London",
