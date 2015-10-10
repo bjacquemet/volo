@@ -130,6 +130,7 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.header('Cache-Control', 'public, max-age=31557600');
+  console.log(err);
   res.render('error', {
     title: 'Page not found',
     message: err.message,

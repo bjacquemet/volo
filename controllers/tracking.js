@@ -416,7 +416,7 @@ exports.all = function (req, res) {
                                 else {
                                   console.log(perMonth);
                                   res.render('university/tracking', {
-                                    title: 'University Tracking: ' + university,
+                                    title: 'University Tracking: ' + req.params.university,
                                     user: req.user,
                                     perMonth: perMonth, 
                                     perDiscipline: perDiscipline, 
