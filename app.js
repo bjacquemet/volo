@@ -92,7 +92,12 @@ passport.serializeUser(Volunteer.serializeUser());
 passport.deserializeUser(Volunteer.deserializeUser());
 
 
-mongoose.connect(config.mongo_uri, function (err, res) {
+var options = {
+  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+
+mongoose.connect(config.mongo_uri, options, function (err, res) {
   if (err) {
   console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
   } else {
