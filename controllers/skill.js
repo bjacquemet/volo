@@ -1,6 +1,7 @@
 var Skill = require('../models/skill');
 var Volunteer = require('../models/volunteer');
 var nodemailer = require('nodemailer');
+var config = require('../config');
 
 
 function lowerToCapitalize(str){
