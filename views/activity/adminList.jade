@@ -86,7 +86,7 @@ block content
                       a(href="mailto:#{activity.referee.email}") #{activity.referee.email} 
                     p Tel: <em>#{activity.referee.phone_number}</em>
                     p Validated on: <em>#{format_date(activity.validation_date)}</em>
-                    p Validated via email: <em>#{activity.validated_via_email}</em>
+                    p Validated via admin: <em>#{activity.validated_via_email}</em>
                   -if (activity.validated == 'declined')
                     .col-md-12.col-sm-12.col-xs-12
                       br

@@ -164,7 +164,7 @@ exports.new = function(req,res) {
                               name: referee_name,
                               phone_number: referee_phone
                             },
-                            validated_via_email: false,
+                            validated_via_email: validated_via_email,
                             sent: false
                           }]
                         };
