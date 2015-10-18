@@ -343,13 +343,16 @@ $('.activity').on('click', function () {
       error: function(xhr) {
         $('#skillModal .modal-body').prepend('<div class="alert alert-danger"> \
           <div>'+ xhr.responseText + '</div> \
-          <div>Sorry, you can\'t add this skill. Please, contact us if you think you should.</div> \
+          <div>Sorry, an error occurred while the request. Please, contact us if you experience more problems.</div> \
           </div>');
       },
       success: function(response) {
-        loadExternalData('skill', ".skills_list");
+        // loadExternalData('skill', ".skills_list");
         $('#skillModal').modal('toggle');
         $('#skillForm').find('input[name=name]').val('');
+        $('body').prepend('<div class="alert alert-success sticky text-center"> \
+          <h4>Thanks for suggesting a skill. A request has been sent to the administrator.</h4></div>');
+        setTimeout(function () {$('.alert.alert-success.sticky.text-center').remove();}, 3500 );
       }
     });
   });

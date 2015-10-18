@@ -361,14 +361,13 @@ block content
         .modal-content
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
-            p Add a new Skill
+            p Request to add a new skill
           .modal-body
-            p If you are not finding the skill you want, you can add it's name here. We'll review this information. <br/>
-            form(id="skillForm", action="/skill/new", method="post")
+            p If you are not finding the skill you want, you can request us to add. We will review the information as soon as possible. <br/>
+            form(id="skillForm", action="/skill/new_request", method="post")
               input.col-md-12.col-sm-12.col-xs-12(type="text", name="name", autofocus, placeholder="Skill name", required)
-              input(type="hidden", name="suggested_by_volunteer", value="true")
-              input(type="hidden", name="created_by", value="#{volunteer._id}")
-              input(type="submit", value="Add new skill", name="submit", class="btn btn-primary modal-submit")
+              input(type="hidden", name="requested_by", value="#{volunteer._id}")
+              input(type="submit", value="Request to add new skill", name="submit", class="btn btn-primary modal-submit")
 
     .modal.fade#roleModal(tabindex='-1')
       .modal-dialog

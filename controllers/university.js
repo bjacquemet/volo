@@ -13,7 +13,7 @@ exports.list = function(req,res) {
           // formating the data to be readable by x-editable library
           universityList.push({value: university._id, text: university.name});
         })
-        console.log(universityList);
+        // console.log(universityList);
         res.send(universityList);
       }
     });
