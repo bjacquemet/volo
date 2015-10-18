@@ -25,7 +25,6 @@ exports.list = function(req, res) {
 
 function send_email_request (skill, callback)
 {
-  console.log(skill);
   var smtpTransport = nodemailer.createTransport({
       host: config.email.host,
       service: config.email.service,
