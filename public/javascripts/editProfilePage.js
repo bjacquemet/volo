@@ -469,6 +469,23 @@ $('.activity').on('click', function () {
           }
       }
   });
+  
+  $('#resetPhotoForm').submit(function(event) {
+    event.preventDefault();
+    $('span.glyphicon-refresh-animate').removeClass('hidden');
+    $(this).ajaxSubmit({
+      error: function(xhr) {
+        console.log(xhr);
+      },
+      success: function(response) {
+        var $newFile = "/images/placeholder.png";
+        $('#uploadModal').modal('toggle');
+        $(".user-bg img").attr('src',$newFile);
+        $('span.glyphicon-refresh-animate').addClass('hidden');
+      }
+    });
+    return false;
+  });   
 
   $('#uploadForm').submit(function() {
     $('span.glyphicon-refresh-animate').removeClass('hidden');
