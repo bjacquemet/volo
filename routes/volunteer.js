@@ -15,6 +15,9 @@ function ensureAuthenticated(req, res, next) {
 // File (image)
 router.post('/photo', VolunteerController.postPhoto);
 
+//Allow user to reset photo to placeholder.png
+router.post('/resetPhoto', ensureAuthenticated,VolunteerController.resetPhoto);
+
 // Render private profile of a authenticated volunteer
 // No params (but needs authenticated user)
 router.get('/edit', ensureAuthenticated, VolunteerController.getEditProfile);
