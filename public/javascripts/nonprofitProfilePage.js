@@ -6,6 +6,7 @@ $(document).ready(function() {
     success: function(data){
     if (data.length > 0)
       {
+        $('.volunteer_list').before('<h3 class="text-center col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">Our fantastic volunteers</h3>');
         if (data.length == 1) {
           $('.volunteer_list').append(
             '<div class="col-md-4 col-sm-4 col-xs-6 unique_volunteer"> \
