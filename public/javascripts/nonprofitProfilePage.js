@@ -1,7 +1,8 @@
 $(document).ready(function() {
+  var id_nonprofit = $('.volunteer_list').attr('id').substr(3);
   $.ajax({
     dataType: "json",
-    url: '/experience/volunteersByNonprofit/5603b6b2092d76675a3433b2',
+    url: '/experience/volunteersByNonprofit/'+ id_nonprofit,
     success: function(data){
     if (data.length > 0)
       {

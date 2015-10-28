@@ -229,8 +229,8 @@ block content
                 each activity, i in experience.activities
                   if (i%2==0) 
                     != "<div class='row'>"
-                      .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
-                        .col-md-12.grey_background
+                      .col-md-6.col-sm-6.col-xs-12.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
+                        .col-md-12.col-sm-12.col-xs-12.grey_background
                           p Role: <em>#{lowerToCapitalize(activity.role.name)}</em>
                           p Skills: <em>
                             each skill, i in activity.skills
@@ -246,8 +246,8 @@ block content
                       != "</div>"
 
                   else
-                    .col-md-6.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
-                      .col-md-12.grey_background
+                    .col-md-6.col-sm-6.col-xs-12.activity(data-id="#{activity._id}", data-validated="#{activity.validated}")
+                      .col-md-12.col-sm-12.col-xs-12.grey_background
                         p Role: <em>#{lowerToCapitalize(activity.role.name)}</em>
                         p Skills: <em>
                           each skill, i in activity.skills
@@ -261,7 +261,7 @@ block content
                     != "</div>"
                 
                 .row
-                  .col-md-6
+                  .col-md-6.col-sm-6.col-xs-12
                     .col-md-12.grey_background.add_activity.text-center
                       span.add_new.col-md-12.col-sm-12.col-xs-12 Add new activity with #{experience.nonprofit.name}
                       include ./_formActivity.jade
@@ -385,7 +385,7 @@ block content
 
     .modal.fade#editActivityModal(tabindex='-1')
       .modal-dialog
-        .modal-content.col-md-12
+        .modal-content.col-md-12.col-sm-12.col-xs-12
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
             p Edit an activity
@@ -394,7 +394,7 @@ block content
 
     .modal.fade#checkActivityModal(tabindex='-1')
       .modal-dialog
-        .modal-content.col-md-12
+        .modal-content.col-md-12.col-sm-12.col-xs-12
           .modal-header
             button(type="button" class="close" data-dismiss="modal") &times;
             p Activity Details

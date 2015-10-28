@@ -18,4 +18,21 @@ router.get("/list", ensureAuthenticated, NonprofitController.list);
 // - created_by (_id of volunteer)
 router.post("/new", ensureAuthenticated, NonprofitController.new);
 
+router.get("/habitat_for_humanity", function(req, res, next) {
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
+  res.render('nonprofit/habitat', { title: 'Habitat for Humanity', user: req.user });
+});
+
+router.get("/mosaic", function(req, res, next) {
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
+  res.render('nonprofit/mosaic', { title: 'Mosaic', user: req.user });
+});
+
+router.get("/challenge_africa", function(req, res, next) {
+  res.header('Cache-Control', 'public, max-age=2629740, no-cache');
+  res.render('nonprofit/challenge_africa', { title: 'Challenge Africa', user: req.user });
+});
+
+
+
 module.exports = router;
