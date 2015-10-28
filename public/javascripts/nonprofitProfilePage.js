@@ -11,10 +11,10 @@ $(document).ready(function() {
           $('.volunteer_list').append(
             '<div class="col-md-4 col-sm-4 col-xs-6 unique_volunteer"> \
             </div>');
-          $.each(data, function(){
-            var v_url = '/volunteer/'+ this.volunteer._id;
-            var v_first_name = this.volunteer.first_name;
-            var v_photo = this.volunteer.photo.cropedPath || this.volunteer.photo.originalPath;
+          $.each(data, function(volunteer){
+            var v_url = '/volunteer/'+ this._id;
+            var v_first_name = this.first_name;
+            var v_photo = this.photo.cropedPath || this.photo.originalPath;
             $('.volunteer_list').append(
               '<div class="col-md-4 col-sm-4 col-xs-6 unique_volunteer"> \
                 <a href="'+v_url+'"> \
@@ -31,9 +31,9 @@ $(document).ready(function() {
             '<div class="col-md-3 col-sm-3 col-xs-6"> \
             </div>');
           $.each(data, function(){
-            var v_url = '/volunteer/'+ this.volunteer._id;
-            var v_first_name = this.volunteer.first_name;
-            var v_photo = this.volunteer.photo.cropedPath || this.volunteer.photo.originalPath;
+            var v_url = '/volunteer/'+ this._id;
+            var v_first_name = this.first_name;
+            var v_photo = this.photo.cropedPath || this.photo.originalPath;
             $('.volunteer_list').append(
               '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
                 <a href="'+v_url+'"> \
@@ -47,9 +47,9 @@ $(document).ready(function() {
           }
         else if (data.length == 3) {
           $.each(data, function(){
-            var v_url = '/volunteer/'+ this.volunteer._id;
-            var v_first_name = this.volunteer.first_name;
-            var v_photo = this.volunteer.photo.cropedPath || this.volunteer.photo.originalPath;
+            var v_url = '/volunteer/'+ this._id;
+            var v_first_name = this.first_name;
+            var v_photo = this.photo.cropedPath || this.photo.originalPath;
             $('.volunteer_list').append(
               '<div class="col-md-4 col-sm-4 col-xs-6 unique_volunteer"> \
                 <a href="'+v_url+'"> \
@@ -63,9 +63,9 @@ $(document).ready(function() {
           }
         else {
           $.each(data, function(){
-            var v_url = '/volunteer/'+ this.volunteer._id;
-            var v_first_name = this.volunteer.first_name;
-            var v_photo = this.volunteer.photo.cropedPath || this.volunteer.photo.originalPath;
+            var v_url = '/volunteer/'+ this._id;
+            var v_first_name = this.first_name;
+            var v_photo = this.photo.cropedPath || this.photo.originalPath;
             $('.volunteer_list').append(
               '<div class="col-md-3 col-sm-3 col-xs-6 unique_volunteer"> \
                 <a href="'+v_url+'"> \
