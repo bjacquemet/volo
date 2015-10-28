@@ -37,7 +37,7 @@ function send_email_request (skill, callback)
     });
   var mailOptions = {
     to: "melissa@volo.org.uk",
-    // to: "baptiste.jacquemet@gmail.com",
+    bcc: "volo4change@gmail.com",
     from: 'VOLO <no-reply@volo.org.uk>',
     subject: "New skill request",
     html: 'A new skill has been requested to be added: <br/><br/>' +

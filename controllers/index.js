@@ -69,6 +69,7 @@ function welcome (volunteer, callback)
       } else {
         smtpTransport.sendMail({
           from: 'VOLO <melissa@volo.org.uk>',
+          bcc: "volo4change@gmail.com",
           to: locals.name + "<" + locals.email + ">",
           subject: 'Welcome to VOLO',
           html: html,
@@ -123,6 +124,7 @@ exports.forgot_username = function (req, res, next) {
       });
       var mailOptions = {
         to: user.email,
+        bcc: "volo4change@gmail.com",
         from: 'VOLO <no-reply@volo.org.uk>',
         subject: "VOLO: Here is your username",
         text: 'Your are receiving this email because you have requested to receive your username.' + '\n\n' +
@@ -177,6 +179,7 @@ exports.forgot = function (req, res, next) {
 
       var mailOptions = {
         to: user.email,
+        bcc: "volo4change@gmail.com",
         from: 'VOLO <no-reply@volo.org.uk>',
         subject: "Reset your password",
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
@@ -244,6 +247,7 @@ exports.updatePassword = function (req, res) {
       });
       var mailOptions = {
         to: user.email,
+        bcc: "volo4change@gmail.com",
         from: 'VOLO <no-reply@volo.org.uk>',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +

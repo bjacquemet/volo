@@ -446,6 +446,7 @@ function sendEmailIfDeclined (activityId) {
 
     var mailOptions = {
       to: "melissa@volo.org.uk",
+      bcc: "volo4change@gmail.com",
       from: 'VOLO <no-reply@volo.org.uk>',
       subject: "Activity declined",
       text: 'Hi Melissa!'+ '\n\n' +
