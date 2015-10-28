@@ -1,5 +1,6 @@
 var Experience = require('../models/experience');
 var Activity = require('../models/activity');
+var Volunteer = require('../models/volunteer');
 var ValidationPending = require('../models/validation_pending');
 var crypto = require('crypto');
 var async = require('async');
@@ -219,15 +220,21 @@ exports.update = function (req, res) {
 
 exports.getByNonprofitId = function (req, res) {
   if (req.params.id) {
-    Experience.find({nonprofit: req.params.id}).select('volunteer').populate('volunteer', 'first_name last_name photo').exec(function (err, volunteers) {
-      if (err) {
-        console.log(err);
-        res.sendStatus(400);
-      }
+    Experience.find({nonprofit: req.params.id}).distinct('volunteer').exec(function (err, volunteers) {
+      if (err) console.log(err);
       else {
-        res.send(volunteers)
+        Volunteer.find({_id: {$in: volunteers}}).select('first_name last_name photo').exec(function (err, volunteers)
+        {
+          if (err) {
+            console.log(err);
+            res.sendStatus(400);
+          }
+          else {
+            res.send(volunteers)
+          }
+        });
       }
-    }) 
+    })
   }
   else {
     res.sendStatus(400);
