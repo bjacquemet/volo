@@ -18,8 +18,28 @@ body {
   background-color: white;
 }
 ul li {list-style-type: none;}
-ol li {margin-top:5px;margin-bottom: 5px;}
-ul.disc li{list-style-type: disc;}
+ol {
+  margin-top: 10px;
+  padding-left: 50px;
+  @media screen {
+    @media (max-width:@screen-xs-max) {
+      padding-left: 10px;
+    }
+  }
+  li {margin-top:5px;margin-bottom: 5px;}
+}
+ul.disc {
+  margin-top: 10px;
+  padding-left: 80px;
+  @media screen {
+    @media (max-width:@screen-xs-max) {
+      padding-left: 20px;
+    }
+  }
+  li{
+    list-style-type: disc;
+  }
+}
 img, canvas { max-width: 100%;}
 
 h1, h2 {
@@ -656,13 +676,16 @@ h1.logo {
     margin-top: -40px;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 400px;
+    height: 500px;
   }
   .profile_photo {
     margin-top: -55px;
     img {
       border: 5px solid white;
       .rounded(5px);
+      border: 1px solid @brand-primary;
+      padding: 5px;
+      background-color: white;
     }
   }
   .support_vol{
