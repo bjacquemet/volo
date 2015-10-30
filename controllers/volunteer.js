@@ -85,7 +85,7 @@ function resetPhotoInDB(res,err,data,volunteer) {
     else {
            	console.log(data);     
             var json = {photo : {contentType: "image/png", originalPath: "/images/placeholder.png",name: "placeholder.png"}};
-            volunteer.update(json,{upsert : true},function(err) {
+            volunteer.update(json,function(err) {
                 if(err) {
                     throw err;
                     return console.log(err);
