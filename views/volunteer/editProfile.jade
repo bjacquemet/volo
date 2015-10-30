@@ -327,10 +327,9 @@ block content
             form(id="uploadForm", enctype="multipart/form-data", action="/volunteer/photo", method="post")
               input(type="file", name="userPhoto", value="Upload new photo")
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary modal-submit")
-            .col-md-3(style="padding-right:20px; float:right;")
-             form(id="resetPhotoForm",name="resetPhotoForm",action="/volunteer/resetPhoto",method="post")
-                    input(type="hidden",name="pk",value="#{volunteer._id}")
-                    input(type="submit",value="Delete this photo", name="submit") 
+            form(id="resetPhotoForm",name="resetPhotoForm",action="/volunteer/resetPhoto",method="post")
+              input(type="hidden",name="pk",value="#{volunteer._id}")
+              input(type="submit",value="Delete this photo", name="submit") 
     
     .modal.fade#universityModal(tabindex='-1')
       .modal-dialog
