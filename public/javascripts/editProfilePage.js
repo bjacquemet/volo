@@ -480,6 +480,7 @@ $('.activity').on('click', function () {
       success: function(response) {
         var $newFile = "/images/placeholder.png";
         $('#uploadModal').modal('toggle');
+        $('#uploadForm').find('input[name=userPhoto]').val('');
         $(".user-bg img").attr('src',$newFile);
         $('span.glyphicon-refresh-animate').addClass('hidden');
       }
