@@ -329,7 +329,7 @@ block content
               input(type="submit", value="Change photo", name="submit", class="btn btn-primary modal-submit")
             form(id="resetPhotoForm",name="resetPhotoForm",action="/volunteer/resetPhoto",method="post")
               input(type="hidden",name="pk",value="#{volunteer._id}")
-              input(type="submit",value="Delete this photo", name="submit") 
+              input(type="submit",value="Delete photo", name="submit", class="btn btn-primary modal-submit") 
     
     .modal.fade#universityModal(tabindex='-1')
       .modal-dialog
