@@ -3,8 +3,10 @@ var router = express.Router();
 var ExperienceController = require('../controllers/experience');
 
 function ensureAuthenticated(req, res, next) {
-  if (req.user) { return next(); }
-  res.sendStatus(401);
+    if (req.user) {
+        return next();
+    }
+    res.sendStatus(401);
 }
 
 // router.get("/list", ensureAuthenticated, ExperienceController.list);

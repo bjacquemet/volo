@@ -25,22 +25,23 @@ var roles = require('./routes/role');
 var nonprofits = require('./routes/nonprofit');
 var experiences = require('./routes/experience');
 var activities = require('./routes/activity');
-var universities = require('./routes/university')
+var universities = require('./routes/university');
 
 var app = express();
 
-app.use(multer({ dest: './public/uploads/',
-  limits: {files: 1},
- rename: function (fieldname, filename) {
-    return filename+Date.now();
-  },
-onFileUploadStart: function (file) {
-  console.log(file.originalname + ' is starting ...')
-},
-onFileUploadComplete: function (file) {
-  console.log(file.fieldname + ' uploaded to  ' + file.path)
-  done=true;
-}
+app.use(multer({
+    dest: './public/uploads/',
+    limits: {files: 1},
+    rename: function (fieldname, filename) {
+        return filename + Date.now();
+    },
+    onFileUploadStart: function (file) {
+        console.log(file.originalname + ' is starting ...')
+    },
+    onFileUploadComplete: function (file) {
+        console.log(file.fieldname + ' uploaded to  ' + file.path);
+        done = true;
+    }
 }));
 
 // view engine setup
@@ -53,7 +54,7 @@ app.use(compression());
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'volo session secret',
@@ -61,11 +62,13 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore(
-      { mongooseConnection: mongoose.connection,
-        clear_interval: 3600,
-        autoRemove: 'interval'
-      }, function (err) {
-        console.log(err || 'connection OK');})
+        {
+            mongooseConnection: mongoose.connection,
+            clear_interval: 3600,
+            autoRemove: 'interval'
+        }, function (err) {
+            console.log(err || 'connection OK');
+        })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -93,24 +96,24 @@ passport.deserializeUser(Volunteer.deserializeUser());
 
 
 var options = {
-  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+    server: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}},
+    replset: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}}
 };
 
 mongoose.connect(config.mongo_uri, options, function (err, res) {
-  if (err) {
-  console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
-  } else {
-  console.log ('Succeeded connected to: ' + config.mongo_uri);
-  console.log ('Running on port: ' + config.theport);
-  }
+    if (err) {
+        console.log ('ERROR connecting to: ' + config.mongo_uri + '. ' + err);
+    } else {
+        console.log ('Succeeded connected to: ' + config.mongo_uri);
+        console.log ('Running on port: ' + config.theport);
+    }
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -118,30 +121,30 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.header('Cache-Control', 'public, max-age=31557600');
-    res.render('error', {
-      title: 'Page not found',
-      message: err.message,
-      error: err,
-      user: req.user
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.header('Cache-Control', 'public, max-age=31557600');
+        res.render('error', {
+            title: 'Page not found',
+            message: err.message,
+            error: err,
+            user: req.user
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.header('Cache-Control', 'public, max-age=31557600');
-  console.log(err);
-  res.render('error', {
-    title: 'Page not found',
-    message: err.message,
-    error: {},
-    user: req.user
-  });
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.header('Cache-Control', 'public, max-age=31557600');
+    console.log(err);
+    res.render('error', {
+        title: 'Page not found',
+        message: err.message,
+        error: {},
+        user: req.user
+    });
 });
 
 module.exports = app;

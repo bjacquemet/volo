@@ -4,8 +4,10 @@ var VolunteerController = require('../controllers/volunteer');
 
 
 function ensureAuthenticated(req, res, next) {
-  if (req.user) { return next(); }
-  res.redirect('../login')
+    if (req.user) {
+        return next();
+    }
+    res.redirect('../login')
 }
 
 // router.get('/photo/:id', VolunteerController.getPhotoByVolunteerId);
@@ -24,22 +26,22 @@ router.get('/edit', ensureAuthenticated, VolunteerController.getEditProfile);
 // of the different fields of the volunteer profile
 // Params:
 // - name: field name. Only the following fields are allowed:
-  // - first_name
-  // - last_name
-  // - gender
-  // - birthdate
-  // - email
-  // - phone
-  // - position
-  // - country
-  // - city
-  // - about
-  // - university
-  // - area_of_study
-  // - degree
-  // - company
-  // - graduation_year
-  // - graduate
+// - first_name
+// - last_name
+// - gender
+// - birthdate
+// - email
+// - phone
+// - position
+// - country
+// - city
+// - about
+// - university
+// - area_of_study
+// - degree
+// - company
+// - graduation_year
+// - graduate
 // - value: String (new value)
 // - pk: experience _id to modify
 router.post('/update', ensureAuthenticated, VolunteerController.updateProfile);

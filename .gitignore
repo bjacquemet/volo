@@ -1,6 +1,6 @@
-.idea/
 newrelic_agent.log
 .env
+.idea/
 public/uploads
 public/uploads/.cache
 public/crop

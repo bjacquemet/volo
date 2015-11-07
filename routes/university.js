@@ -4,13 +4,17 @@ var TrackingController = require('../controllers/tracking');
 var UniversityController = require('../controllers/university');
 
 function ensureAdmin(req, res, next) {
-  if (req.user && req.user.usertype.indexOf('admin') > 0) { return next(); }
-  res.sendStatus(401);
+    if (req.user && req.user.usertype.indexOf('admin') > 0) {
+        return next();
+    }
+    res.sendStatus(401);
 }
 
 function ensureAuthenticated(req, res, next) {
-  if (req.user) { return next(); }
-  res.sendStatus(401);
+    if (req.user) {
+        return next();
+    }
+    res.sendStatus(401);
 }
 
 // Get the whole list of universities (used on editprofile page) as JSON

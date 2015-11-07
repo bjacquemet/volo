@@ -4,8 +4,10 @@ var Role = require('../models/role');
 var RoleController = require('../controllers/role');
 
 function ensureAuthenticated(req, res, next) {
-  if (req.user) { return next(); }
-  res.sendStatus(401);
+    if (req.user) {
+        return next();
+    }
+    res.sendStatus(401);
 }
 
 // Get the whole list of roles (used on editprofile page) as JSON

@@ -15,16 +15,16 @@ var Schema = mongoose.Schema;
 // });
 
 var ValidationPending = new Schema({
-    referee_email: {type: String, required:true}, 
+    referee_email: {type: String, required: true},
     token: String,
     activities: [
-    {
-        referee: {name: String, phone_number: String},
-        activity: {type: Schema.Types.ObjectId, ref: "Activity"},
-        sent: Boolean,
-        validated_via_email: Boolean,
-        created_at: {type: Date, default: Date.now()}
-    }
+        {
+            referee: {name: String, phone_number: String},
+            activity: {type: Schema.Types.ObjectId, ref: "Activity"},
+            sent: Boolean,
+            validated_via_email: Boolean,
+            created_at: {type: Date, default: Date.now()}
+        }
     ]
 });
 
