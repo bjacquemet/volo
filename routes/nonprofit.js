@@ -30,6 +30,11 @@ router.get("/mosaic", function (req, res, next) {
     res.render('nonprofit/mosaic', {title: 'Mosaic', user: req.user});
 });
 
+router.get("/ageuk_eastlondon", function (req, res, next) {
+    res.header('Cache-Control', 'public, max-age=2629740, no-cache');
+    res.render('nonprofit/ageuk_eastlondon', {title: 'Age UK', user: req.user});
+});
+
 router.get("/challenge_africa", function (req, res, next) {
     res.header('Cache-Control', 'public, max-age=2629740, no-cache');
     res.render('nonprofit/challenge_africa', {title: 'Challenge Africa', user: req.user});
