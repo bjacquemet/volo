@@ -79,50 +79,57 @@ function putPhototoS3 (file, callback) {
   });
 }
 
-function resetPhotoInDB(res,err,data,volunteer) {
-    if(err) console.log(err);
-   
-    else {
-           	console.log(data);     
-            var json = {photo : {contentType: "image/png", originalPath: "/images/placeholder.png",name: "placeholder.png"}};
-            volunteer.update(json,function(err) {
-                if(err) {
-                    throw err;
-                    return console.log(err);
-                }
-                else {
-                    console.log('Successfully deleted photo: ' + volunteer);
-                   res.status(201);
-                   //res.end(req.files.userPhoto.path);
-                    res.end();
-                }
-            });
-          }
-}
-
-
-exports.resetPhoto = function(req,res) {
-  Volunteer.findOne({ _id: req.body.pk },function(err,volunteer) { 
-     if(err) console.log(err);
-     else {
-           var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
-           var s3_params = {
-             Bucket: 'volo-crop-image',
+function resetPhotoS3(volunteer,callback) {
+     var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+     var s3_params = {
+             Bucket: 'volo-crop-image3',
              Key: volunteer.photo.name
-           };
-           s3.deleteObject(s3_params, function (err, data) {
-             if (err) {
-              console.log(err);
-            	resetPhotoInDB(res,err, null,volunteer);
-             }
-             else {
-              console.log("data");
-              console.log(data);
-	            resetPhotoInDB(res,null, data,volunteer);
-             }
-          });
-         }
- });
+           }; console.log('deleteObject err1');
+     s3.deleteObject(s3_params,function(err,data) {
+        if(err) {
+            console.log('deleteObject err');
+            console.log(err);
+            callback(err,null);
+        }
+        else {
+          console.log("data");
+          console.log(data);
+            callback(null,data);
+        }
+     });
+}
+        
+exports.resetPhoto = function(req,res) {
+  if(req.body.pk) {
+   Volunteer.findOne({ _id: req.body.pk },function(err,volunteer) { 
+      if(err) console.log(err);
+      else {
+           resetPhotoS3(volunteer,function(err,data) {                 
+                  if(err) {
+                   console.log(err);
+                  }
+                  else {  
+                        var json = {photo : {contentType: "image/png", originalPath: "/images/placeholder.png",name: "placeholder.png"}};
+                        volunteer.update(json,function(err,data) {
+                               if(err) {
+                                  throw err;
+                                  return console.log(err);
+                              }
+                              else {
+                                  console.log('Successfully deleted photo: ' + volunteer);
+                                  res.status(201);                                
+                                  res.end();
+                              }
+                          });
+                       }
+                   });
+            } 
+      });
+  }  
+		  
+  else {
+       res.send(400);
+  }
 }
 
 
