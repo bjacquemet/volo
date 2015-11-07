@@ -42,6 +42,26 @@ function getProfileById(volunteer_id, callback) {
     }
 }
 
+function resetPhotoS3(photo_name,callback) {
+     var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
+     var s3_params = {
+             Bucket: 'volo-crop-image3',
+             Key: photo_name
+           }; console.log('deleteObject err1');
+     s3.deleteObject(s3_params,function(err,data) {
+        if(err) {
+            console.log('deleteObject err');
+            console.log(err);
+            callback(err,null);
+        }
+        else {
+          console.log("data");
+          console.log(data);
+            callback(null,data);
+        }
+     });
+}
+
 exports.list = function (req, res) {
     // Volunteer.find({"photo.name": {$ne: 'placeholder.png'}}).select('first_name last_name photo').limit(16).exec(function (err, volunteers) {
     //   res.send(volunteers);
