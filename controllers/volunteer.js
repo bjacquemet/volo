@@ -82,7 +82,7 @@ function putPhototoS3 (file, callback) {
 function resetPhotoS3(volunteer,callback) {
      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
      var s3_params = {
-             Bucket: 'volo-crop-image3',
+             Bucket: 'volo-crop-image',
              Key: volunteer.photo.name
            }; console.log('deleteObject err1');
      s3.deleteObject(s3_params,function(err,data) {
