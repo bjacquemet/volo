@@ -79,11 +79,11 @@ function putPhototoS3 (file, callback) {
   });
 }
 
-function resetPhotoS3(volunteer,callback) {
+function resetPhotoS3(photo_name,callback) {
      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
      var s3_params = {
              Bucket: 'volo-crop-image',
-             Key: volunteer.photo.name
+             Key: photo_name
            }; console.log('deleteObject err1');
      s3.deleteObject(s3_params,function(err,data) {
         if(err) {
@@ -104,7 +104,8 @@ exports.resetPhoto = function(req,res) {
    Volunteer.findOne({ _id: req.body.pk },function(err,volunteer) { 
       if(err) console.log(err);
       else {
-           resetPhotoS3(volunteer,function(err,data) {                 
+      	   var photoToBeDeleted = volunteer.photo.name
+           resetPhotoS3(photoToBeDeleted,function(err,data) {                 
                   if(err) {
                    console.log(err);
                   }
