@@ -45,7 +45,7 @@ function getProfileById(volunteer_id, callback) {
 function resetPhotoS3(photo_name,callback) {
      var s3 = new aws.S3({signatureVersion: 'v4',region: 'eu-central-1'});
      var s3_params = {
-             Bucket: 'volo-crop-image3',
+             Bucket: 'volo-crop-image',
              Key: photo_name
            }; console.log('deleteObject err1');
      s3.deleteObject(s3_params,function(err,data) {
@@ -120,7 +120,7 @@ exports.postPhoto = function(req,res) {
           if (err) console.log(err);
           else {
             console.log(data);
-            var aws_url = process.env.AWS_URL ||'https://s3.eu-central-1.amazonaws.com/volo-crop-image3/'
+            var aws_url = process.env.AWS_URL ||'https://s3.eu-central-1.amazonaws.com/volo-crop-image/'
             aws_url += croped_file.name;
             Volunteer.findOne({_id: req.user._id}, function(err, volunteer){
               var photoToBeDeleted = volunteer.photo.name;
