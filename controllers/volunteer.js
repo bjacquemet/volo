@@ -78,83 +78,69 @@ function putPhototoS3(file, callback) {
     });
 }
 
-exports.postPhoto = function (req, res) {
-    if (typeof(req.files.userPhoto.path) != 'undefined') {
-        console.log(req.files);
-        var options = {
-            src: req.files.userPhoto.path,
-            dst: path.resolve(__dirname, '../public/crop/') + '/' + req.files.userPhoto.name,
-            width: 400,
-            height: 400
-        }
-        qt.convert(options, function (err, croped_image) {
-            if (err) console.log(err);
-            else {
-                console.log(croped_image);
-                var croped_file = {
-                    name: req.files.userPhoto.name,
-                    mimetype: req.files.userPhoto.mimetype,
-                    croped_image: croped_image
-                };
-                putPhototoS3(croped_file, function (err, data) {
-                    if (err) console.log(err);
-                    else {
-                        console.log(data);
-                        var aws_url = process.env.AWS_URL || 'https://s3.eu-central-1.amazonaws.com/volo-crop-image/'
-                        aws_url += croped_file.name;
-                        Volunteer.findOne({_id: req.user._id}, function (err, volunteer) {
-                            var json = {
-                                photo: {
-                                    contentType: req.files.userPhoto.mimetype,
-                                    cropedPath: aws_url,
-                                    originalPath: req.files.userPhoto.path,
-                                    name: req.files.userPhoto.name
-                                }
-                            };
-                            volunteer.update(json, {upsert: true}, function (err) {
-                                if (err) {
-                                    throw err;
-                                    return console.log(err);
-                                }
-                                else {
-                                    console.log('Successfully updated: ' + volunteer);
-                                    res.status(201);
-                                    res.end(req.files.userPhoto.path);
-                                }
-                            })
-                        });
-                    }
-                })
-            }
+exports.postPhoto = function(req,res) {
+  if(typeof(req.files.userPhoto.path) != 'undefined') {
+    console.log(req.files);
+    var options = {
+      src: req.files.userPhoto.path,
+      dst: path.resolve(__dirname, '../public/crop/')+'/'+req.files.userPhoto.name,
+      width: 400,
+      height: 400
+    }
+    qt.convert(options, function (err, croped_image) {
+      if (err) console.log(err);
+      else {
+        console.log(croped_image);
+        var croped_file = {
+          name: req.files.userPhoto.name,
+          mimetype: req.files.userPhoto.mimetype,
+          croped_image: croped_image
+        };
+        putPhototoS3(croped_file, function (err, data) {
+          if (err) console.log(err);
+          else {
+            console.log(data);
+            var aws_url = process.env.AWS_URL ||'https://s3.eu-central-1.amazonaws.com/volo-crop-image3/'
+            aws_url += croped_file.name;
+            Volunteer.findOne({_id: req.user._id}, function(err, volunteer){
+              var photoToBeDeleted = volunteer.photo.name;
+              var json = {photo: {contentType: req.files.userPhoto.mimetype, cropedPath:aws_url, originalPath: req.files.userPhoto.path, name: req.files.userPhoto.name}};
+              volunteer.update(json, { upsert : true }, function(err) {
+                if (err) {
+                   throw err;
+                   return console.log(err);
+                }
+                else {
+                   if(photoToBeDeleted ==  'placeholder.png')
+                   {
+                        console.log('There is nothing to be deleted');
+                   }
+                   else {
+                         resetPhotoS3(photoToBeDeleted,function(err,data) {                 
+                         if(err) {
+                              throw err
+                              return  console.log(err);
+                         }
+                         else {  
+                                 console.log('Successfully deleted photo: ' + volunteer);                                                             
+                            }
+                   });
+                 }
+                  console.log('Successfully updated: ' + volunteer);
+                   res.status(201);
+                   res.end(req.files.userPhoto.path);           
+                }
+              })
+            });
+          }
         })
+      }
+    })
+  }
+  else
+    {
+      res.send(400);
     }
-    else {
-        res.send(400);
-    }
-};
-
-exports.getEditProfile = function (req, res, next) {
-    var loggedin_user = req.user._id.toString()
-    getProfileById(loggedin_user, function (complete_profile) {
-        var volunteer = complete_profile.volunteer;
-        var experiences = complete_profile.experiences;
-        ActivityController.getVolunteerSkills(volunteer._id, function (err, skills) {
-            if (err) console.log(err);
-            else {
-                RecommendationController.getRecofromVolunteerId(volunteer._id, function (err, reco) {
-                    res.header('Cache-Control', 'public, max-age=2629740, no-cache');
-                    res.render('volunteer/editProfile', {
-                        title: 'Volunteer private profile',
-                        user: req.user,
-                        volunteer: volunteer,
-                        experiences: experiences,
-                        volunteer_skills: skills,
-                        recommendations: reco
-                    });
-                });
-            }
-        });
-    });
 };
 
 exports.getProfile = function (req, res, next) {
